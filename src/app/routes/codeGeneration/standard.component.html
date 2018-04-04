@@ -1,0 +1,69 @@
+
+<!-- 开始改动的地方 -->
+<div nz-row [nzGutter]="16">
+    <div nz-col [nzMd]="24">
+        <div class="content__title">
+            <h1>应用模型列表</h1>
+            <nz-input [nzType]="'search'" [nzPlaceHolder]="'搜索应用'" [(ngModel)]="_value" style="width: 200px;" (nzOnSearch)="onSearch($event)"></nz-input>
+            <button nz-button [nzType]="'primary'" class="mr-sm" (click) = "buildNewApp(lg)">新建应用</button>
+        </div>
+        <nz-card class="clearfix">
+            <form nz-form [nzLayout]="'inline'" class="mb-sm">
+            </form>
+            <nz-table
+                #nzTable
+                [nzDataSource]="_dataSet"
+                [nzPageSize]="10"
+                [nzBordered]="_bordered"
+                [nzLoading]="_loading"
+                [nzIsPagination]="_pagination"
+                [nzShowFooter]="_footer"
+                [nzShowTitle]="false"
+                [nzSize]="_size">
+                <span nz-table-title>Here is Title</span>
+
+                <thead nz-thead *ngIf="_header">
+                    <tr>
+                        <th nz-th>
+                            <span>业务模型</span>
+                        </th>
+                        <th nz-th>
+                            <span>模块数量</span>
+                        </th>
+                        <th nz-th>
+                            <span>表数量</span>
+                        </th>
+                        <th nz-th>
+                            <span>操作</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody nz-tbody>
+                    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                        <td nz-td>
+                            <a href="javascript:void(0);" [routerLink] = "['/tables/model-detail/modelDetail',data.name]">{{data.name}}</a>
+                        </td>
+                        <td nz-td>
+                            <a href="javascript:void(0);" [routerLink] = "['/tables/model-count/modelCount']">{{data.mCount}}</a>
+                        </td>
+                        <td nz-td>
+                            <a>{{data.fCount}}</a>
+                        </td>
+                        <td nz-td>
+                            <span>
+                                <a href="javascript:void(0);" (click) = "customCompModel(lg)">新建模块</a>
+                                <span nz-table-divider></span>
+                                <a href="javascript:void(0);" (click) = "formModel(lg)">新建表</a>
+                                <span nz-table-divider></span>
+                                <nz-popconfirm [nzTitle]="'确定要删除这个任务吗？'" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()">
+                                    <a nz-popconfirm>删除</a>
+                                 </nz-popconfirm>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+                <span nz-table-footer>Here is footer</span>
+            </nz-table>
+        </nz-card>
+    </div>
+</div>

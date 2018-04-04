@@ -1,0 +1,12 @@
+{
+    "main_navigation": "Main Navigation",
+    "appName": "Application Management",
+    "dashboard": "Application Management",
+    "dashboard/v1":"home",
+    "menuName": "Menu Management",
+    "roleName": "Role Management",
+    "operatorName": "Operator Management",
+    "organization":"organization",
+    "empName":"employee",
+    "generation":"generation"
+}

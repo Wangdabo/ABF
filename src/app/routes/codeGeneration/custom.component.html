@@ -1,0 +1,40 @@
+
+<div class="modal-header">
+    <div class="modal-title">新建模块</div>
+</div>
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle" >name：</label>
+    </div>
+
+    <div class="fa-sec">
+        <input class="new-model-input">
+    </div>
+</div> 
+
+<br>
+
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle">desc：</label>
+    </div>
+    <div  class="fa-sec">
+        <input class="new-model-input" >
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel()">
+        Cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="ok()">
+        OK
+    </button>
+</div>
+
+<!-- <nz-select   style="width: 25%;">
+    <nz-option [nzLabel]="'+86'" [nzValue]="'+86'"></nz-option>
+    <nz-option [nzLabel]="'+87'" [nzValue]="'+87'"></nz-option>
+</nz-select> -->

@@ -1,0 +1,13 @@
+{
+    "main_navigation": "主导航",
+    "appName": "应用管理",
+    "dashboard": "应用管理",
+    "dashboard/v1":"首页",
+    "menuName": "菜单管理",
+    "roleName": "角色管理",
+    "operatorName": "操作员管理",
+    "shortcut":"组织机构管理",
+    "organization":"组织机构",
+    "empName":"员工管理",
+    "generation":"代码生成"
+}

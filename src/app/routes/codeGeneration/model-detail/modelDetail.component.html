@@ -1,0 +1,51 @@
+
+<div nz-row>
+    <div>
+        <nz-card nzTitle="业务模型详情">
+            <form nz-form>
+                <div nz-form-item nz-row>
+                    <div nz-form-label nz-col [nzSm]="10" [nzXs]="24">
+                        <label for="h-username" >name:</label>
+                    </div>
+                    <div nz-form-control nz-col [nzSm]="8" [nzXs]="24">
+                        <nz-input [nzId]="'h-username'" >
+                            <!-- <ng-template #prefix><i class="anticon anticon-user"></i></ng-template> -->
+                        </nz-input>
+                    </div>
+                </div>
+                <div nz-form-item nz-row>
+                    <div nz-form-label nz-col [nzSm]="10" [nzXs]="24">
+                        <label for="h-password" >desc:</label>
+                    </div>
+                    <div nz-form-control nz-col [nzSm]="8" [nzXs]="24">
+                        <nz-input [nzId]="'h-password'" [nzType]="'password'">
+                            <!-- <ng-template #prefix><i class="anticon anticon-lock"></i></ng-template> -->
+                        </nz-input>
+                    </div>
+                </div>    
+                <div nz-form-item nz-row class="modal-btns">
+                    <div  nz-form-label nz-col [nzSm]="12" [nzXs]="24">
+                        <button nz-button [nzType]="'default'" [nzSize]="'large'" [routerLink] = "['/tables/standard']" >
+                            返回
+                        </button>                       
+                    </div>
+                    <div  nz-form-label nz-col [nzSm]="5" [nzXs]="24">
+                        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="ok()">
+                            确认修改
+                        </button>
+                    </div>
+                </div>                       
+            </form>
+        </nz-card>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- <nz-select   style="width: 25%;">
+    <nz-option [nzLabel]="'+86'" [nzValue]="'+86'"></nz-option>
+    <nz-option [nzLabel]="'+87'" [nzValue]="'+87'"></nz-option>
+</nz-select> -->

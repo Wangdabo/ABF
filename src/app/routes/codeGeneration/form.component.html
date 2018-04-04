@@ -1,0 +1,67 @@
+
+<div class="modal-header">
+    <div class="modal-title">新建模块</div>
+</div>
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru ">
+        <label class="labelStyle" >id：</label>
+    </div>
+
+    <div class="fa-sec">
+        <input class="new-model-input">
+    </div>
+</div> 
+<br>
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle">categoryid：</label>
+    </div>
+    <div  class="fa-sec">
+        <input class="new-model-input" >
+    </div>
+</div>
+<br>
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle">physicaName：</label>
+    </div>
+    <div  class="fa-sec">
+        <input class="new-model-input" >
+    </div>
+</div>
+<br>
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle">logicaName：</label>
+    </div>
+    <div  class="fa-sec">
+        <input class="new-model-input" >
+    </div>
+</div>
+<br>
+
+<div class="fa-div clearfix">
+    <div class="fa-first foru">
+        <label class="labelStyle">所属模块：</label>
+    </div>
+    <div  style="float:right;width:60%" class="clearfix">
+        <nz-select   style="width:50%;float:left">
+            <nz-option [nzLabel]="'模块一'" [nzValue]="'模块一'"></nz-option>
+            <nz-option [nzLabel]="'模块二'" [nzValue]="'模块二'"></nz-option>
+        </nz-select>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel()">
+        Cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="ok()">
+        OK
+    </button>
+</div>
+
+
