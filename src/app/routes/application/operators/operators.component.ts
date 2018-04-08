@@ -58,6 +58,15 @@ export class OperatorsComponent implements OnInit {
         {value: '标题', key: 'title',isclick:false},
     ];
 
+
+    moreData = { morebutton: true,
+                 buttons: [
+                     {key: 'Onboarding' , value: '入职'},
+                     {key: 'Departure' , value: '离职'},
+                     {key: 'Review' , value: '审核'},
+                 ]
+                }
+
     test: string;
 
     constructor(
@@ -279,8 +288,10 @@ export class OperatorsComponent implements OnInit {
 
             }
         ];*/
-
     }
+
+
+
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
@@ -327,11 +338,16 @@ export class OperatorsComponent implements OnInit {
     }
 
 
+
+    // 列表按钮方法
+    buttonDataHandler(event) {
+       console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
+    }
+
+
     // 处理行为代码，跳转、弹出框、其他交互
     isActive(event) {
         console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
-
-
         // 路由跳转
         this.router.navigate(['APPlication'],{ queryParams: { name: event } });
     }

@@ -6,17 +6,19 @@
             <i class="anticon anticon-plus"></i><span>新建</span>
         </button>
 
+        <button *ngIf="selectedRows.length >0" nz-button (click)="remove()" style="margin-left: 10px;"  [nzType]="'danger'"   [nzSize]="'large'">
+            <i class="anticon anticon-minus"></i><span>删除</span>
+        </button>
 
         <!--必须选中一个的时候，即数组长度大于-的时候，才会显示这一块内容，否则不显示-->
-        <ng-container *ngIf="selectedRows.length >0">
+        <ng-container *ngIf="selectedRows.length == 1 && moreData.morebutton">
             <!--<button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>-->
             <nz-dropdown [nzPlacement]="'bottomLeft'">
                 <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
                     更多操作 <i class="anticon anticon-down"></i>
                 </button>
                 <ul nz-menu>
-                    <li nz-menu-item (click)="remove()">删除</li>
-                    <!--<li nz-menu-item (click)="approval()">批量审批</li>-->
+                    <li *ngFor="let b of moreData.buttons"  nz-menu-item (click)="moreclick(b.key)">{{b.value}}</li>
                 </ul>
             </nz-dropdown>
         </ng-container>
@@ -38,7 +40,6 @@
               (nzDataChange)="dataChange($event)"
               (nzPageIndexChange)="pageChange($event)">
         <thead nz-thead>
-
         <tr>
             <th nz-th [nzCheckbox]="true">
                 <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"

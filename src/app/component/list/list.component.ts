@@ -33,6 +33,9 @@ export class ListComponent implements OnInit, OnChanges {
     @Input() // 输入属性,接受父组件传递的表头
     headerDate:any[];
 
+    @Input() // 输入属性,接受按钮层方法
+    moreData:any[];
+
 
 
     @Output()
@@ -47,16 +50,18 @@ export class ListComponent implements OnInit, OnChanges {
     @Output()
     isActive: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
 
+     @Output()
+     buttonData: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
+
 
 
     constructor(private http: _HttpClient, public msg: NzMessageService) {
     }
 
     ngOnInit() {
-
         this.headerDate = this.headerDate;
+        this.moreData = this.moreData; // 绑定更多数据
         this.getData();
-
     }
 
 
@@ -98,11 +103,21 @@ export class ListComponent implements OnInit, OnChanges {
 
     // 移除数据方法
     remove() {
+
         this.deleatData.emit(this.selectedRows); // 把要删除的内容发射给父组件
         this.getData();
         this.clear();
     }
 
+
+    moreclick(event) {
+        var obj = {
+            key: this.selectedRows[0],
+            value: event
+        };
+
+        this.buttonData.emit(obj); // 把要删除的内容发射给父组件
+    }
 
     // 清空方法
     clear() {
