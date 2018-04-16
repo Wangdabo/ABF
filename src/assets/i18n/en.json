@@ -8,5 +8,10 @@
     "operatorName": "Operator Management",
     "organization":"organization",
     "empName":"employee",
-    "generation":"generation"
+    "generation":"generation",
+    "authority":"authority",
+    "basisdata":"basisdata",
+    "business":"business",
+    "system":"system",
+    "errorcode":"errorcode"
 }

@@ -17,6 +17,7 @@ export class ListComponent implements OnInit, OnChanges {
         statusList: []
     };
     data: any[] = [];
+
     loading = false;
     selectedRows: any[] = [];
     curRows: any[] = [];
@@ -37,7 +38,6 @@ export class ListComponent implements OnInit, OnChanges {
     moreData:any[];
 
 
-
     @Output()
     addCreat: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
 
@@ -53,6 +53,8 @@ export class ListComponent implements OnInit, OnChanges {
      @Output()
      buttonData: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
 
+    @Output()
+    selectedRow: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
 
 
     constructor(private http: _HttpClient, public msg: NzMessageService) {
@@ -144,6 +146,12 @@ export class ListComponent implements OnInit, OnChanges {
         this.indeterminate = (!allChecked) && (!allUnChecked);
         this.selectedRows = this.data.filter(value => value.checked);
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+
+
+        if (this.selectedRows.length === 1) {
+            this.selectedRow.emit(this.selectedRows); // 把选中的内容传递出去
+        }
+
     }
 
 

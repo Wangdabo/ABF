@@ -2,6 +2,7 @@ import {Component, Input, NgModule, OnInit, Output, SimpleChanges, ViewChild} fr
 import { _HttpClient } from '@delon/theme';
 import { Router} from '@angular/router';
 import { UtilityService } from '../../../service/utils.service';
+import { OperatrModule } from '../../../service/operators';
 
 
 @Component({
@@ -23,19 +24,7 @@ import { UtilityService } from '../../../service/utils.service';
 export class OperatorsComponent implements OnInit {
 
 
-   /* // @ViewChild(子组件名称)   可以直接调用子组件的方法
-    @ViewChild(ListComponent) child: ListComponent;*/
-
-    operator: any = { // 定义一个对象
-        pi: 1, // 页数
-        ps: 10, // 每业个数
-        name:'', // 操作员姓名
-        password:'',
-        userId:'',
-        invalDate:'',
-        status: null,
-    };
-
+    operator: OperatrModule = new OperatrModule();
 
     loading = false;
 
@@ -267,35 +256,18 @@ export class OperatorsComponent implements OnInit {
     // 列表传入的翻页数据
     monitorHandler(event) {
         this.operator.pi = event;
-        // 当翻页的时候，重新请求后台，然后把数据重新渲染
-        /*this.data = [
-            {
-                avatar: "https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png",
-                callNo: 1,
-                createdAt:'Tue Jul 18 2017 08:00:00 GMT+0800',
-                description:"父组件传递的内容值",
-                disabled: false,
-                href: "https://ant.design",
-                key: 1,
-                no: "TradeCode 1",
-                owner: "王星名",
-                progress: 53,
-                status: 1,
-                statusText: "运行中",
-                statusType: "processing",
-                title: "一个任务名称 1",
-                updatedAt:'Tue Jul 18 2017 08:00:00 GMT+0800'
-
-            }
-        ];*/
     }
 
+
+
+    selectedRow(event) {
+        console.log(event); // 对齐进行出来，来判断按钮层是否显示
+    }
 
 
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event)
         this.data =   [
             {
                 avatar: "https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png",
@@ -351,6 +323,7 @@ export class OperatorsComponent implements OnInit {
         // 路由跳转
         this.router.navigate(['APPlication'],{ queryParams: { name: event } });
     }
+
 
 
     // 搜索框
@@ -713,10 +686,4 @@ export class OperatorsComponent implements OnInit {
     }
 
 
-
-    /* 如果弹出框单独抽出来，通过这个方法进行传递内容，感觉没必要单独抽出来
-    selectChanges(event) {
-        console.log(event);
-        this.modalVisible = event.flag; // 重新赋值
-    }*/
 }

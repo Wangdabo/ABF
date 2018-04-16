@@ -18,10 +18,11 @@
                     更多操作 <i class="anticon anticon-down"></i>
                 </button>
                 <ul nz-menu>
-                    <li *ngFor="let b of moreData.buttons"  nz-menu-item (click)="moreclick(b.key)">{{b.value}}</li>
+                    <li *ngFor="let b of moreData.buttons" ng-if=""  nz-menu-item (click)="moreclick(b.key)">{{b.value}}</li>
                 </ul>
             </nz-dropdown>
         </ng-container>
+
     </div>
 
     <!-- 头部标题 -->
@@ -57,7 +58,6 @@
         <tr nz-tbody-tr *ngFor="let i of nzTable.data;let l = index">
             <td nz-td [nzCheckbox]="true">
                 <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked" (ngModelChange)="refreshStatus($event)">
-
                 </label>
             </td>
             <!--1、循环td，只需要循环表头，然后根据表头的索引从后台返回的数组中找就行了，找到对应索引的对应key即可，前提是表头的key必须和数组的key一致，否则会找不到

@@ -1,0 +1,117 @@
+<!--引入面包屑组件-->
+<pro-header></pro-header>
+
+
+<nz-card [nzBordered]="false">
+    <!--  form表单搜索 -->
+    <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="name">角色姓名</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="role.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'角色姓名'" nzId="name"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item classW="d-flex">
+                    <div nz-form-label><label for="name">角色编号</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="role.numbering" name="numbering" [nzSize]="'large'" [nzPlaceHolder]="'角色编号'" nzId="numbering"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="status">角色状态</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="role.type" name="status" name="password" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="type">
+                            <nz-option  *ngFor="let i of type; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="updatedAt">隶属应用</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="role.affiliation" name="affiliation" name="password" [nzSize]="'large'" [nzPlaceHolder]="'隶属应用'" nzId="affiliation">
+                            <nz-option  *ngFor="let i of affiliation; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
+                <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
+                <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <a (click)="expandForm=!expandForm">
+                    {{expandForm ? '收起' : '展开'}}
+                    <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
+    <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
+</nz-card>
+<!--引入列表组件-->
+
+
+
+<!--弹出框信息-->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024"   [nzTitle]="'新建角色'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">角色姓名</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="role.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'角色姓名'" nzId="name"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">角色编号</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="role.numbering" name="numbering" [nzSize]="'large'" [nzPlaceHolder]="'角色编号'" nzId="numbering"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">角色状态</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="role.type" name="status" name="password" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="type">
+                            <nz-option  *ngFor="let i of type; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">隶属应用</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-select style="width:100%" [(ngModel)]="role.affiliation" name="affiliation" name="password" [nzSize]="'large'" [nzPlaceHolder]="'隶属应用'" nzId="affiliation">
+                                <nz-option  *ngFor="let i of affiliation; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div nz-form-item class="d-flex">
+            <div nz-form-label class="alignment"><label for="no">角色描述</label></div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="role.description"  nzAutosize=true nzType="textarea" name="description" [nzSize]="'large'" [nzPlaceHolder]="'角色描述'" nzId="description"></nz-input>
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+

@@ -19,9 +19,13 @@ import { Exception500Component } from './exception/500.component';
 
 // 应用管理
 import { ApplicationComponent } from './application/application/application.component';
-import { OperatorsComponent } from './application/operators/operators.component';
-import { RoleComponent } from './application/role/role.component';
+import { OperatorsComponent } from './authority/operators/operators.component';
+
+
+// 权限管理
+import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
+
 
 // 组织机构
 import { OrgComponent } from './organization/org/org.component';
@@ -37,12 +41,17 @@ import {ModelFormComponent} from './codeGeneration/form.component';
 import {ModelCustomComponent} from './codeGeneration/custom.component';
 
 
+
+
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
+/*
+import {TreessComponent } from '../component/tree/tree.component';
+import { TreeAntdSearchableComponent } from '../component/tree/searchable.component';
+*/
 
 // 服务
 import { UtilityService } from '../service/utils.service';
-
 
 @NgModule({
     imports: [ SharedModule, RouteRoutingModule ], // 模块把特性合并成离散单元的一种方式，当应用需要模块的特性时，将其添加到imports数组中，它告诉Angular应用需要它们来正常工作。

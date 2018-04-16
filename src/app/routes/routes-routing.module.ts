@@ -12,8 +12,11 @@ import { DashboardV1Component } from './index/v1/v1.component';
 // 应用功能管理
 
 import { ApplicationComponent } from './application/application/application.component';
-import { OperatorsComponent } from './application/operators/operators.component';
-import { RoleComponent } from './application/role/role.component';
+import { OperatorsComponent } from './authority/operators/operators.component';
+
+// 权限管理
+
+import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
 
 // 组织机构管理

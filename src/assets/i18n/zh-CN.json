@@ -9,5 +9,10 @@
     "shortcut":"组织机构管理",
     "organization":"组织机构",
     "empName":"员工管理",
-    "generation":"代码生成"
+    "generation":"代码生成",
+    "authority":"权限管理",
+    "basisdata":"基础数据",
+    "business":"业务字典",
+    "system":"系统参数",
+    "errorcode":"错误码"
 }
