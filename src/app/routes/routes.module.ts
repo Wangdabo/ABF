@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared/shared.module';
 import { RouteRoutingModule } from './routes-routing.module';
+import { NzTreeModule } from 'ng-tree-antd';
 
 // 首页
 import { DashboardV1Component } from './index/v1/v1.component';
@@ -41,20 +42,16 @@ import {ModelFormComponent} from './codeGeneration/form.component';
 import {ModelCustomComponent} from './codeGeneration/custom.component';
 
 
-
-
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
-/*
-import {TreessComponent } from '../component/tree/tree.component';
 import { TreeAntdSearchableComponent } from '../component/tree/searchable.component';
-*/
+
 
 // 服务
 import { UtilityService } from '../service/utils.service';
 
 @NgModule({
-    imports: [ SharedModule, RouteRoutingModule ], // 模块把特性合并成离散单元的一种方式，当应用需要模块的特性时，将其添加到imports数组中，它告诉Angular应用需要它们来正常工作。
+    imports: [ SharedModule, RouteRoutingModule, NzTreeModule ], // 模块把特性合并成离散单元的一种方式，当应用需要模块的特性时，将其添加到imports数组中，它告诉Angular应用需要它们来正常工作。
     declarations: [ // 声明当前module控制的组件，创建的指令和管道也要添加至declarations数组中
         DashboardV1Component,
         // 登录页
@@ -74,6 +71,7 @@ import { UtilityService } from '../service/utils.service';
         MenuComponent,
         // 封装组件
         ListComponent,
+        TreeAntdSearchableComponent,
         // 代码生成组件
         FormDetailComponent,
         ModelCountComponent,

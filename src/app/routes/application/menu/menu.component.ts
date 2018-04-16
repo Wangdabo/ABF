@@ -8,6 +8,27 @@ import { _HttpClient } from '@delon/theme';
 })
 export class MenuComponent implements OnInit {
 
+    nodesOne = [
+        {
+            name: 'root1'
+        },
+        {
+            name: 'root2'
+        },
+        {
+            name: 'root3'
+        },
+        {
+            name: 'root4',
+            children: [
+                {
+                    name: 'hhs'
+                }
+            ]
+        }
+    ];
+
+
     constructor(
         private http: _HttpClient
     ) { }
