@@ -16,7 +16,7 @@ import { NzTreeComponent } from 'ng-tree-antd';
 })
 export class TreeAntdSearchableComponent implements OnInit {
   q = '';
-  
+
   nodes = [
     {
       name: 'root1'
@@ -38,7 +38,7 @@ export class TreeAntdSearchableComponent implements OnInit {
   ];
 
   @Input() // 输入属性,接受父组件传入的数据
-  initNodes:any[];
+  initNodes: any[];
 
 
 

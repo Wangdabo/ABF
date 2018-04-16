@@ -22,15 +22,16 @@ import { Exception500Component } from './exception/500.component';
 import { ApplicationComponent } from './application/application/application.component';
 import { OperatorsComponent } from './authority/operators/operators.component';
 
-
 // 权限管理
 import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
 
-
 // 组织机构
 import { OrgComponent } from './organization/org/org.component';
 import { EmpComponent } from './organization/emp/emp.component';
+
+// 基础数据
+import { DictComponent } from './basicData/dict/dict.component';
 
 // 代码生成模块
 import { FormDetailComponent} from './codeGeneration/form-detail/formDetail.component';
@@ -41,11 +42,9 @@ import { TableStandardComponent } from './codeGeneration/standard.component';
 import {ModelFormComponent} from './codeGeneration/form.component';
 import {ModelCustomComponent} from './codeGeneration/custom.component';
 
-
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
 import { TreeAntdSearchableComponent } from '../component/tree/searchable.component';
-
 
 // 服务
 import { UtilityService } from '../service/utils.service';
@@ -69,6 +68,7 @@ import { UtilityService } from '../service/utils.service';
         OperatorsComponent,
         RoleComponent,
         MenuComponent,
+        DictComponent,
         // 封装组件
         ListComponent,
         TreeAntdSearchableComponent,

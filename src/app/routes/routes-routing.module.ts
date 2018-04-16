@@ -23,6 +23,9 @@ import { MenuComponent } from './application/menu/menu.component';
 import { OrgComponent } from './organization/org/org.component';
 import { EmpComponent } from './organization/emp/emp.component';
 
+// 基础数据
+import { DictComponent } from './basicData/dict/dict.component';
+
 // 用户登录引入
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
@@ -57,6 +60,8 @@ const routes: Routes = [
             { path: 'org', component: OrgComponent },
             { path: 'emp', component: EmpComponent },
 
+            // 基本数据
+            { path: 'business', component: DictComponent },
             // 代码生成路由
             {path: 'standard', component: TableStandardComponent },
             {path:  'model-detail/modelDetail/:name', component: modelDetailComponent},

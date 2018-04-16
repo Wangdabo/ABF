@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {UtilityService} from '../../../service/utils.service';
+import {RoleModule} from '../../../service/role/role.model';
 import {Router} from '@angular/router';
-import { RoleModule } from '../../../service/role/role.model';
+import {UtilityService} from '../../../service/utils.service';
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.less']
+  selector: 'app-dict',
+  templateUrl: './dict.component.html',
+    styleUrls: ['./dict.component.less']
 })
-export class RoleComponent implements OnInit {
+export class DictComponent implements OnInit {
 
 
     constructor(
@@ -135,7 +135,7 @@ export class RoleComponent implements OnInit {
     buttonDataHandler(event) {
         console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
         if (event.value ===  'Authority') {
-           console.log(event.key);
+            console.log(event.key);
         }
 
         if (event.value ===  'Overview') {
@@ -192,7 +192,5 @@ export class RoleComponent implements OnInit {
         ]; // 有效
         this.modalVisible = false;
     }
-
-
 
 }
