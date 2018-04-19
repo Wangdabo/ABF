@@ -12,6 +12,7 @@ export class AlarmService {
         this.prefixUrl = `business/alarm`;
     }
 
+
     /**
      * 单个清除告警
      * @param alarmId

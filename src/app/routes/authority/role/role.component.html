@@ -103,14 +103,17 @@
                         </div>
                     </div>
                 </div>
-        </div>
 
-        <div nz-form-item class="d-flex">
-            <div nz-form-label class="alignment"><label for="no">角色描述</label></div>
-            <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="role.description"  nzAutosize=true nzType="textarea" name="description" [nzSize]="'large'" [nzPlaceHolder]="'角色描述'" nzId="description"></nz-input>
+            <div nz-col [nzSpan]="24" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">角色描述</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="role.description"  nzAutosize=true nzType="textarea" name="description" [nzSize]="'large'" [nzPlaceHolder]="'角色描述'" nzId="description"></nz-input>
+                    </div>
+                </div>
             </div>
         </div>
+
     </ng-template>
 </nz-modal>
 

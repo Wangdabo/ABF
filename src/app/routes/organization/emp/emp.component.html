@@ -104,8 +104,6 @@
 <!--弹出框信息-->
 <nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新建角色'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
-
-
     <ng-template #modalContent>
         <div nz-row [nzGutter]="24">
             <!-- 主要信息 -->

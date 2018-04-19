@@ -21,13 +21,13 @@ export class EmpComponent implements OnInit {
 
     emp: EmpModule = new EmpModule();
 
-
     ifshow: boolean = true;
 
     gender = [ // 性别
         {key: 'male' , value: '男'},
         {key: 'Female' , value: '女'},
-    ]
+    ];
+
 
     // 员工状态
     empType = [
