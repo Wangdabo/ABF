@@ -150,8 +150,8 @@ export class ListComponent implements OnInit, OnChanges {
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
 
         const obj = {
-            indeterminate:this.indeterminate,
-            selectedRows:this.selectedRows,
+            indeterminate: this.indeterminate,
+            selectedRows: this.selectedRows,
         }
 
         if (this.selectedRows.length < 2 ) {

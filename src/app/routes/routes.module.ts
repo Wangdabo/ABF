@@ -44,7 +44,6 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
-import { TreeAntdSearchableComponent } from '../component/tree/searchable.component';
 import { SystemComponent } from './basicData/system/system.component';
 
 // 服务
@@ -74,7 +73,6 @@ import { UtilityService } from '../service/utils.service';
         SystemComponent,
         // 封装组件
         ListComponent,
-        TreeAntdSearchableComponent,
         // 代码生成组件
         FormDetailComponent,
         ModelCountComponent,
