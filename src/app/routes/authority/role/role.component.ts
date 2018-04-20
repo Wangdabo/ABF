@@ -148,23 +148,6 @@ export class RoleComponent implements OnInit {
 
     selectedRow(event) { // 选中方法，折叠层按钮显示方法
         console.log(event);
-        if (event[0].empType === '在职') {
-            this.moreData.buttons = [
-                {key: 'Departure' , value: '离职'},
-                {key: 'Overview' , value: '查看概况'},
-                {key: 'orgsettings' , value: '组织机构设置'},
-                {key: 'operator' , value: '操作员修改'},
-            ];
-        }
-
-        if (event[0].empType === '在招') {
-            this.moreData.buttons = [
-                {key: 'Departure' , value: '入职'},
-                {key: 'Overview' , value: '查看概况'},
-                {key: 'orgsettings' , value: '组织机构设置'},
-                {key: 'operator' , value: '操作员修改'},
-            ];
-        }
     }
 
 
