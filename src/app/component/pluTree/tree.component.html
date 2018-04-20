@@ -1,0 +1,17 @@
+<ul class="tree-view">
+  <li *ngFor="let item of treeData" (click)="stopEvent($event)">
+    <i (click)="itemExpended(item)" [class]="getItemIcon(item)"></i>
+    <input id="{{item[config.valueField]}}" type="checkbox" [(ngModel)]="item.checked"
+           (change)="checkedChildren(item)" [hidden]="!config.hasCheck"/>
+    <span class="text-field">
+      <label for="{{item[config.valueField]}}" (click)="itemExpended(item)">{{item[config.textField]}}</label>
+    </span>
+    <i class="icon-plus " title="新增" (click)="edit({action:'add', item:item})" [hidden]="!config.isEdit"></i>
+    <i class="fa fa-edit " title="编辑" (click)="edit({action:'edit', item:item})" [hidden]="!config.isEdit"></i>
+    <i class="fa fa-remove " title="删除" (click)="edit({action:'remove', item:item})"
+       [hidden]="!config.isEdit"></i>
+    <ul *ngIf="!isLeaf(item)" [hidden]="!item.$$isExpend">
+      <app-plugins-tree [treeData]="item[config.children]" [config]="config" (onEdit)="edit($event)"></app-plugins-tree>
+    </ul>
+  </li>
+</ul>

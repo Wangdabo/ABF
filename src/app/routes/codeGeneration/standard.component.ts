@@ -1,5 +1,5 @@
 // tslint:disable:member-ordering
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter,Input, Output} from '@angular/core';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { ModelCustomComponent } from './custom.component';
 import { ModelFormComponent } from './form.component';
@@ -198,4 +198,49 @@ export class TableStandardComponent implements OnInit {
       confirm = () => {
         this.message.info('删除成功');
       }
+
+
+      @Input() treeData = [];
+
+  @Input() config: { hasCheck: boolean, children: string, textField: string, valueField: string, isEdit: boolean };
+
+  @Output() onEdit = new EventEmitter();
+      itemExpended(item) {
+        item.$$isExpend = !item.$$isExpend;
+        if (!this.isLeaf(item)) {
+          return item[this.config.children].forEach(e => this.itemExpended(e));
+        }
+      }
+    
+      getItemIcon(item) {
+        if (this.isLeaf(item)) {
+          return 'fa fa-leaf';
+        }
+        return item.$$isExpend ? 'fa fa-minus' : 'fa fa-plus';
+      }
+    
+      isLeaf = function (item) {
+        return !item[this.config.children] || !item[this.config.children].length;
+      };
+    
+      checkedChildren(item) {
+        if (!this.isLeaf(item)) {
+          return item[this.config.children].forEach(e => {
+            e.$$isExpend = item.$$isExpend;
+            if (!this.isLeaf(e)) {
+              return this.checkedChildren(e);
+            }
+          });
+        }
+      }
+    
+      edit({action, item}) {
+        this.onEdit.emit({action: action, item: item});
+      }
+    
+      stopEvent(event) {
+        event.stopPropagation();
+      }
+    
+
 }

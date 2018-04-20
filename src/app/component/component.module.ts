@@ -5,6 +5,7 @@ import { TreeAntdSearchableComponent } from './tree/searchable.component';
 import { NzTreeModule } from 'ng-tree-antd';
 import { DndModule } from 'ng2-dnd';
 
+import { TreeComponent } from './pluTree/tree.component';
 
 const COMPONENT_NOROUNT = [
     TreeAntdSearchableComponent
@@ -18,7 +19,8 @@ const COMPONENT_NOROUNT = [
   ],
   declarations: [
       ...COMPONENT_NOROUNT,
-      ListComponent
+      ListComponent,
+      TreeComponent
   ],
   entryComponents: COMPONENT_NOROUNT
 })
