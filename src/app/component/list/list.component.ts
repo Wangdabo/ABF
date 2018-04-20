@@ -27,6 +27,8 @@ export class ListComponent implements OnInit, OnChanges {
 
     header:any[]; // 表头数据
 
+    obj:any[];
+
 
     @Input() // 输入属性,接受父组件传入的数据
     initDate:any[];
@@ -147,9 +149,13 @@ export class ListComponent implements OnInit, OnChanges {
         this.selectedRows = this.data.filter(value => value.checked);
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
 
+        const obj = {
+            indeterminate:this.indeterminate,
+            selectedRows:this.selectedRows,
+        }
 
-        if (this.selectedRows.length === 1) {
-            this.selectedRow.emit(this.selectedRows); // 把选中的内容传递出去
+        if (this.selectedRows.length < 2 ) {
+            this.selectedRow.emit( obj ); // 把是否旋转和选中的内容传出去
         }
 
     }

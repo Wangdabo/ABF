@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {RoleModule} from '../../../service/role/role.model';
+import { DictModule } from '../../../service/dict';
 import {Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 
@@ -21,22 +21,45 @@ export class DictComponent implements OnInit {
     }
 
 
-    role: RoleModule = new RoleModule(); // 绑定数据
+    dict: DictModule = new DictModule(); // 绑定数据
+
+    dictAdd: DictModule = new DictModule(); // 绑定新增数据
 
     loading = false;
 
-    type = [
-        { text: '正常', value: false, key: 'normal' },
-        { text: '挂起', value: false, key: 'hang' },
-        { text: '注销', value: false, key: 'logOut' },
-        { text: '锁定', value: false, key: 'locking' }
+    treeshow = false; // 是否显示树结构
+
+    // fromType 字典项来源类型
+    fromType = [
+        { text: '字典项', value: false, key: 'normal' },
+        { text: '来自单表', value: false, key: 'hang' },
+        { text: '多表或视图', value: false, key: 'logOut' }
     ];
 
+    // dictType 业务字典类型
+    dictType = [
+        { text: '应用级', value: false, key: 'APP' },
+        { text: '系统级', value: false,  key: 'SYS' },
+    ];
 
-    affiliation = [
-        { text: 'APF应用', value: false, key: 'ABF' },
-        { text: '测试应用', value: false,  key: 'TEST' },
+    // guidParents 父字典
+    guidParents = [
+        { text: '字段类型', value: false, key: 'A' },
+        { text: '配置风格', value: false,  key: 'S' },
+        { text: '认证模式', value: false,  key: 'P' },
+        { text: '岗位状态', value: false,  key: 'O' },
+        { text: '岗位类别', value: false,  key: 'E' },
+        { text: '是与否', value: false,  key: 'Y' },
+        { text: '交易状态', value: false,  key: 'F' },
     ]
+
+
+    // 筛选条件
+    conditions = [
+        { text: '所有业务字典', value: false, key: 'all' },
+        { text: '跟字典', value: false,  key: 'root' },
+    ]
+
 
     modalVisible = false;
 
@@ -55,12 +78,6 @@ export class DictComponent implements OnInit {
             {key: 'Authority' , value: '权限配置'}
         ]
     }
-
-    test: string;
-
-
-
-
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
@@ -84,7 +101,7 @@ export class DictComponent implements OnInit {
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
-        console.log(this.role);
+        console.log(this.dict);
 
         if (event === '这里是新增的方法') {
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
@@ -95,35 +112,14 @@ export class DictComponent implements OnInit {
     }
 
     // 列表传入的翻页数据
-    monitorHandler(event) {
-        this.role.pi = event;
-        // 当翻页的时候，重新请求后台，然后把数据重新渲染
-        /*this.data = [
-            {
-                avatar: "https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png",
-                callNo: 1,
-                createdAt:'Tue Jul 18 2017 08:00:00 GMT+0800',
-                description:"父组件传递的内容值",
-                disabled: false,
-                href: "https://ant.design",
-                key: 1,
-                no: "TradeCode 1",
-                owner: "王星名",
-                progress: 53,
-                status: 1,
-                statusText: "运行中",
-                statusType: "processing",
-                title: "一个任务名称 1",
-                updatedAt:'Tue Jul 18 2017 08:00:00 GMT+0800'
-
-            }
-        ];*/
+   monitorHandler(event) {
+        this.dict.pi = event;
 
     }
 
+
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event)
         this.data =  [
             {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },
             {'id': 2, 'roleName': '赵春海', 'roleCode': 'role002', 'roleType': '应用级', 'application': '柜面系统' }
@@ -156,9 +152,19 @@ export class DictComponent implements OnInit {
     }
 
 
+
+    selectedRow(event) { // 选中方法，折叠层按钮显示方法
+        if (event.indeterminate) {
+            this.treeshow = true;
+        } else {
+            this.treeshow = false;
+        }
+    }
+
+
     // 搜索框
     search() {
-        console.log(this.role)
+        console.log(this.dict)
         // 把搜索值传给后台，后台数据重新传给子组件
         this.data =  [
             {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },
@@ -169,11 +175,12 @@ export class DictComponent implements OnInit {
         ]; // 有效
     }
 
-
-
     // 弹出框保存组件
     save() {
-        console.log(this.role);
+
+
+
+        console.log(this.dict);
         // 添加了两条数据
         this.data =  [
             {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },

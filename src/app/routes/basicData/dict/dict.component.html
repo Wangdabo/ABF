@@ -4,42 +4,22 @@
 <!--引入list组件-->
 <nz-card [nzBordered]="false">
     <!--  form表单搜索 -->
-   <!-- <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+     <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="name">角色姓名</label></div>
+                    <div nz-form-label><label for="conditions">筛选条件</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="role.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'角色姓名'" nzId="name"></nz-input>
+                        <nz-input [(ngModel)]="dict.conditions" name="conditions" [nzSize]="'large'" [nzPlaceHolder]="'筛选条件'" nzId="conditions"></nz-input>
                     </div>
                 </div>
             </div>
-
             <div nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item classW="d-flex">
-                    <div nz-form-label><label for="name">角色编号</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="role.numbering" name="numbering" [nzSize]="'large'" [nzPlaceHolder]="'角色编号'" nzId="numbering"></nz-input>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="status">角色状态</label></div>
+                    <div nz-form-label><label for="dictType">字典类型</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="role.type" name="status" name="password" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="type">
-                            <nz-option  *ngFor="let i of type; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">隶属应用</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="role.affiliation" name="affiliation" name="password" [nzSize]="'large'" [nzPlaceHolder]="'隶属应用'" nzId="affiliation">
-                            <nz-option  *ngFor="let i of affiliation; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        <nz-select style="width:100%" [(ngModel)]="dict.dictType"  name="字典类型" [nzSize]="'large'" [nzPlaceHolder]="'字典类型'" nzId="字典类型">
+                            <nz-option  *ngFor="let i of dictType; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
                         </nz-select>
                     </div>
                 </div>
@@ -47,14 +27,151 @@
             <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
                 <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
-                <a (click)="expandForm=!expandForm">
+                <!--<a (click)="expandForm=!expandForm">
                     {{expandForm ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
-                </a>
+                </a>-->
             </div>
         </div>
-    </form>-->
-
-    <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-    <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
+    </form>
+    <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" class="mb-md">
+           <!--列表组件-->
+            <app-list  (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)"  (selectedRow)="selectedRow($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+           <div *ngIf="treeshow">
+                数组织结构
+           </div>
+        </div>
+    </div>
 </nz-card>
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新增业务字典'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="16" [nzPush]="7" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label><label for="fromType">字典项来源:</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-radio-group [(ngModel)]="dictAdd.fromType">
+                                <div *ngFor="let i of fromType;">
+                                    <label  nz-radio   [nzValue]="'i.key'">
+                                        <span>{{i.text}}</span>
+                                    </label>
+                                </div>
+                            </nz-radio-group>
+                        </div>
+                    </div>
+             </div>
+           <!-- <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="fromType">字典项来源:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select   style="width:100%" [(ngModel)]="dictAdd.fromType"   name="fromType" [nzSize]="'large'" [nzPlaceHolder]="'参数值类型'" nzId="fromType">
+                            <nz-option *ngFor="let i of fromType; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>-->
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="dictType">业务字典类型:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="dictAdd.dictType"  name="dictType" [nzSize]="'large'" [nzPlaceHolder]="'业务字典类型'" nzId="dictType">
+                            <nz-option  *ngFor="let i of dictType; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="dictKey">业务字典:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.dictKey" name="dictKey" [nzSize]="'large'" [nzPlaceHolder]="'业务字典'" nzId="dictKey"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="dictName">字典名称:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.dictName" name="dictName" [nzSize]="'large'" [nzPlaceHolder]="'字典名称'" nzId="dictName"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="guidParents">父字典:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="dictAdd.guidParents"  name="guidParents" [nzSize]="'large'" [nzPlaceHolder]="'父字典'" nzId="guidParents">
+                            <nz-option  *ngFor="let i of guidParents; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="seqNo">顺序号:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.seqNo" name="seqNo" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqNo"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="24" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="dictDrsc">解释说明:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.dictDrsc"  nzAutosize=true nzType="textarea" name="dictDrsc" [nzSize]="'large'" [nzPlaceHolder]="'解释说明'" nzId="dictDrsc"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 來自单表或视图 -->
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="fromTable">字典项来源表:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.fromTable" name="fromTable" [nzSize]="'large'" [nzPlaceHolder]="'字典项来源表'" nzId="fromTable"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="usefroKey">作为字典项名称的列:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.usefroKey" name="usefroKey" [nzSize]="'large'" [nzPlaceHolder]="'作为字典项名称的列'" nzId="usefroKey"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="defaultValue">字典项实际值:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.defaultValue" name="defaultValue" [nzSize]="'large'" [nzPlaceHolder]="'实际值'" nzId="defaultValue"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <!--来自视图-->
+            <div nz-col [nzSpan]="24" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="sqlFilter">记录过滤条件:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="dictAdd.sqlFilter"  nzAutosize=true nzType="textarea" name="sqlFilter" [nzSize]="'large'" [nzPlaceHolder]="' 假如有表A 字段为a，b和表B 字段为c, d.其中A和B关联为A.a = B.c。需要以name为c，vlaue为d的字典，则填入 SELECT A.b, B.d FROM A, B WHERE A.a = B.c
+'" nzId="sqlFilter"></nz-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+
+</nz-modal>
+

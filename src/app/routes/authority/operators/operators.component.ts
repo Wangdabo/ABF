@@ -266,6 +266,7 @@ export class OperatorsComponent implements OnInit {
 
 
 
+
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
         this.data =   [
