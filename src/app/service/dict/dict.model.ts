@@ -9,6 +9,9 @@ export class DictModule {
 
     // 业务字典类型
     public dictType: null;
+
+    // 业务字典类型value
+    public dictStr: string;
     // 业务字典
     public dictKey: string;
     // 字典名称

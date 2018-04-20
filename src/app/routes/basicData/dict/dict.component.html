@@ -54,17 +54,17 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label><label for="fromType">字典项来源:</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-radio-group [(ngModel)]="dictAdd.fromType">
-                                <div *ngFor="let i of fromType;">
-                                    <label  nz-radio   [nzValue]="'i.key'">
+                            <nz-radio-group [(ngModel)]="dictAdd.dictStr" >
+                                <span *ngFor="let i of fromType;">
+                                    <label  nz-radio   [nzValue]='i.key'>
                                         <span>{{i.text}}</span>
                                     </label>
-                                </div>
+                                </span>
                             </nz-radio-group>
                         </div>
                     </div>
              </div>
-           
+
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="dictType">业务字典类型:</label></div>
@@ -75,7 +75,6 @@
                     </div>
                 </div>
             </div>
-
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="dictKey">业务字典:</label></div>
@@ -124,7 +123,7 @@
             </div>
 
             <!-- 來自单表或视图 -->
-            <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-col  *ngIf="dictAdd.dictStr =='hang'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="fromTable">字典项来源表:</label></div>
                     <div nz-form-control class="flex-1">
@@ -132,7 +131,7 @@
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-col *ngIf="dictAdd.dictStr =='hang' || dictAdd.dictStr =='logOut'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="usefroKey">作为字典项名称的列:</label></div>
                     <div nz-form-control class="flex-1">
@@ -140,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-col *ngIf="dictAdd.dictStr =='hang' || dictAdd.dictStr =='logOut'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="defaultValue">字典项实际值:</label></div>
                     <div nz-form-control class="flex-1">
@@ -150,7 +149,7 @@
             </div>
 
             <!--来自视图-->
-            <div nz-col [nzSpan]="24" class="mb-md">
+            <div *ngIf="dictAdd.dictStr =='logOut'" nz-col [nzSpan]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="sqlFilter">记录过滤条件:</label></div>
                     <div nz-form-control class="flex-1">

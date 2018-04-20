@@ -81,6 +81,7 @@ export class DictComponent implements OnInit {
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.dictAdd.dictStr = 'normal'; // 弹出框默认选中
     }
 
 
