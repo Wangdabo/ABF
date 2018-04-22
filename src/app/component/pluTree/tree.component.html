@@ -11,7 +11,7 @@
     <i class="fa fa-remove " title="删除" (click)="edit({action:'remove', item:item})"
        [hidden]="!config.isEdit"></i>
     <ul *ngIf="!isLeaf(item)" [hidden]="!item.$$isExpend">
-      <app-plugins-tree [treeData]="item[config.children]" [config]="config" (onEdit)="edit($event)"></app-plugins-tree>
-    </ul>
+      <app-plugins-tree [treeData]="item[config.children]"  [config]="config"  (onEdit)="edit($event)"></app-plugins-tree>
+  </ul>
   </li>
 </ul>

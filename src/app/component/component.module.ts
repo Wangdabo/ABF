@@ -8,7 +8,7 @@ import { DndModule } from 'ng2-dnd';
 import { TreeComponent } from './pluTree/tree.component';
 
 const COMPONENT_NOROUNT = [
-    // TreeAntdSearchableComponent
+    TreeComponent
 ];
 
 @NgModule({
@@ -20,7 +20,7 @@ const COMPONENT_NOROUNT = [
   declarations: [
       ...COMPONENT_NOROUNT,
       ListComponent,
-      // TreeComponent
+
   ],
   entryComponents: COMPONENT_NOROUNT
 })

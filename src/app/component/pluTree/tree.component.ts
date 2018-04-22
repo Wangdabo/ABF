@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-plugins-tree',
-  templateUrl: './tree.html',
-  styleUrls: ['./tree.scss']
+  templateUrl: './tree.component.html',
+  styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent {
 
@@ -12,6 +12,8 @@ export class TreeComponent {
   @Input() config: { hasCheck: boolean, children: string, textField: string, valueField: string, isEdit: boolean };
 
   @Output() onEdit = new EventEmitter();
+
+
 
   constructor() {
   }

@@ -45,6 +45,7 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
 import { SystemComponent } from './basicData/system/system.component';
+import { TreeComponent } from '../component/pluTree/tree.component';
 
 // 服务
 import { UtilityService } from '../service/utils.service';
@@ -73,6 +74,7 @@ import { UtilityService } from '../service/utils.service';
         SystemComponent,
         // 封装组件
         ListComponent,
+        TreeComponent,
         // 代码生成组件
         FormDetailComponent,
         ModelCountComponent,
