@@ -3,6 +3,7 @@
 
 <!--引入list组件-->
 <nz-card [nzBordered]="false">
+
     <!--  form表单搜索 -->
      <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
          <div nz-row [nzGutter]="24">
@@ -66,6 +67,8 @@
     <!--列表组件-->
     <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" (selectedRow)="selectedRow($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
 </nz-card>
+
+
 
 
 <!-- 弹出框 -->

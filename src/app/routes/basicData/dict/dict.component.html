@@ -2,7 +2,7 @@
 <pro-header></pro-header>
 
 <!--引入list组件-->
-<nz-card [nzBordered]="false">
+<nz-card>
     <!--  form表单搜索 -->
      <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
         <div nz-row [nzGutter]="24">
@@ -41,11 +41,14 @@
         </div>
         <div nz-col [nzSpan]="12" class="mb-md">
            <div *ngIf="treeshow">
-                数组织结构
+               <app-tree></app-tree>
            </div>
         </div>
     </div>
 </nz-card>
+
+
+
 <nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新增业务字典'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
     <ng-template #modalContent>

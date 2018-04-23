@@ -60,6 +60,9 @@ import {
     NzNotificationService,
     NzMessageService
 } from 'ng-zorro-antd';
+
+
+
 export const ZORROMODULES = [
     // LoggerModule,
     // NzLocaleModule,
@@ -219,7 +222,8 @@ const MOCKMODULE = [];
         // cache
         DelonCacheModule.forRoot(),
         // mock
-        ...MOCKMODULE
+        ...MOCKMODULE,
+        // TreeModule
     ]
 })
 export class DelonModule {

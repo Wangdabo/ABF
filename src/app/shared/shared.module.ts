@@ -10,6 +10,11 @@ import { ZORROMODULES, ABCMODULES } from '../delon.module';
 // i18n
 import { TranslateModule } from '@ngx-translate/core';
 
+// 引用的新组件一定要在这里引用 否则无效
+ import { TreeModule } from 'primeng/tree';
+ import { ContextMenuModule } from 'primeng/primeng';
+import {CardModule} from 'primeng/card';
+
 // region: third libs
 import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
@@ -19,7 +24,11 @@ const THIRDMODULES = [
     CountdownModule,
     UEditorModule,
     NgxTinymceModule,
-    NzSchemaFormModule
+    NzSchemaFormModule,
+    TreeModule,
+    ContextMenuModule,
+    CardModule
+
 ];
 // endregion
 
@@ -40,12 +49,14 @@ const DIRECTIVES = [];
         ...ABCMODULES,
         AlainACLModule,
         // third libs
-        ...THIRDMODULES
+        ...THIRDMODULES,
+
     ],
     declarations: [
         // your components
         ...COMPONENTS,
-        ...DIRECTIVES
+        ...DIRECTIVES,
+
     ],
     exports: [
         CommonModule,
@@ -63,7 +74,8 @@ const DIRECTIVES = [];
         ...THIRDMODULES,
         // your components
         ...COMPONENTS,
-        ...DIRECTIVES
+        ...DIRECTIVES,
+
     ]
 })
 export class SharedModule { }

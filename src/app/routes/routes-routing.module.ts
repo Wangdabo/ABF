@@ -64,8 +64,7 @@ const routes: Routes = [
 
             // 基本数据
             { path: 'business', component: DictComponent },
-            // { path: 'system', component: SystemComponent },
-            { path: 'system', component: TreeComponent },
+            { path: 'system', component: SystemComponent },
             // 代码生成路由
             {path: 'standard', component: TableStandardComponent },
             {path:  'model-detail/modelDetail/:name', component: modelDetailComponent},

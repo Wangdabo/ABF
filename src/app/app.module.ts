@@ -2,7 +2,6 @@ import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
 import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { DelonModule } from './delon.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -12,6 +11,7 @@ import { LayoutModule } from './layout/layout.module';
 import { StartupService } from '@core/startup/startup.service';
 import { DefaultInterceptor } from '@core/net/default.interceptor';
 import { SimpleInterceptor } from '@delon/auth';
+import { TreeModule } from 'primeng/tree';
 
 // angular i18n
 import { registerLocaleData } from '@angular/common';
@@ -27,6 +27,8 @@ import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 // JSON-Schema form
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
+
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,6 +52,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         SharedModule,
         LayoutModule,
         RoutesModule,
+        TreeModule,
         // i18n
         TranslateModule.forRoot({
             loader: {
