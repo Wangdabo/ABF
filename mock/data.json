@@ -78,7 +78,7 @@
       "dictKey": "DICT_SYS_RESET",
       "dictName": "序号数重置方式",
       "dictType": "SYS",
-      "fromType": "字典项",
+      "fromType": "normal",
       "seqNo": 1,
       "id": 1,
       "dictDrsc": "这是第一条数据"
@@ -86,8 +86,8 @@
     {
       "dictKey": "DICT_AC_RESOURCETYPE",
       "dictName": "权限资源类型",
-      "dictType": "系统级",
-      "fromType": "字典项",
+      "dictType": "SYS",
+      "fromType": "normal",
       "id": 2,
       "seqNo": 2,
       "dictDrsc": "这是第二条数据"
@@ -97,8 +97,8 @@
       "seqNo": 3,
       "dictKey": "DICT_AC_OPERATOR_STATUS",
       "dictName": "操作员状态",
-      "dictType": "系统级",
-      "fromType": "字典项",
+      "dictType": "SYS",
+      "fromType": "normal",
       "dictDrsc": "这是第三条数据"
     },
     {
@@ -117,8 +117,8 @@
       "seqNo": 5,
       "dictKey": "DICT_AC_CONFIGTYPE",
       "dictName": "配置类型",
-      "dictType": "系统级",
-      "fromType": "字典项",
+      "dictType": "SYS",
+      "fromType": "normal",
       "dictDrsc": "这是第五条数据"
     },
     {
@@ -126,8 +126,8 @@
       "seqNo": 6,
       "dictKey": "DICT_AC_AUTHMODE",
       "dictName": "认证模式",
-      "dictType": "系统级",
-      "fromType": "字典项",
+      "dictType": "APP",
+      "fromType": "normal",
       "dictDrsc": "这是第六条数据"
     },
     {
@@ -135,8 +135,8 @@
       "seqNo": 7,
       "dictKey": "DICT_AC_FUNCTYPE",
       "dictName": "功能类型",
-      "dictType": "应用级",
-      "fromType": "字典项",
+      "dictType": "APP",
+      "fromType": "normal",
       "dictDrsc": "这是第七条数据"
     },
     {
@@ -144,8 +144,8 @@
       "seqNo": 8,
       "dictKey": "DICT_AC_APPTYPE",
       "dictName": "应用类型",
-      "dictType": "系统级",
-      "fromType": "字典项",
+      "dictType": "SYS",
+      "fromType": "normal",
       "dictDrsc": "这是第八条数据"
     }
   ]

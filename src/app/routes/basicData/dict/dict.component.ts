@@ -138,6 +138,18 @@ export class DictComponent implements OnInit {
         ];
 
 
+        const list = {
+            APP: '应用级',
+            SYS: '系统级'
+        }
+
+        const dictTypes = {
+            normal: '字典项',
+            hang : '子字典'
+        };
+
+
+
         // 调用服务获取树节点操作
         const uri = this.urlconfig + '/treeData';
         this.utilityService.getData(uri)
@@ -184,10 +196,12 @@ export class DictComponent implements OnInit {
 
         // 调用服务来获取列表节点操作
         const urlist = this.urlconfig + '/listData';
+
+
         this.utilityService.getData(urlist)
             .subscribe(
                 (val) => {
-                    console.log(val)
+                    console.log(val); // 后台传给我的数组
                     this.data = val; // 绑定列表数据
                 },
                 response => {
@@ -204,9 +218,8 @@ export class DictComponent implements OnInit {
                         {'id': 9, 'roleName': '王五', 'roleCode': 'role008', 'roleType': '系统级', 'application': '柜面系统' },
                     ]; // 传入树节点数据
                 });
-
-
     }
+
 
     // 列表组件传过来的内容
     addHandler(event) {
@@ -219,6 +232,7 @@ export class DictComponent implements OnInit {
             this.creatExit = true;
 
         } else { // 代表修改，把修改的内容传递进去，重新渲染
+            console.log(event);
             this.dictAdd =  event;
             this.eventData = event;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
