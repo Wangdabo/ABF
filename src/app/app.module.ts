@@ -13,6 +13,7 @@ import { DefaultInterceptor } from '@core/net/default.interceptor';
 import { SimpleInterceptor } from '@delon/auth';
 import { TreeModule } from 'primeng/tree';
 
+
 // angular i18n
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
@@ -29,6 +30,10 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 import { JsonSchemaModule } from '@shared/json-schema/json-schema.module';
 
 
+import { UtilityService } from './service/utils.service';
+import {HttpModule} from '@angular/http';
+import {Http } from '@angular/http';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,6 +49,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         AppComponent
     ],
     imports: [
+        HttpModule,
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
@@ -53,6 +59,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         LayoutModule,
         RoutesModule,
         TreeModule,
+
         // i18n
         TranslateModule.forRoot({
             loader: {
@@ -78,7 +85,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         JsonSchemaModule
     ],
     providers: [
-        { provide: LOCALE_ID, useValue: 'zh-Hans' },
+        { provide: LOCALE_ID, useValue: 'zh-Hans'},
+        { provide: 'urlConfig', useValue: 'http://localhost:3000' },
         { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
         { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
@@ -87,9 +95,11 @@ export function StartupServiceFactory(startupService: StartupService): Function 
             provide: APP_INITIALIZER,
             useFactory: StartupServiceFactory,
             deps: [StartupService],
-            multi: true
-        }
+            multi: true,
+        },
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

@@ -9,6 +9,7 @@ import { tap } from 'rxjs/operators';
     styleUrls: ['./list.component.less']
 })
 export class ListComponent implements OnInit, OnChanges {
+
     q: any = { // 定义一个对象
         pi: 1, // 页数
         ps: 10, // 每业个数
@@ -16,6 +17,7 @@ export class ListComponent implements OnInit, OnChanges {
         status: null,
         statusList: []
     };
+
     data: any[] = [];
 
     loading = false;
@@ -88,7 +90,7 @@ export class ListComponent implements OnInit, OnChanges {
 
     // 打开模态框方法,点击之后应该往外部发射事件，告诉父组件点击了这个按钮
     add(event) {
-        if(event !== undefined){
+        if (event !== undefined){
             this.addCreat.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
         } else {
             this.addCreat.emit('这里是新增的方法'); // 点击新增了，把事件发给父组件
@@ -98,8 +100,8 @@ export class ListComponent implements OnInit, OnChanges {
 
 
     // 点击事件方法
-    isClick(d,i) {
-        if(d.isclick === true) {
+    isClick(d, i) {
+        if (d.isclick === true) {
             this.isActive.emit(i); // 此时，代表允许有行为，至于是路由跳转还是弹出框 父组件中进行定义和修改
         }
     };
@@ -115,7 +117,7 @@ export class ListComponent implements OnInit, OnChanges {
 
 
     moreclick(event) {
-        var obj = {
+        const obj = {
             key: this.selectedRows[0],
             value: event
         };

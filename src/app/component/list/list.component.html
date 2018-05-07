@@ -1,5 +1,4 @@
 <!--指令-->
-
     <!--  列表组件 -->
     <div class="mb-md">
         <button nz-button (click)="add()" [nzType]="'primary'" [nzSize]="'large'">
@@ -54,7 +53,6 @@
 
         <!--意思是 data数据要根据表头的顺序来排列？-->
 
-
         <tr nz-tbody-tr *ngFor="let i of nzTable.data;let l = index">
             <td nz-td [nzCheckbox]="true">
                 <label nz-checkbox [nzDisabled]="i.disabled" [(ngModel)]="i.checked" (ngModelChange)="refreshStatus($event)">
@@ -70,7 +68,7 @@
                 <!--<a *ngIf="d.isclick"  [routerLink]="['/APPlication']"  [queryParams]="data[l]">{{data[l][d.key]}}</a>-->
             </td>
             <td nz-td>
-                <a (click)="add(i)">修改</a>
+                <a style="color:#108ee9;" (click)="add(i)">修改</a>
             </td>
         </tr>
         </tbody>

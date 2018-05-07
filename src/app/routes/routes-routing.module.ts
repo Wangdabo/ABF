@@ -26,7 +26,6 @@ import { EmpComponent } from './organization/emp/emp.component';
 // 基础数据
 import { DictComponent } from './basicData/dict/dict.component';
 import { SystemComponent } from './basicData/system/system.component';
-import { TreeComponent } from '../component/pluTree/tree.component';
 
 // 用户登录引入
 import { UserLoginComponent } from './passport/login/login.component';

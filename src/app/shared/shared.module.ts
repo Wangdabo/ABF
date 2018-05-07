@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
  import { TreeModule } from 'primeng/tree';
  import { ContextMenuModule } from 'primeng/primeng';
 import {CardModule} from 'primeng/card';
+// import { TreeDragDropService } from 'primeng/api';
 
 // region: third libs
 import { CountdownModule } from 'ngx-countdown';
@@ -27,7 +28,8 @@ const THIRDMODULES = [
     NzSchemaFormModule,
     TreeModule,
     ContextMenuModule,
-    CardModule
+    CardModule,
+
 
 ];
 // endregion

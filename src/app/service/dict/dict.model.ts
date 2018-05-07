@@ -3,15 +3,11 @@ export class DictModule {
     public pi: 1;
     // 每业个数
     public ps: 10;
-
     // 字典项来源类型
-    public fromType: null;
-
+    public fromType: any;
     // 业务字典类型
     public dictType: null;
 
-    // 业务字典类型value
-    public dictStr: string;
     // 业务字典
     public dictKey: string;
     // 字典名称
@@ -23,26 +19,14 @@ export class DictModule {
     // 解释说明
     public dictDrsc: string;
 
-
-
     // 字典项来源表
     public  fromTable: string;
-
     // 字典项来源列
     public  usefroKey: string;
-
     // 实际值
     public  defaultValue: string;
-
     // 记录过滤条件
-
     public  sqlFilter: string;
-
-
     // 筛选条件
     public conditions: null;
-
-
-
-
 }

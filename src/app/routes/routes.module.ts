@@ -32,6 +32,7 @@ import { EmpComponent } from './organization/emp/emp.component';
 
 // 基础数据
 import { DictComponent } from './basicData/dict/dict.component';
+import { SystemComponent } from './basicData/system/system.component';
 
 // 代码生成模块
 import { FormDetailComponent} from './codeGeneration/form-detail/formDetail.component';
@@ -44,8 +45,6 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
-import { SystemComponent } from './basicData/system/system.component';
-import { TreeComponent } from '../component/pluTree/tree.component';
 import { TreeDemoComponent} from '../component/tree/tree';
 
 // 服务
@@ -75,7 +74,6 @@ import { UtilityService } from '../service/utils.service';
         SystemComponent,
         // 封装组件
         ListComponent,
-        TreeComponent,
         TreeDemoComponent,
         // 代码生成组件
         FormDetailComponent,

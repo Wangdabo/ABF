@@ -4,5 +4,9 @@
 <pro-header [title]="'Page Name'"></pro-header>
 
 
+<app-tree [initDate] = "treedata"  [itemsData]="treemenus"  (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)" ></app-tree>
 
-<app-tree></app-tree>
+
+
+
+

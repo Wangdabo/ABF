@@ -1,0 +1,152 @@
+{
+  "treeData": [
+    {
+      "label": "测试",
+      "data": "Documents Folder",
+      "expandedIcon": "fa-folder-open",
+      "collapsedIcon": "fa-folder",
+      "isLeaf": false,
+      "children": [
+        {
+          "label": "工作",
+          "data": "Work Folder",
+          "expandedIcon": "fa-folder-open",
+          "collapsedIcon": "fa-folder",
+          "isLeaf": false,
+          "children": [
+            {
+              "label": "睡觉",
+              "icon": "fa-file-word-o",
+              "data": "Expenses Document",
+              "isLeaf": true
+            },
+            {
+              "label": "唱歌",
+              "icon": "fa-file-word-o",
+              "data": "Resume Document",
+              "isLeaf": true
+            }
+          ]
+        },
+        {
+          "label": "下班",
+          "data": "Home Folder",
+          "expandedIcon": "fa-folder-open",
+          "collapsedIcon": "fa-folder",
+          "isLeaf": false,
+          "children": [
+            {
+              "label": "回家",
+              "icon": "fa-file-word-o",
+              "data": "Invoices for this month",
+              "isLeaf": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "你瞅啥",
+      "data": "Pictures Folder",
+      "expandedIcon": "fa-folder-open",
+      "collapsedIcon": "fa-folder",
+      "isLeaf": false,
+      "children": [
+        {
+          "label": "瞅你咋地",
+          "icon": "fa-file-image-o",
+          "data": "Barcelona Photo",
+          "isLeaf": true
+        },
+        {
+          "label": "不服干我",
+          "icon": "fa-file-image-o",
+          "data": "PrimeFaces Logo",
+          "isLeaf": true
+        },
+        {
+          "label": "你丫等着",
+          "icon": "fa-file-image-o",
+          "data": "PrimeUI Logo",
+          "isLeaf": true
+        }
+      ]
+    }
+  ],
+  "listData": [
+    {
+      "dictKey": "DICT_SYS_RESET",
+      "dictName": "序号数重置方式",
+      "dictType": "SYS",
+      "fromType": "字典项",
+      "seqNo": 1,
+      "id": 1,
+      "dictDrsc": "这是第一条数据"
+    },
+    {
+      "dictKey": "DICT_AC_RESOURCETYPE",
+      "dictName": "权限资源类型",
+      "dictType": "系统级",
+      "fromType": "字典项",
+      "id": 2,
+      "seqNo": 2,
+      "dictDrsc": "这是第二条数据"
+    },
+    {
+      "id": 3,
+      "seqNo": 3,
+      "dictKey": "DICT_AC_OPERATOR_STATUS",
+      "dictName": "操作员状态",
+      "dictType": "系统级",
+      "fromType": "字典项",
+      "dictDrsc": "这是第三条数据"
+    },
+    {
+      "id": 4,
+      "seqNo": 4,
+      "dictKey": "DICT_AC_DATAOPTYPE",
+      "dictName": "数据操作类型",
+      "dictType": "SYS",
+      "fromType": "hang",
+      "dictDrsc": "这是第四条数据",
+      "checked": false,
+      "guidParents": "S"
+    },
+    {
+      "id": 5,
+      "seqNo": 5,
+      "dictKey": "DICT_AC_CONFIGTYPE",
+      "dictName": "配置类型",
+      "dictType": "系统级",
+      "fromType": "字典项",
+      "dictDrsc": "这是第五条数据"
+    },
+    {
+      "id": 6,
+      "seqNo": 6,
+      "dictKey": "DICT_AC_AUTHMODE",
+      "dictName": "认证模式",
+      "dictType": "系统级",
+      "fromType": "字典项",
+      "dictDrsc": "这是第六条数据"
+    },
+    {
+      "id": 7,
+      "seqNo": 7,
+      "dictKey": "DICT_AC_FUNCTYPE",
+      "dictName": "功能类型",
+      "dictType": "应用级",
+      "fromType": "字典项",
+      "dictDrsc": "这是第七条数据"
+    },
+    {
+      "id": 8,
+      "seqNo": 8,
+      "dictKey": "DICT_AC_APPTYPE",
+      "dictName": "应用类型",
+      "dictType": "系统级",
+      "fromType": "字典项",
+      "dictDrsc": "这是第八条数据"
+    }
+  ]
+}
