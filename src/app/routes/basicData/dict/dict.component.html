@@ -42,7 +42,7 @@
     </div>
     <div class="ui-g-6">
         <p-card  [style]="{width: '100%'}" *ngIf="treeshow">
-            <app-tree [initDate] = "treedata"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)"></app-tree>
+            <app-tree [initDate] = "treedata" [searchTitle] = "searchTitle"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)"></app-tree>
         </p-card>
     </div>
 </div>

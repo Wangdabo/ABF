@@ -1,8 +1,8 @@
 export class SystemModule {
     // 当前页数
-    public pi: 1;
+    public pi: number = 1;
     // 每业个数
-    public ps: 10;
+    public size: number = 10;
 
     // 应用系统
     public guidApp: null;

@@ -16,7 +16,6 @@ export class MenuComponent implements OnInit {
     constructor(
         private http: _HttpClient,
         private utilityService: UtilityService,
-        @Inject('urlConfig') private urlconfig
     ) { }
 
     treedata: any[]; // tree组件数据
@@ -24,9 +23,10 @@ export class MenuComponent implements OnInit {
     treemenus: MenuItem[]; // 右击菜单数据
 
     ngOnInit() {
-        this.getData(); // 调用初始化方法，把树数据传输进去
+        // this.getData(); // 调用初始化方法，把树数据传输进去
     }
 
+/*
     getData() { // 初始化请求后台数据
         // 传入右击菜单数组,根据需求定
         this.treemenus = [
@@ -84,13 +84,13 @@ export class MenuComponent implements OnInit {
                     console.log('The POST observable is now completed.');
                 });
 
-      /*  const ur = this.urlconfig + '/news';
+      /!*  const ur = this.urlconfig + '/news';
 
         this.utilityService.postData( ur, {'id': '4' , 'title': 'add data', 'author': 'wangbo'})
             .subscribe(
                 (val) => {
                     console.log(val);
-                });*/
+                });*!/
     }
 
 
@@ -144,5 +144,6 @@ export class MenuComponent implements OnInit {
 
         console.log($event);
     }
+*/
 
 }

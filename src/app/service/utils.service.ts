@@ -3,7 +3,6 @@ import { Http, Headers, RequestOptions , Response , URLSearchParams } from '@ang
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-
 @Injectable()
 export class UtilityService {
     constructor(private http: Http) { }
@@ -38,11 +37,9 @@ export class UtilityService {
     postData(url: string, options: any, myheaders?: any): Observable<any> {
         const myHeaders: Headers = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-        // tslint:disable-next-line:forin
         for (const key in myheaders) {
             myHeaders.append(key, myheaders[key]);
         };
-
         return this.http.post(url, options, { headers: myHeaders });
 
     }
@@ -52,6 +49,7 @@ export class UtilityService {
     putData(url: string, options: any): Observable<any> {
         return this.http.put(url, options);
     }
+
 
     // 删除封装
     deleatData(url: string, options?: any, myheaders?: any): Observable<any> {

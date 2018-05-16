@@ -22,6 +22,7 @@ import { MenuComponent } from './application/menu/menu.component';
 // 组织机构管理
 import { OrgComponent } from './organization/org/org.component';
 import { EmpComponent } from './organization/emp/emp.component';
+import { PostComponent } from './organization/post/post.component';
 
 // 基础数据
 import { DictComponent } from './basicData/dict/dict.component';
@@ -58,9 +59,10 @@ const routes: Routes = [
             { path: 'APPlication', component: ApplicationComponent },
             { path: 'operator', component: OperatorsComponent },
             // 组织机构
-            { path: 'org', component: OrgComponent },
-            { path: 'emp', component: EmpComponent },
-
+            { path: 'org', component: OrgComponent, children: [
+                    {path: 'emp/:id', component: EmpComponent},
+                    {path: 'post/:id', component: PostComponent},
+                ]},
             // 基本数据
             { path: 'business', component: DictComponent },
             { path: 'system', component: SystemComponent },

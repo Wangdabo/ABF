@@ -7,7 +7,7 @@
     "roleName": "Role Management",
     "operatorName": "Operator Management",
     "organization":"organization",
-    "empName":"employee",
+    "workGroup":"workGroup",
     "generation":"generation",
     "authority":"authority",
     "basisdata":"basisdata",

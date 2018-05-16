@@ -36,10 +36,10 @@
     </div>
 
     <!--  表格内容  -->
-    <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="q.ps" [nzLoading]="loading"
-              (nzDataChange)="dataChange($event)"
+        <nz-table #nzTable [nzDataSource]="data"  [nzTotal]="total"  [nzPageSize]="q.ps" [nzLoading]="loading"
               (nzPageIndexChange)="pageChange($event)">
         <thead nz-thead>
+
         <tr>
             <th nz-th [nzCheckbox]="true">
                 <label nz-checkbox [(ngModel)]="allChecked" [nzIndeterminate]="indeterminate"
@@ -50,7 +50,6 @@
         </tr>
         </thead>
         <tbody nz-tbody>
-
         <!--意思是 data数据要根据表头的顺序来排列？-->
 
         <tr nz-tbody-tr *ngFor="let i of nzTable.data;let l = index">
@@ -72,7 +71,6 @@
             </td>
         </tr>
         </tbody>
-
     </nz-table>
 
 

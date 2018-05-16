@@ -1,6 +1,6 @@
-<nz-input   id="searchaVal" [nzType]="'search'"  [(ngModel)]="searsh"   [nzPlaceHolder]="'请输入搜索内容'"  style="margin-bottom: 10px;" ></nz-input>
+<nz-input   id="searchaVal" [nzType]="'search'"  [(ngModel)]="searsh"   [nzPlaceHolder]="title"  style="margin-bottom: 10px;" ></nz-input>
 
-<p-tree [value]="files"   draggableNodes="true"  droppableNodes="true"  (onNodeSelect)="NodeSelect($event)" (onNodeContextMenuSelect)="RightSelect($event)"  (onNodeDrop)="select($event)"  selectionMode="single" [contextMenu]="cm" [(selection)]="selectedFiles"></p-tree>
+<p-tree [value]="files" [title]="searchTitle"  draggableNodes="true"  droppableNodes="true"  (onNodeSelect)="NodeSelect($event)" (onNodeContextMenuSelect)="RightSelect($event)"  (onNodeDrop)="select($event)"  selectionMode="single" [contextMenu]="cm" [(selection)]="selectedFiles"></p-tree>
 
 <p-contextMenu #cm [model]="items"></p-contextMenu>
 

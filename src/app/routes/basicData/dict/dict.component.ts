@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 import {MenuItem} from 'primeng/api';
 import {NzModalService} from 'ng-zorro-antd';
+import {appConfig} from '../../../service/common';
 
 @Component({
   selector: 'app-dict',
@@ -18,13 +19,11 @@ import {NzModalService} from 'ng-zorro-antd';
 
 export class DictComponent implements OnInit {
     private msg: any;
-
     constructor(
         private http: _HttpClient,
         private router: Router,
         private utilityService: UtilityService,
-        private modal:NzModalService,
-        @Inject('urlConfig') private urlconfig
+        private modal: NzModalService,
     ) {
 
     }
@@ -37,7 +36,7 @@ export class DictComponent implements OnInit {
     dictItemAdd: DictItemModule = new DictItemModule(); // 绑定业务字典项数据
 
     loading = false;
-
+    urlconfig: string = 'http://localhost:3000';
     treeshow = false; // 是否显示树结构
 
     // fromType 字典项来源类型
@@ -116,7 +115,7 @@ export class DictComponent implements OnInit {
 
     treemenus: MenuItem[];
 
-
+    searchTitle: string;
 
     // 右击菜单数据
 
@@ -129,6 +128,9 @@ export class DictComponent implements OnInit {
 
     getData() { // 初始化请求后台数据
 
+        console.log(appConfig);
+        this.searchTitle = '请输入业务字典名称';
+
         // 传入右击菜单数组,根据需求定
         this.treemenus = [
             {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
@@ -137,22 +139,8 @@ export class DictComponent implements OnInit {
             {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdictItem()},
         ];
 
-
-        const list = {
-            APP: '应用级',
-            SYS: '系统级'
-        }
-
-        const dictTypes = {
-            normal: '字典项',
-            hang : '子字典'
-        };
-
-
-
         // 调用服务获取树节点操作
-        const uri = this.urlconfig + '/treeData';
-        this.utilityService.getData(uri)
+        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
             .subscribe(
                 (val) => {
                     this.treedata = val; // 绑定树节点
@@ -195,10 +183,7 @@ export class DictComponent implements OnInit {
 
 
         // 调用服务来获取列表节点操作
-        const urlist = this.urlconfig + '/listData';
-
-
-        this.utilityService.getData(urlist)
+        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
             .subscribe(
                 (val) => {
                     console.log(val); // 后台传给我的数组
@@ -249,8 +234,7 @@ export class DictComponent implements OnInit {
     deleatData(event) {
         console.log(event); // 原本的数据值
         // 删除各节点内容
-        const deleatUrl = this.urlconfig + '/listData/' + event[0].id;
-        this.utilityService.deleatData(deleatUrl)
+        this.utilityService.deleatData(appConfig.ABFUrl + '/' + appConfig.API.listData + event[0].id)
             .subscribe(
                 (val) => {
                     console.log(val);
@@ -261,10 +245,8 @@ export class DictComponent implements OnInit {
                 response => {
                 },
                 () => {
-                    // 流结束之后再去做查询验证
-                    const url = this.urlconfig + '/listData';
                     // 新增接口之后，在调用查询接口，查询最新的数据
-                    this.utilityService.getData(url)
+                    this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
                         .subscribe(
                             (val) => {
                                 console.log(val)
@@ -326,11 +308,10 @@ export class DictComponent implements OnInit {
         if (this.creatExit) { // 调用新增的逻辑
             console.log(this.dictAdd);
             // 调用服务来获取列表节点操作
-            const urlist = this.urlconfig + '/listData';
             const jsonOption = this.dictAdd;
             console.log(jsonOption);
             if (jsonOption.dictName !== undefined) {
-                this.utilityService.postData(urlist, jsonOption)
+                this.utilityService.postData(appConfig.ABFUrl + '/' + appConfig.API.listData, jsonOption)
                     .subscribe(
                         (val) => {
 
@@ -340,7 +321,7 @@ export class DictComponent implements OnInit {
                         },
                         () => {
                             // 新增接口之后，在调用查询接口，查询最新的数据
-                            this.utilityService.getData(urlist)
+                            this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
                                 .subscribe(
                                     (val) => {
                                         this.treeshow = false;
@@ -357,8 +338,7 @@ export class DictComponent implements OnInit {
               console.log(this.eventData.id)
               const id  = this.eventData.id;
               const jsonOption = this.dictAdd;
-              const urlist = this.urlconfig + '/listData' + '/' + id; // 对第几个id进行修改
-            this.utilityService.putData(urlist, jsonOption)
+            this.utilityService.putData(appConfig.ABFUrl + '/' + appConfig.API.listData + id, jsonOption)
                 .subscribe(
                     (val) => {
                         console.log(val);
@@ -370,9 +350,8 @@ export class DictComponent implements OnInit {
                     },
                     () => {
                         // 流结束之后再去做查询验证
-                        const url = this.urlconfig + '/listData';
                         // 新增接口之后，在调用查询接口，查询最新的数据
-                        this.utilityService.getData(url)
+                        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
                             .subscribe(
                                 (val) => {
                                      this.data = val; // 绑定列表数据

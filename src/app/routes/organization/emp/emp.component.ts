@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 import { EmpModule } from '../../../service/emp';
 
@@ -14,12 +14,14 @@ export class EmpComponent implements OnInit {
     constructor(
         private http: _HttpClient,
         private router: Router,
+        private activatedRoute: ActivatedRoute, // 注入路由，接收到参数
         private service: UtilityService
     ) {
         service.getBillTypes();
     }
 
     emp: EmpModule = new EmpModule();
+    empAdd: EmpModule = new EmpModule();
 
     ifshow: boolean = true;
 
@@ -27,7 +29,6 @@ export class EmpComponent implements OnInit {
         {key: 'male' , value: '男'},
         {key: 'Female' , value: '女'},
     ];
-
 
     // 员工状态
     empType = [
@@ -48,7 +49,6 @@ export class EmpComponent implements OnInit {
         {key: 'Director' , value: '总管'},
     ];
 
-
     // 基本岗位
     emppost = [
         {key: 'President' , value: '行长'},
@@ -57,7 +57,6 @@ export class EmpComponent implements OnInit {
         {key: 'Outlets' , value: '网点'},
         {key: 'principal' , value: '负责人'}
     ];
-
 
     // 直接主管
     supervisor = [
@@ -78,10 +77,15 @@ export class EmpComponent implements OnInit {
         {key: 'org007' , value: '建设银行'},
         {key: 'org008' , value: '上海银行浦东分行'},
     ];
+    // 证件类型
+    paperType = [
+        { value: '身份证', key: 'shen' },
+        { value: '军官证', key: 'jun' },
+        { value: '户口本', key: 'huk' },
+        { value: '学生证', key: 'xues' },
+        { value: '护照', key: 'huzhao' },
 
-
-
-
+    ]
     loading = false;
 
     type = [
@@ -90,9 +94,17 @@ export class EmpComponent implements OnInit {
         { text: '注销', value: false, key: 'logOut' },
         { text: '锁定', value: false, key: 'locking' }
     ];
+    // 操作员类型
+    radioValue = [
+        { text: '新建默认操作员', value: false, key: 'creat' },
+        { text: '选择已存在的', value: false, key: 'extant' },
+        { text: '暂不选择操作员', value: false, key: 'noselect' }
+    ];
 
-
+    // 弹出框默认关闭
     modalVisible = false;
+    onboarding = false;
+    departure = false; // 离职弹窗
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -113,14 +125,18 @@ export class EmpComponent implements OnInit {
             {key: 'Onboarding' , value: '入职'},
             {key: 'Departure' , value: '离职'},
             {key: 'Overview' , value: '查看概况'},
-            {key: 'orgsettings' , value: '组织机构设置'},
             {key: 'operator' , value: '操作员修改'},
         ]
     };
 
 
+    orgGuid: string;
+
     ngOnInit() {
-        this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.getData();
+
+        this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+        console.log(this.orgGuid);
     }
 
 
@@ -153,7 +169,8 @@ export class EmpComponent implements OnInit {
         this.ifshow = false; // 默认是基础信息
         if (event === '这里是新增的方法') {
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
-        } else{ // 代表修改，把修改的内容传递进去，重新渲染
+            this.empAdd.radioValue = 'creat';
+        } else { // 代表修改，把修改的内容传递进去，重新渲染
             console.log(event)
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
         }
@@ -181,17 +198,23 @@ export class EmpComponent implements OnInit {
     // 列表按钮方法
     buttonDataHandler(event) {
         console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
-        if (event.value ===  'Authority') {
-            console.log(event.key);
+        if (event.value ===  'Onboarding') { // 入职方法
+            this.onboarding = true; // 打开入职弹出框
         }
 
-        if (event.value ===  'Overview') {
-            console.log(event.key);
+        if (event.value ===  'Departure') { // 离职方法
+            this.departure = true;
         }
 
+        if (event.value === 'Overview') {
+            console.log('查看概况');
+        }
+
+        // 如果有操作员 则编辑操作员
+        if (event.value === 'operator') {
+            console.log('员工操作员修改');
+        }
     }
-
-
 
     selectedRow(event) { // 选中方法，折叠层按钮显示方法
         if (event.indeterminate) {
@@ -205,7 +228,7 @@ export class EmpComponent implements OnInit {
             }
             if (event.selectedRows[0].empType === '在招') {
                 this.moreData.buttons = [
-                    {key: 'Departure' , value: '入职'},
+                    {key: 'Onboarding' , value: '入职'},
                     {key: 'Overview' , value: '查看概况'},
                     {key: 'orgsettings' , value: '组织机构设置'},
                     {key: 'operator' , value: '操作员修改'},
@@ -219,7 +242,6 @@ export class EmpComponent implements OnInit {
     isActive(event) {
         console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
 
-
         // 路由跳转
         this.router.navigate(['APPlication'],{ queryParams: { name: event } });
     }
@@ -227,7 +249,6 @@ export class EmpComponent implements OnInit {
 
     // 搜索框
     search() {
-        console.log(this.emp)
         // 把搜索值传给后台，后台数据重新传给子组件
         this.data = [
             {'id': 1, 'empName': '汪波', 'empCode': 'EMP000199', 'gender': '男', 'empType': '在职', 'emprank': '初级', 'emppost': '\n' +
@@ -241,11 +262,10 @@ export class EmpComponent implements OnInit {
         ];
     }
 
-
-
     // 弹出框保存组件
     save() {
-        console.log(this.emp);
+        console.log(this.empAdd)
+        console.log(this.emp)
         // 添加了两条数据
         this.data = [
             {'id': 1, 'empName': '汪波', 'empCode': 'EMP000199', 'gender': '男', 'empType': '在职', 'emprank': '初级', 'emppost': '\n' +
@@ -275,12 +295,40 @@ export class EmpComponent implements OnInit {
                 '技术支持工程师' , 'supervisor': '汪波', 'organization': '农商分行' },
         ];
         this.modalVisible = false;
-    };
+    }
+
+    // 点击入职的方法
+    select(i) {
+        if (i.key === 'noselect') { // 如果是不选择，那么就为空
+            this.empAdd.userId = '';
+        }
+    }
 
 
+    // 入职弹出框保存按钮
+    onboardingsave() {
+        console.log(this.empAdd);
+    }
 
+    // 点击离职方法
+    ondeparturesave() {
+        console.log(this.empAdd);
+        this.departure = false;
+
+    }
+
+
+    // 完善其他信息
     basicinfo() {
-
         this.ifshow = !this.ifshow;
     }
+
+    // 返回上一步
+    addBack() {
+        console.log(1)
+        this.ifshow = !this.ifshow;
+    }
+
+
+
 }

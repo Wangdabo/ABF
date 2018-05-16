@@ -1,4 +1,22 @@
-<div class="content__title">
-    <h1>Page Name</h1>
+<pro-header style="position:relative">
+    <ng-template #tab  >
+        <nz-tabset *ngIf="tabShow" style="position:relative;left: 82%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['emp', id]">员工</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['post', id]">岗位</a></ng-template></nz-tab>
+        </nz-tabset>
+    </ng-template>
+</pro-header>
+
+
+<div class="ui-g">
+    <div class="ui-g-3">
+        <p-card  [style]="{width: '100%'}">
+            <app-tree [initDate] = "treedata" [searchTitle] = "searchTitle"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)"></app-tree>
+        </p-card>
+    </div>
+    <div class="ui-g-9">
+        <p-card  *ngIf="tabShow">
+            <router-outlet></router-outlet>
+        </p-card>
+    </div>
 </div>
-<pro-header [title]="'Page Name'"></pro-header>

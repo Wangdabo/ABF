@@ -1,10 +1,7 @@
-<!--引入面包屑组件-->
-<pro-header></pro-header>
-
-<nz-card [nzBordered]="false">
     <!--  form表单搜索 -->
     <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
-        <div nz-row [nzGutter]="24">
+
+        <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label>员工姓名</label></div>
@@ -21,7 +18,6 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label>性别</label></div>
@@ -32,18 +28,7 @@
                     </div>
                 </div>
             </div>
-
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label>员工状态</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="emp.empType"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'员工状态'" nzId="gender">
-                            <nz-option  *ngFor="let i of empType;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div *ngIf="expandForm" nz-col  [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label>员工职级</label></div>
                     <div nz-form-control class="flex-1">
@@ -83,6 +68,16 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>员工状态</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="emp.empType"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'员工状态'" nzId="gender">
+                            <nz-option  *ngFor="let i of empType;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
             <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
                 <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
@@ -93,26 +88,21 @@
             </div>
         </div>
     </form>
-
     <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
     <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)" (selectedRow)="selectedRow($event)"  (isActive)="isActive($event)"  [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
-</nz-card>
-<!--引入列表组件-->
+    <!--引入列表组件-->
 
-
-
-<!--弹出框信息-->
-<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新建角色'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+    <!--新增员工弹出框信息-->
+    <nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新建员工'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
-    <ng-template #modalContent>
-        <div nz-row [nzGutter]="24">
+        <ng-template #modalContent>
             <!-- 主要信息 -->
-            <div *ngIf="ifshow">
+            <div *ngIf="!ifshow" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">员工姓名</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-input [(ngModel)]="emp.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'员工姓名'" nzId="name"></nz-input>
+                            <nz-input [(ngModel)]="empAdd.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'员工姓名'" nzId="name"></nz-input>
                         </div>
                     </div>
                 </div>
@@ -120,7 +110,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label><label>性别</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-select style="width:100%" [(ngModel)]="emp.gender"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'性别'" nzId="gender">
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.gender"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'性别'" nzId="gender">
                                 <nz-option  *ngFor="let i of gender;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
                             </nz-select>
                         </div>
@@ -130,7 +120,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label><label>员工职级</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-select style="width:100%" [(ngModel)]="emp.emprank" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'员工职级'" nzId="emprank">
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.emprank" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'员工职级'" nzId="emprank">
                                 <nz-option  *ngFor="let i of emprank;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
                             </nz-select>
                         </div>
@@ -140,7 +130,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label><label>直接主管</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-select style="width:100%" [(ngModel)]="emp.supervisor" name="supervisor"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.supervisor" name="supervisor"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
                                 <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
                             </nz-select>
                         </div>
@@ -148,35 +138,143 @@
                 </div>
             </div>
             <!-- 基本信息 -->
-            <div *ngIf="!ifshow">
+            <div *ngIf="ifshow" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+                <!-- 入职日期和离职日期在入职和离职操作里写,这里只用来完善其他信息-->
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label><label>证件类型</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.paperType"  name="paperType" [nzSize]="'large'" [nzPlaceHolder]="'证件类型'" nzId="paperType">
+                                <nz-option  *ngFor="let i of paperType;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">证件号码</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.paperNo" name="paperNo" [nzSize]="'large'" [nzPlaceHolder]="'证件号码'" nzId="paperNo"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">出生日期</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-datepicker [(ngModel)]="empAdd.birthDate" name="birthDate" [nzSize]="'large'" [nzPlaceHolder]="'出生日期'" nzId="birthDate" class="d-block"></nz-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">家庭电话</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.htel" name="htel" [nzSize]="'large'" [nzPlaceHolder]="'家庭电话'" nzId="htel"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">家庭邮编</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.hzipCode" name="hzipCode" [nzSize]="'large'" [nzPlaceHolder]="'家庭邮编'" nzId="hzipCode"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">家庭地址</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.haddress" name="haddress" [nzSize]="'large'" [nzPlaceHolder]="'家庭地址'" nzId="haddress"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="24" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label><label for="remark">备注:</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.remark"  nzAutosize=true nzType="textarea" name="remark" [nzSize]="'large'" [nzPlaceHolder]="'备注'" nzId="remark"></nz-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div *ngIf="!ifshow" class="ng-star-inserted" style=" text-align: right;">
+            <button  (click)='basicinfo()' class="ant-btn ant-btn-primary ant-btn-lg ng-star-inserted" ng-reflect-nz-type="primary" ng-reflect-nz-size="large" ng-reflect-nz-loading="false">
+<span>完善其他信息</span></button>
+        </div>
+        <div *ngIf="ifshow" class="ng-star-inserted" style=" text-align: right;">
+            <button  (click)='addBack()' class="ant-btn ant-btn-primary ant-btn-lg ng-star-inserted" ng-reflect-nz-type="primary" ng-reflect-nz-size="large" ng-reflect-nz-loading="false">
+                <span>返回</span></button>
+        </div>
+    </ng-template>
+    </nz-modal>
+
+
+    <!--入职弹出框信息-->
+    <nz-modal [nzVisible]="onboarding"  [nzWidth]="1024" [nzTitle]="'员工入职'"  [nzConfirmLoading]="loading" [nzContent]="empOnboarding"
+              (nzOnCancel)="onboarding=false" (nzOnOk)="onboardingsave()">
+        <ng-template #empOnboarding>
+            <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">入职日期</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-datepicker [(ngModel)]="emp.entryDate" name="entryDate" [nzSize]="'large'" [nzPlaceHolder]="'入职日期'" nzId="entryDate" class="d-block"></nz-datepicker>
+                            <nz-datepicker [(ngModel)]="empAdd.entryDate"    name="entryDate" [nzSize]="'large'" [nzPlaceHolder]="'入职日期'" nzId="entryDate" class="d-block"></nz-datepicker>
                         </div>
                     </div>
                 </div>
+                <div nz-col [nzSpan]="24" class="mb-md">
+                        <div nz-form-item class="d-flex">
+                            <div nz-form-label><label for="radioValue">选择操作员:</label></div>
+                            <div nz-form-control class="flex-1">
+                                <nz-radio-group [(ngModel)]="empAdd.radioValue">
+                              <span  *ngFor="let i of radioValue;">
+                                    <label  nz-radio (click)="select(i)"   [nzValue]='i.key'>
+                                        <span>{{i.text}}</span>
+                                    </label>
+                                </span>
+                                </nz-radio-group>
+                            </div>
+                        </div>
+                </div>
+                <div nz-col *ngIf="empAdd.radioValue == 'creat'"  [nzSpan]="12" class="mb-md" >
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="userId">操作员</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.userId" name="userId" [nzSize]="'large'" [nzPlaceHolder]="'操作员'" nzId="userId"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col *ngIf="empAdd.radioValue == 'extant'"  [nzSpan]="12" class="mb-md" >
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label><label>操作员</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.userId"  name="userId" [nzSize]="'large'" [nzPlaceHolder]="'操作员'" nzId="userId">
+                                <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </nz-modal>
+
+
+    <!--离职弹出框信息-->
+    <nz-modal [nzVisible]="departure"  [nzWidth]="1024" [nzTitle]="'员工入职'"  [nzConfirmLoading]="loading" [nzContent]="empDeparture"
+              (nzOnCancel)="departure=false" (nzOnOk)="ondeparturesave()">
+        <ng-template #empDeparture>
+            <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">离职日期</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-datepicker [(ngModel)]="emp.departure" name="departure" [nzSize]="'large'" [nzPlaceHolder]="'离职日期'" nzId="departure" class="d-block"></nz-datepicker>
+                            <nz-datepicker [(ngModel)]="empAdd.departure"    name="departure" [nzSize]="'large'" [nzPlaceHolder]="'离职日期'" nzId="departure" class="d-block"></nz-datepicker>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
-
-        <div class="ng-star-inserted" style=" text-align: right;">
-            <button (click)='basicinfo()' class="ant-btn ant-btn-primary ant-btn-lg ng-star-inserted" ng-reflect-nz-type="primary" ng-reflect-nz-size="large" ng-reflect-nz-loading="false">
-<span>完善其他信息</span></button>
-        </div>
-    </ng-template>
-
-
-
-</nz-modal>
-
-
+        </ng-template>
+    </nz-modal>

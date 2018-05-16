@@ -45,10 +45,10 @@
                         "i18n": "organization",
                         "shortcut": true
                     }, {
-                        "text": "员工管理",
-                        "link": "/emp",
+                        "text": "工作组",
+                        "link": "/workGroup",
                         "translate": "buttons",
-                        "i18n": "empName",
+                        "i18n": "workGroup",
                         "shortcut": true
                     }
                 ]

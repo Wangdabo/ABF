@@ -148,5 +148,81 @@
       "fromType": "normal",
       "dictDrsc": "这是第八条数据"
     }
-  ]
+  ],
+  "orgTreeData": [
+        {
+            "label": "企业名称",
+            "data": "Documents Folder",
+            "expandedIcon": "fa-folder-open",
+            "collapsedIcon": "fa-folder",
+            "isLeaf": false,
+            "children": [
+                {
+                    "label": "机构A-1",
+                    "data": "Work Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false
+                },
+                {
+                    "label": "机构A-2",
+                    "data": "Work Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false
+                },
+                {
+                    "label": "机构A-3",
+                    "data": "Work Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "机构A-3-1",
+                            "icon": "fa-file-word-o",
+                            "data": "Expenses Document",
+                            "isLeaf": true
+                        },
+                        {
+                            "label": "机构A-3-2",
+                            "icon": "fa-file-word-o",
+                            "data": "Resume Document",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "A层菜单1",
+                    "data": "Home Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "A菜单-1",
+                            "icon": "fa-file-word-o",
+                            "data": "Invoices for this month",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "A层菜单2",
+                    "data": "Home Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "A菜单2-1",
+                            "icon": "fa-file-word-o",
+                            "data": "Invoices for this month",
+                            "isLeaf": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

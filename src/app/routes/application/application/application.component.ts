@@ -11,8 +11,19 @@ export class ApplicationComponent implements OnInit {
     constructor(
         private http: _HttpClient
     ) { }
+    list: any[] = [];
+
 
     ngOnInit() {
+
+    }
+
+    select(ret: any) {
+        console.log('nzSelectChange', ret);
+    }
+
+    change(ret: any) {
+        console.log('nzChange', ret);
     }
 
 }

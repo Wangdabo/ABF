@@ -29,7 +29,7 @@ import { MenuComponent } from './application/menu/menu.component';
 // 组织机构
 import { OrgComponent } from './organization/org/org.component';
 import { EmpComponent } from './organization/emp/emp.component';
-
+import { PostComponent } from './organization/post/post.component';
 // 基础数据
 import { DictComponent } from './basicData/dict/dict.component';
 import { SystemComponent } from './basicData/system/system.component';
@@ -46,6 +46,7 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
 import { TreeDemoComponent} from '../component/tree/tree';
+
 
 // 服务
 import { UtilityService } from '../service/utils.service';
@@ -66,6 +67,7 @@ import { UtilityService } from '../service/utils.service';
         ApplicationComponent,
         OrgComponent,
         EmpComponent,
+        PostComponent,
         OperatorsComponent,
         RoleComponent,
         MenuComponent,

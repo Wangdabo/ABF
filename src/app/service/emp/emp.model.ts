@@ -24,4 +24,30 @@ export class EmpModule {
     public  entryDate: null;
     // 离职日期
     public  departure: null;
+
+    // 其他信息
+    // 证件类型
+    public  paperType: any;
+    // 证件号码
+    public paperNo: number;
+    // 出生日期
+    public birthDate: string;
+    // 家庭电话
+    public  htel: number;
+    // 家庭地址
+    public haddress: string;
+
+    // 家庭邮编
+    public hzipCode: number;
+
+    // 备注
+    public  remark: string;
+    // 操作员编号
+    public guidOperator: string;
+    // 操作员登陆用户名
+    public userId: string;
+
+    // 操作员类型
+    public  radioValue: string;
 }
+

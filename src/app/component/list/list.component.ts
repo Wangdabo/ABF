@@ -1,4 +1,6 @@
-import {Component, OnInit, EventEmitter, Output, Input, SimpleChanges, OnChanges} from '@angular/core';
+import {
+    Component, OnInit, EventEmitter, Output, Input, SimpleChanges, OnChanges, DoCheck,
+} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import { tap } from 'rxjs/operators';
@@ -9,6 +11,7 @@ import { tap } from 'rxjs/operators';
     styleUrls: ['./list.component.less']
 })
 export class ListComponent implements OnInit, OnChanges {
+// export class ListComponent implements OnInit {
 
     q: any = { // 定义一个对象
         pi: 1, // 页数
@@ -18,8 +21,6 @@ export class ListComponent implements OnInit, OnChanges {
         statusList: []
     };
 
-    data: any[] = [];
-
     loading = false;
     selectedRows: any[] = [];
     curRows: any[] = [];
@@ -27,20 +28,23 @@ export class ListComponent implements OnInit, OnChanges {
     allChecked = false;
     indeterminate = false;
 
-    header:any[]; // 表头数据
+    header: any[]; // 表头数据
 
-    obj:any[];
-
+    obj: any[];
 
     @Input() // 输入属性,接受父组件传入的数据
-    initDate:any[];
+    initDate: any[];
 
     @Input() // 输入属性,接受父组件传递的表头
-    headerDate:any[];
+    headerDate: any[];
 
     @Input() // 输入属性,接受按钮层方法
-    moreData:any[];
+    moreData: any[];
+    @Input() // 输入属性,数据总条数
+    total: number;
 
+
+    data: any[] = [];
 
     @Output()
     addCreat: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
@@ -61,8 +65,12 @@ export class ListComponent implements OnInit, OnChanges {
     selectedRow: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
 
 
-    constructor(private http: _HttpClient, public msg: NzMessageService) {
+    constructor(
+        private http: _HttpClient,
+        public msg: NzMessageService,
+    ) {
     }
+
 
     ngOnInit() {
         this.headerDate = this.headerDate;
@@ -70,27 +78,31 @@ export class ListComponent implements OnInit, OnChanges {
         this.getData();
     }
 
-
-    ngOnChanges(changes: SimpleChanges): void { // 监听 当组件发生改变的时候，初始化数据
+    ngOnChanges (changes: SimpleChanges): void { // 监听 当组件发生改变的时候，初始化数据
         this.getData();
+
     }
-
-
-
-
 
     // 初始化数据方法
     getData() {
-     /*  console.log(this.q)  翻页点击的也是这个方法，实际上可以不用，在搜索的时候可以直接写一个搜索方法，传入页数即可
-         console.log(this.q.pi); 页数*/
-        // 获取数据，模拟数据来使用
-       this.data = this.initDate;
+        console.log(this.initDate)
+           /* const timer = setInterval(() => {
+                console.log('只执行一次')
+                this.data = this.initDate;
+                this.total = this.total;
+                console.log(this.total);
+                clearInterval(timer);
+            }, 2000);*/
+
+        this.data = this.initDate;
+        this.total = this.total;
+
     }
 
 
     // 打开模态框方法,点击之后应该往外部发射事件，告诉父组件点击了这个按钮
     add(event) {
-        if (event !== undefined){
+        if (event !== undefined) {
             this.addCreat.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
         } else {
             this.addCreat.emit('这里是新增的方法'); // 点击新增了，把事件发给父组件
@@ -109,7 +121,6 @@ export class ListComponent implements OnInit, OnChanges {
 
     // 移除数据方法
     remove() {
-
         this.deleatData.emit(this.selectedRows); // 把要删除的内容发射给父组件
         this.getData();
         this.clear();
@@ -162,20 +173,12 @@ export class ListComponent implements OnInit, OnChanges {
 
     }
 
-
-
-
-    dataChange(res: any) {
-        this.curRows = res;
-        this.refreshStatus();
-    }
-
     // 翻页方法
     pageChange(pi: number): Promise<any> {
+        console.log(pi);
         this.q.pi = pi;
-        this.pageNumber.emit(this.q.pi); // 发射出去，把当前的页数发射出去
-
         this.loading = true;
+        this.pageNumber.emit(this.q.pi); // 发射出去，把当前的页数发射出去
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.loading = false;

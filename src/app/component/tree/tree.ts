@@ -26,15 +26,18 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     files: TreeNode[];
     selectedFiles: TreeNode[];
     items: MenuItem[];
-
+    title: string;
     searsh: string; // 搜索框内容
 
     @Input() // 输入属性,接受父组件传入的树数据
     initDate: any[];
 
 
-    @Input() // 输入属性,接受父组件传入的you级惨淡数据
+    @Input() // 输入属性,接受父组件传入的右击菜单数据
     itemsData: MenuItem[];
+
+    @Input() // 输入属性,接受父组件传入的树搜索框内容文字
+    searchTitle: string;
 
     @Output()
     dropEvent: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
@@ -58,6 +61,8 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.getData(); // 初始化树数据
         this.searchaValue(); // 搜索值
+
+
     }
 
 
@@ -70,6 +75,7 @@ export class TreeDemoComponent implements OnInit, OnChanges {
         this.files = this.initDate; // 把父组件传输过来的数据，绑定给files数组，完成页面tree页面渲染
         this.items = this.itemsData; // 父组件 传入的右击菜单数据
         this.selectedFiles = this.files; // 选中节点属性
+        this.title = this.searchTitle; // 搜索框的内容文字
     }
 
 

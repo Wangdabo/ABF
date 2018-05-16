@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import {Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 import { SystemModule } from '../../../service/system';
-import {stringDistance} from 'codelyzer/util/utils';
+import {appConfig} from '../../../service/common';
 
 @Component({
   selector: 'app-system',
@@ -15,9 +15,9 @@ export class SystemComponent implements OnInit {
     constructor(
         private http: _HttpClient,
         private router: Router,
-        private service: UtilityService
+        private utilityService: UtilityService,
     ) {
-        service.getBillTypes();
+
     }
 
 
@@ -27,7 +27,7 @@ export class SystemComponent implements OnInit {
 
     loading = false;
     isshow: boolean = false; // 默认是false 不显示
-
+    isEdit = false; // 是否是修改，默认不是
     // 应用
     guidApp = [
         { text: 'APF应用', value: false, key: 'ABF' },
@@ -63,74 +63,106 @@ export class SystemComponent implements OnInit {
         {value: '参数描述' , key: 'description', isclick: false},
     ];
 
-
     moreData = { morebutton: true,
         buttons: [
             {key: 'Overview' , value: '查看概况'}
         ]
     }
-
     test: string;
-
-
-
-
-
+    page: any;
+    total: number;
+    index: number;
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
 
-
+    // 父组件初始化数据
     getData() { // 初始化请求后台数据
-        this.data = [
+        //  如果我不请求  直接写死的话 子组件是能够拿到的
+        /*this.data = [
             {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
             {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
             {'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
             {'id': 4,  'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
             {'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
             {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 7,  'guidApp': 'ABF', 'groupName': '测试7', 'keyName': '测试7', 'valueFrom': '测试数据7', 'value': '值7', 'description': '第7条数据' },
-            {'id': 8,  'guidApp': 'ABF', 'groupName': '测试8', 'keyName': '测试8', 'valueFrom': '测试数据8', 'value': '值8', 'description': '第8条数据' },
-            {'id': 9, 'guidApp': '柜面系统', 'groupName': '测试9', 'keyName': '测试9', 'valueFrom': '测试数据9', 'value': '值9', 'description': '第9条数据' },
-        ];
+            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
+            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
+            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
+            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
+            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
+        ];*/
+        // 如果改成从服务请求的 就拿不到
+        this.page = {
+            page: {
+                current : this.system.pi,
+                size: this.system.size,
+            }
+        };
+       this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
+           .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    for ( let i = 0; i < val.result.records.length; i++) {
+                        this.data.push(val.result.records[i]);
+                    }
+                    this.data = val.result.records;
+                    this.total = val.result.total;
+
+                }
+            );
     }
 
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
-        console.log(this.system);
-
         if (event === '这里是新增的方法') {
+            for (const key in this.sysAdd) {
+                delete this.sysAdd[key];
+            }
+
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+            this.isEdit = false;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
-            console.log(event)
+            this.sysAdd = event;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+            this.isEdit = true;
         }
     }
 
     // 列表传入的翻页数据
     monitorHandler(event) {
         this.system.pi = event;
-        // 当翻页的时候，重新请求后台，然后把数据重新渲染
-        this.data = [
-            {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
-            {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
-            {'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
-            {'id': 4,  'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
-            {'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' }
-        ];
-
+        this.page = {
+            page: {
+                current : event, // 页码
+                size: 10, //  每页个数
+            }
+        };
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.data = val.result.records; // 绑定数据给子组件
+                    this.total = val.result.total;
+                }
+            );
     }
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event)
-        this.data = [
-            {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
-            {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' }
-        ];
+        console.log(event);
+        console.log(event[0].guid);
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysConfigsDel + '/' + event[0].guid )
+            .subscribe(
+                (val) => {
+                   this.getData();
+                },
+                response => {
+                    // 如果数据不正确，则在这里给初始数据
+                    this.data = [];
+                });
     }
-
 
     // 列表按钮方法
     buttonDataHandler(event) {
@@ -150,34 +182,14 @@ export class SystemComponent implements OnInit {
     // 处理行为代码，跳转、弹出框、其他交互
     isActive(event) {
         console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
-
-
         // 路由跳转
         this.router.navigate(['APPlication'],{ queryParams: { name: event } });
     }
 
 
     selectedRow(event) { // 选中方法，折叠层按钮显示方法
-        console.log(event);
-      /*  if (event[0].empType === '在职') {
-            this.moreData.buttons = [
-                {key: 'Departure' , value: '离职'},
-                {key: 'Overview' , value: '查看概况'},
-                {key: 'orgsettings' , value: '组织机构设置'},
-                {key: 'operator' , value: '操作员修改'},
-            ];
-        }
 
-        if (event[0].empType === '在招') {
-            this.moreData.buttons = [
-                {key: 'Departure' , value: '入职'},
-                {key: 'Overview' , value: '查看概况'},
-                {key: 'orgsettings' , value: '组织机构设置'},
-                {key: 'operator' , value: '操作员修改'},
-            ];
-        }*/
     }
-
 
 
     // 搜索框
@@ -200,7 +212,6 @@ export class SystemComponent implements OnInit {
         if (i !== null) {
             this.isshow = true;
             this.sysAdd.value = null
-
             if ( i === 'busType') {
                 this.value = [
                     { text: '改变值', value: false,  key: 'G' },
@@ -217,33 +228,33 @@ export class SystemComponent implements OnInit {
         } else {
             this.isshow = false;
         }
-
-
-
-
     }
-
-
 
 
     // 弹出框保存组件
     save() {
-        console.log(this.sysAdd);
-        // 添加了两条数据
-        this.data = [
-            {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
-            {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
-            {'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
-            {'id': 4,  'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
-            {'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 7,  'guidApp': 'ABF', 'groupName': '测试7', 'keyName': '测试7', 'valueFrom': '测试数据7', 'value': '值7', 'description': '第7条数据' },
-            {'id': 8,  'guidApp': 'ABF', 'groupName': '测试8', 'keyName': '测试8', 'valueFrom': '测试数据8', 'value': '值8', 'description': '第8条数据' },
-            {'id': 9, 'guidApp': '柜面系统', 'groupName': '测试9', 'keyName': '测试9', 'valueFrom': '测试数据9', 'value': '值9', 'description': '第9条数据' },
-            {'id': 10, 'guidApp': '柜面系统', 'groupName': '测试10', 'keyName': '测试10', 'valueFrom': '测试数据10', 'value': '值10', 'description': '第10条数据' },
-            {'id': 11, 'guidApp': '柜面系统', 'groupName': '测试11', 'keyName': '测试11', 'valueFrom': '测试数据11', 'value': '值11', 'description': '第11条数据' },
-            {'id': 12, 'guidApp': '柜面系统', 'groupName': '测试12', 'keyName': '测试12', 'valueFrom': '测试数据12', 'value': '值12', 'description': '第12条数据' },
-        ]; // 有效
+        const jsonOption = this.sysAdd;
+        if (!this.isEdit) {
+            this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigAdd, jsonOption)
+                .subscribe(
+                    (val) => {
+                        this.getData();
+                    },
+                    response => {
+                        this.getData();
+                    });
+        } else {
+            console.log('修改成功')
+            this.utilityService.putData(appConfig.testUrl + appConfig.API.sysConFigs, jsonOption)
+                .subscribe(
+                    (val) => {
+                        this.getData();
+                    },
+                    response => {
+                        this.getData();
+                    });
+        }
+
         this.modalVisible = false;
     }
 }

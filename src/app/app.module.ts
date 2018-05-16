@@ -59,7 +59,6 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         LayoutModule,
         RoutesModule,
         TreeModule,
-
         // i18n
         TranslateModule.forRoot({
             loader: {
@@ -86,7 +85,6 @@ export function StartupServiceFactory(startupService: StartupService): Function 
     ],
     providers: [
         { provide: LOCALE_ID, useValue: 'zh-Hans'},
-        { provide: 'urlConfig', useValue: 'http://localhost:3000' },
         { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
         { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },

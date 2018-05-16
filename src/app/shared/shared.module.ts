@@ -21,6 +21,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { NzSchemaFormModule } from 'nz-schema-form';
+
 const THIRDMODULES = [
     CountdownModule,
     UEditorModule,
@@ -29,8 +30,6 @@ const THIRDMODULES = [
     TreeModule,
     ContextMenuModule,
     CardModule,
-
-
 ];
 // endregion
 
