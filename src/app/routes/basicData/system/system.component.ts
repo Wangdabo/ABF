@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {Router} from '@angular/router';
-import {UtilityService} from '../../../service/utils.service';
+import { Router } from '@angular/router';
+import { UtilityService } from '../../../service/utils.service';
 import { SystemModule } from '../../../service/system';
-import {appConfig} from '../../../service/common';
+import { appConfig } from '../../../service/common';
 
 @Component({
-  selector: 'app-system',
-  templateUrl: './system.component.html',
-  styleUrls: ['./system.component.less']
+    selector: 'app-system',
+    templateUrl: './system.component.html',
+    styleUrls: ['./system.component.less']
 })
 export class SystemComponent implements OnInit {
 
@@ -20,7 +20,6 @@ export class SystemComponent implements OnInit {
 
     }
 
-
     system: SystemModule = new SystemModule(); // 搜索值
 
     sysAdd: SystemModule = new SystemModule(); // 新增内容
@@ -31,41 +30,42 @@ export class SystemComponent implements OnInit {
     // 应用
     guidApp = [
         { text: 'APF应用', value: false, key: 'ABF' },
-        { text: '测试应用', value: false,  key: 'TEST' },
+        { text: '测试应用', value: false, key: 'TEST' },
     ];
     // 值来源类型:
     valueFrom = [
-        { text: '手动输入', value: false,  key: 'H' },
-        { text: '业务类型', value: false,  key: 'busType' },
-        { text: '接触方式', value: false,  key: 'contactMethod' },
-        { text: '交易状态', value: false,  key: 'tradingStatus' },
-        { text: '操作行为类型', value: false,  key: 'operational' },
-        { text: '服务评价', value: false,  key: 'serAting' },
-        { text: '服务类型', value: false,  key: 'serType' },
+        { text: '手动输入', value: false, key: 'H' },
+        { text: '业务类型', value: false, key: 'busType' },
+        { text: '接触方式', value: false, key: 'contactMethod' },
+        { text: '交易状态', value: false, key: 'tradingStatus' },
+        { text: '操作行为类型', value: false, key: 'operational' },
+        { text: '服务评价', value: false, key: 'serAting' },
+        { text: '服务类型', value: false, key: 'serType' },
     ];
 
     // 参数值
     value = [
-        { text: '选择值', value: false,  key: 'P' },
-        { text: '操作值', value: false,  key: 'D' },
-        { text: '内容值', value: false,  key: 'S' }
+        { text: '选择值', value: false, key: 'P' },
+        { text: '操作值', value: false, key: 'D' },
+        { text: '内容值', value: false, key: 'S' }
     ]
 
     modalVisible = false;
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
-        {value: '应用系统', key: 'guidApp',  isclick: false},
-        {value: '参数组别' , key: 'groupName', isclick: false},
-        {value: '参数键', key: 'keyName',  isclick:  false},
-        {value: '值来源' , key: 'valueFrom', isclick: false},
-        {value: '参数值' , key: 'value', isclick: false},
-        {value: '参数描述' , key: 'description', isclick: false},
+        { value: '应用系统', key: 'guidApp', isclick: false },
+        { value: '参数组别', key: 'groupName', isclick: false },
+        { value: '参数键', key: 'keyName', isclick: false },
+        { value: '值来源', key: 'valueFrom', isclick: false },
+        { value: '参数值', key: 'value', isclick: false },
+        { value: '参数描述', key: 'description', isclick: false },
     ];
 
-    moreData = { morebutton: true,
+    moreData = {
+        morebutton: true,
         buttons: [
-            {key: 'Overview' , value: '查看概况'}
+            { key: 'Overview', value: '查看概况' }
         ]
     }
     test: string;
@@ -78,32 +78,17 @@ export class SystemComponent implements OnInit {
 
     // 父组件初始化数据
     getData() { // 初始化请求后台数据
-        //  如果我不请求  直接写死的话 子组件是能够拿到的
-        /*this.data = [
-            {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
-            {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
-            {'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
-            {'id': 4,  'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
-            {'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' },
-        ];*/
-        // 如果改成从服务请求的 就拿不到
         this.page = {
             page: {
-                current : this.system.pi,
+                current: this.system.pi,
                 size: this.system.size,
             }
         };
-       this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
-           .map(res => res.json())
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
+            .map(res => res.json())
             .subscribe(
                 (val) => {
-                    for ( let i = 0; i < val.result.records.length; i++) {
+                    for (let i = 0; i < val.result.records.length; i++) {
                         this.data.push(val.result.records[i]);
                     }
                     this.data = val.result.records;
@@ -135,28 +120,20 @@ export class SystemComponent implements OnInit {
         this.system.pi = event;
         this.page = {
             page: {
-                current : event, // 页码
-                size: 10, //  每页个数
+                current: event, // 页码
+                size: this.system.size, //  每页个数
             }
         };
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
-            .map(res => res.json())
-            .subscribe(
-                (val) => {
-                    this.data = val.result.records; // 绑定数据给子组件
-                    this.total = val.result.total;
-                }
-            );
+        this.getData();
     }
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event);
-        console.log(event[0].guid);
-        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysConfigsDel + '/' + event[0].guid )
+        console.log(event)
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysConfigsDel + '/' + event[0].guid)
             .subscribe(
                 (val) => {
-                   this.getData();
+                    this.getData();
                 },
                 response => {
                     // 如果数据不正确，则在这里给初始数据
@@ -167,11 +144,11 @@ export class SystemComponent implements OnInit {
     // 列表按钮方法
     buttonDataHandler(event) {
         console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
-        if (event.value ===  'Authority') {
+        if (event.value === 'Authority') {
             console.log(event.key);
         }
 
-        if (event.value ===  'Overview') {
+        if (event.value === 'Overview') {
             console.log(event.key);
         }
 
@@ -183,7 +160,7 @@ export class SystemComponent implements OnInit {
     isActive(event) {
         console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
         // 路由跳转
-        this.router.navigate(['APPlication'],{ queryParams: { name: event } });
+        this.router.navigate(['APPlication'], { queryParams: { name: event } });
     }
 
 
@@ -197,12 +174,12 @@ export class SystemComponent implements OnInit {
         console.log(this.system)
         // 把搜索值传给后台，后台数据重新传给子组件
         this.data = [
-            {'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据'},
-            {'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
-            {'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
-            {'id': 4,  'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
-            {'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
-            {'id': 6,  'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' }
+            { 'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据' },
+            { 'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
+            { 'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
+            { 'id': 4, 'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
+            { 'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
+            { 'id': 6, 'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' }
         ]; // 有效
     }
 
@@ -212,17 +189,17 @@ export class SystemComponent implements OnInit {
         if (i !== null) {
             this.isshow = true;
             this.sysAdd.value = null
-            if ( i === 'busType') {
+            if (i === 'busType') {
                 this.value = [
-                    { text: '改变值', value: false,  key: 'G' },
-                    { text: '座位置', value: false,  key: 'P' }
+                    { text: '改变值', value: false, key: 'G' },
+                    { text: '座位置', value: false, key: 'P' }
                 ];
             }
 
-            if ( i === 'serAting') {
+            if (i === 'serAting') {
                 this.value = [
-                    { text: '好评', value: false,  key: 'H' },
-                    { text: '差评', value: false,  key: 'S' },
+                    { text: '好评', value: false, key: 'H' },
+                    { text: '差评', value: false, key: 'S' },
                 ];
             }
         } else {
@@ -244,7 +221,6 @@ export class SystemComponent implements OnInit {
                         this.getData();
                     });
         } else {
-            console.log('修改成功')
             this.utilityService.putData(appConfig.testUrl + appConfig.API.sysConFigs, jsonOption)
                 .subscribe(
                     (val) => {

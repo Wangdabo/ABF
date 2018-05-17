@@ -8,10 +8,14 @@ export let appConfig = {
         treeData: 'treeData',
         listData: 'listData',
         orgTreeData: 'orgTreeData',
+        // 系统运行参数
         sysConfigAdd: '/sysConfigs/add', // 新增系统参数
         sysConfigsList: '/sysConfigs/list', // 查询系统参数
         sysConFigs: '/sysConfigs', // 修改系统参数
         sysConfigsDel: '/sysConfigs', // 修改系统参数
+
+        // 业务字典
+        sysDictList:'/sysDicts/list'
 
     }
 }

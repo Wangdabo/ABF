@@ -1,18 +1,16 @@
 import {
-    Component, OnInit, EventEmitter, Output, Input, SimpleChanges, OnChanges, DoCheck,
+    Component, OnInit, EventEmitter, Output, Input, SimpleChanges, OnChanges, DoCheck, ViewChild,
 } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import {NzMessageService} from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
+    selector: 'app-list',
+    templateUrl: './list.component.html',
     styleUrls: ['./list.component.less']
 })
-export class ListComponent implements OnInit, OnChanges {
-// export class ListComponent implements OnInit {
-
+export class ListComponent implements OnInit {
     q: any = { // 定义一个对象
         pi: 1, // 页数
         ps: 10, // 每业个数
@@ -20,6 +18,10 @@ export class ListComponent implements OnInit, OnChanges {
         status: null,
         statusList: []
     };
+
+    // 拿到table的实例，获取table的方法和属性
+    @ViewChild('nzTable')
+    table: ListComponent
 
     loading = false;
     selectedRows: any[] = [];
@@ -75,29 +77,8 @@ export class ListComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.headerDate = this.headerDate;
         this.moreData = this.moreData; // 绑定更多数据
-        this.getData();
     }
 
-    ngOnChanges (changes: SimpleChanges): void { // 监听 当组件发生改变的时候，初始化数据
-        this.getData();
-
-    }
-
-    // 初始化数据方法
-    getData() {
-        console.log(this.initDate)
-           /* const timer = setInterval(() => {
-                console.log('只执行一次')
-                this.data = this.initDate;
-                this.total = this.total;
-                console.log(this.total);
-                clearInterval(timer);
-            }, 2000);*/
-
-        this.data = this.initDate;
-        this.total = this.total;
-
-    }
 
 
     // 打开模态框方法,点击之后应该往外部发射事件，告诉父组件点击了这个按钮
@@ -122,7 +103,7 @@ export class ListComponent implements OnInit, OnChanges {
     // 移除数据方法
     remove() {
         this.deleatData.emit(this.selectedRows); // 把要删除的内容发射给父组件
-        this.getData();
+        // this.getData();
         this.clear();
     }
 
@@ -140,45 +121,52 @@ export class ListComponent implements OnInit, OnChanges {
     clear() {
         this.selectedRows = [];
         this.totalCallNo = 0;
-        this.data.forEach(i => i.checked = false);
+        // this.data.forEach(i => i.checked = false);
+        // this.allChecked = false; // 不在全选
+        this.initDate.forEach(i => i.checked = false);
         this.refreshStatus();
     }
 
 
     //  全选方法
     checkAll(value: boolean) {
-        this.curRows.forEach(i => {
+        // 因为dataChange方法无效，直接使用table的实例和属性，拿到整页的数据，也可以使用initDate，不过这个更直接
+        this.table.data.forEach(i => {
             if (!i.disabled) i.checked = value;
         });
         this.refreshStatus();
     }
 
+
     // 全选方法底层方法
     refreshStatus() {
-        const allChecked = this.curRows.every(value => value.disabled || value.checked);
-        const allUnChecked = this.curRows.every(value => value.disabled || !value.checked);
+       /* const allChecked = this.curRows.every(value => value.disabled || value.checked);
+        const allUnChecked = this.curRows.every(value => value.disabled || !value.checked);*/
+        const allChecked = this.initDate.every(value => value.disabled || value.checked);
+        const allUnChecked = this.initDate.every(value => value.disabled || !value.checked);
         this.allChecked = allChecked;
         this.indeterminate = (!allChecked) && (!allUnChecked);
-        this.selectedRows = this.data.filter(value => value.checked);
+        this.selectedRows = this.initDate.filter(value => value.checked);
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
-
         const obj = {
             indeterminate: this.indeterminate,
             selectedRows: this.selectedRows,
         }
-
-        if (this.selectedRows.length < 2 ) {
-            this.selectedRow.emit( obj ); // 把是否旋转和选中的内容传出去
+        if (this.selectedRows.length < 2) {
+            this.selectedRow.emit(obj); // 把是否旋转和选中的内容传出去
         }
 
     }
 
+
     // 翻页方法
     pageChange(pi: number): Promise<any> {
-        console.log(pi);
         this.q.pi = pi;
         this.loading = true;
-        this.pageNumber.emit(this.q.pi); // 发射出去，把当前的页数发射出去
+        this.allChecked = false; // 全选干掉
+        this.selectedRows = []; // 数据清空
+        this.indeterminate = false; // 单选也清空
+        this.pageNumber.emit(pi); // 发射出去，把当前的页数发射出去
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.loading = false;
@@ -191,7 +179,7 @@ export class ListComponent implements OnInit, OnChanges {
     // 重置方法
     reset(ls: any[]) {
         for (const item of ls) item.value = false;
-        this.getData();
+        // this.getData();
     }
 
 }

@@ -1,4 +1,4 @@
-import {Component, Inject, Injectable, OnInit} from '@angular/core';
+import {Component, Inject, Injectable, OnInit, ViewChild} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { DictModule } from '../../../service/dict';
 import { DictItemModule } from '../../../service/dict';
@@ -7,6 +7,7 @@ import {UtilityService} from '../../../service/utils.service';
 import {MenuItem} from 'primeng/api';
 import {NzModalService} from 'ng-zorro-antd';
 import {appConfig} from '../../../service/common';
+
 
 @Component({
   selector: 'app-dict',
@@ -27,6 +28,7 @@ export class DictComponent implements OnInit {
     ) {
 
     }
+
 
 
     dict: DictModule = new DictModule(); // 绑定数据
@@ -186,7 +188,6 @@ export class DictComponent implements OnInit {
         this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
             .subscribe(
                 (val) => {
-                    console.log(val); // 后台传给我的数组
                     this.data = val; // 绑定列表数据
                 },
                 response => {
