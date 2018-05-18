@@ -28,9 +28,6 @@ export class DictComponent implements OnInit {
     ) {
 
     }
-
-
-
     dict: DictModule = new DictModule(); // 绑定数据
 
     dictAdd: DictModule = new DictModule(); // 绑定新增数据

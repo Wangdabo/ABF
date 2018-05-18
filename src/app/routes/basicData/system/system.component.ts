@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UtilityService } from '../../../service/utils.service';
 import { SystemModule } from '../../../service/system';
 import { appConfig } from '../../../service/common';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-system',
@@ -16,6 +17,8 @@ export class SystemComponent implements OnInit {
         private http: _HttpClient,
         private router: Router,
         private utilityService: UtilityService,
+        private modal: NzModalService,
+        private nznot: NzNotificationService
     ) {
 
     }
@@ -88,9 +91,6 @@ export class SystemComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    for (let i = 0; i < val.result.records.length; i++) {
-                        this.data.push(val.result.records[i]);
-                    }
                     this.data = val.result.records;
                     this.total = val.result.total;
 
@@ -105,7 +105,6 @@ export class SystemComponent implements OnInit {
             for (const key in this.sysAdd) {
                 delete this.sysAdd[key];
             }
-
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.isEdit = false;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
@@ -129,17 +128,31 @@ export class SystemComponent implements OnInit {
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event)
-        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysConfigsDel + '/' + event[0].guid)
-            .subscribe(
-                (val) => {
-                    this.getData();
-                },
-                response => {
-                    // 如果数据不正确，则在这里给初始数据
-                    this.data = [];
-                });
+        this.modal.open({
+            title: '是否删除',
+            content: '您是否确认删除所选数据?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysConfigsDel + '/' + event[0].guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getData();
+                        },
+                        response => {
+                            // 如果数据不正确，则在这里给初始数据
+                            this.data = [];
+                        });
+            },
+            onCancel: () => {
+                console.log('取消成功');
+            }
+        });
+
     }
+
 
     // 列表按钮方法
     buttonDataHandler(event) {
@@ -213,8 +226,10 @@ export class SystemComponent implements OnInit {
         const jsonOption = this.sysAdd;
         if (!this.isEdit) {
             this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigAdd, jsonOption)
+                .map(res => res.json())
                 .subscribe(
                     (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
                         this.getData();
                     },
                     response => {
@@ -222,8 +237,10 @@ export class SystemComponent implements OnInit {
                     });
         } else {
             this.utilityService.putData(appConfig.testUrl + appConfig.API.sysConFigs, jsonOption)
+                .map(res => res.json())
                 .subscribe(
                     (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
                         this.getData();
                     },
                     response => {
