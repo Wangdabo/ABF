@@ -46,14 +46,14 @@ export class UtilityService {
 
 
     // put 修改测试封装
-    putData(url: string, options: any): Observable<any> {
+
+    putData(url: string, options?: any): Observable<any> {
         return this.http.put(url, options);
     }
 
-
     // 删除封装
     deleatData(url: string, options?: any, myheaders?: any): Observable<any> {
-        return this.http.delete(url);
+        return this.http.delete(url, options);
     }
 
 

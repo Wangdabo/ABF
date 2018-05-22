@@ -74,7 +74,6 @@ export class SystemComponent implements OnInit {
     test: string;
     page: any;
     total: number;
-    index: number;
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
@@ -93,7 +92,6 @@ export class SystemComponent implements OnInit {
                 (val) => {
                     this.data = val.result.records;
                     this.total = val.result.total;
-
                 }
             );
     }
@@ -138,7 +136,8 @@ export class SystemComponent implements OnInit {
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-                            this.nznot.create('success', val.msg , val.msg);
+                            console.log(val)
+                            this.nznot.create('success', '状态码' + val.code + val.msg , val.msg);
                             this.getData();
                         },
                         response => {
@@ -184,16 +183,7 @@ export class SystemComponent implements OnInit {
 
     // 搜索框
     search() {
-        console.log(this.system)
-        // 把搜索值传给后台，后台数据重新传给子组件
-        this.data = [
-            { 'id': 1, 'guidApp': 'ABF', 'groupName': '测试', 'keyName': '测试1', 'valueFrom': '测试数据', 'value': '值1', 'description': '第一条数据' },
-            { 'id': 2, 'guidApp': '柜面系统', 'groupName': '测试2', 'keyName': '测试2', 'valueFrom': '测试数据2', 'value': '值2', 'description': '第二条数据' },
-            { 'id': 3, 'guidApp': 'ABF', 'groupName': '测试3', 'keyName': '测试3', 'valueFrom': '测试数据3', 'value': '值3', 'description': '第3条数据' },
-            { 'id': 4, 'guidApp': '柜面系统', 'groupName': '测试4', 'keyName': '测试4', 'valueFrom': '测试数据4', 'value': '值4', 'description': '第4条数据' },
-            { 'id': 5, 'guidApp': 'ABF', 'groupName': '测试5', 'keyName': '测试5', 'valueFrom': '测试数据5', 'value': '值5', 'description': '第5条数据' },
-            { 'id': 6, 'guidApp': '柜面系统', 'groupName': '测试6', 'keyName': '测试6', 'valueFrom': '测试数据6', 'value': '值6', 'description': '第6条数据' }
-        ]; // 有效
+        console.log(this.system); // 有效
     }
 
 

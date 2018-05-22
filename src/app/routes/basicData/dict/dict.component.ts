@@ -5,13 +5,13 @@ import { DictItemModule } from '../../../service/dict';
 import {Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 import {MenuItem} from 'primeng/api';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {appConfig} from '../../../service/common';
-
+import {ListComponent} from '../../../component/list/list.component';
 
 @Component({
-  selector: 'app-dict',
-  templateUrl: './dict.component.html',
+    selector: 'app-dict',
+    templateUrl: './dict.component.html',
     styleUrls: ['./dict.component.less']
 })
 
@@ -19,12 +19,20 @@ import {appConfig} from '../../../service/common';
 @Injectable()
 
 export class DictComponent implements OnInit {
-    private msg: any;
+    private msg: any
+
+
+    // 拿到table的实例，获取table的方法和属性
+    @ViewChild('list')
+    listTable: ListComponent;
+
+
     constructor(
         private http: _HttpClient,
         private router: Router,
         private utilityService: UtilityService,
         private modal: NzModalService,
+        private nznot: NzNotificationService
     ) {
 
     }
@@ -35,14 +43,14 @@ export class DictComponent implements OnInit {
     dictItemAdd: DictItemModule = new DictItemModule(); // 绑定业务字典项数据
 
     loading = false;
-    urlconfig: string = 'http://localhost:3000';
+    urlconfig:  string = 'http://localhost:3000';
     treeshow = false; // 是否显示树结构
 
     // fromType 字典项来源类型
     fromType = [
-        { text: '字典项', value: false, key: 'normal' },
-        { text: '来自单表', value: false, key: 'hang' },
-        { text: '多表或视图', value: false, key: 'logOut' }
+        { text: '字典项', value: false, key: '0' },
+        { text: '来自单表', value: false, key: '1' },
+        { text: '多表或视图', value: false, key: '2' }
     ];
 
     // itemType  字典项类型
@@ -115,6 +123,9 @@ export class DictComponent implements OnInit {
     treemenus: MenuItem[];
 
     searchTitle: string;
+    // 翻页和总数数据
+    page: any;
+    total: number;
 
     // 右击菜单数据
 
@@ -122,14 +133,10 @@ export class DictComponent implements OnInit {
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
-        this.dictAdd.fromType = 'normal'; // 弹出框默认选中
     }
 
     getData() { // 初始化请求后台数据
-
-        console.log(appConfig);
         this.searchTitle = '请输入业务字典名称';
-
         // 传入右击菜单数组,根据需求定
         this.treemenus = [
             {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
@@ -138,10 +145,19 @@ export class DictComponent implements OnInit {
             {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdictItem()},
         ];
 
+        this.page = {
+            page: {
+                current: this.dict.pi,
+                size: this.dict.size,
+            }
+        };
+
+
         // 调用服务获取树节点操作
         this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
             .subscribe(
                 (val) => {
+                    console.log(val)
                     this.treedata = val; // 绑定树节点
                 },
                 response => {
@@ -179,51 +195,38 @@ export class DictComponent implements OnInit {
                         },
                     ]; // 传入树节点数据
                 });
-
-
         // 调用服务来获取列表节点操作
-        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.sysDictList ,  this.page)
+            .map(res => res.json())
             .subscribe(
                 (val) => {
-                    this.data = val; // 绑定列表数据
-                },
-                response => {
-                    // 如果数据不正确，则在这里给初始数据
-                    this.data = [
-                        {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },
-                        {'id': 2, 'roleName': '赵春海', 'roleCode': 'role002', 'roleType': '应用级', 'application': '柜面系统' },
-                        {'id': 3, 'roleName': '王星名', 'roleCode': 'role003', 'roleType': '系统级', 'application': 'ABF' },
-                        {'id': 4, 'roleName': '李毅', 'roleCode': 'role004', 'roleType': '应用级', 'application': '柜面系统' },
-                        {'id': 5, 'roleName': '庄壮成', 'roleCode': 'role005', 'roleType': '系统级', 'application': 'ABF' },
-                        {'id': 6, 'roleName': '李俊华', 'roleCode': 'role006', 'roleType': '应用级', 'application': '柜面系统' },
-                        {'id': 7, 'roleName': '张三', 'roleCode': 'role007', 'roleType': '应用级', 'application': 'ABF' },
-                        {'id': 8, 'roleName': '李四', 'roleCode': 'role008', 'roleType': '应用级', 'application': 'ABF' },
-                        {'id': 9, 'roleName': '王五', 'roleCode': 'role008', 'roleType': '系统级', 'application': '柜面系统' },
-                    ]; // 传入树节点数据
+                    this.data = val.result.records; // 绑定列表数据
+                    this.total = val.result.total;
                 });
+
     }
 
 
     // 列表组件传过来的内容
     addHandler(event) {
         if (event === '这里是新增的方法') {
-            for (const key in this.dictAdd){
+            for (const key in this.dictAdd) {
                 delete this.dictAdd[key];
             }
-
+            this.dictAdd.fromType = '0'; // 弹出框默认选中
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.creatExit = true;
-
         } else { // 代表修改，把修改的内容传递进去，重新渲染
             console.log(event);
             this.dictAdd =  event;
             this.eventData = event;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+            this.creatExit = false;
         }
     }
 
     // 列表传入的翻页数据
-   monitorHandler(event) {
+    monitorHandler(event) {
         this.dict.pi = event;
     }
 
@@ -231,32 +234,34 @@ export class DictComponent implements OnInit {
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
         console.log(event); // 原本的数据值
-        // 删除各节点内容
-        this.utilityService.deleatData(appConfig.ABFUrl + '/' + appConfig.API.listData + event[0].id)
-            .subscribe(
-                (val) => {
-                    console.log(val);
-                    if (val.status === 200) {
-                        // 修改成功只和的处理逻辑
-                    }
-                },
-                response => {
-                },
-                () => {
-                    // 新增接口之后，在调用查询接口，查询最新的数据
-                    this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
-                        .subscribe(
-                            (val) => {
-                                console.log(val)
-                                this.data = val; // 绑定列表数据
-                            });
-                });
+        this.modal.open({
+            title: '是否删除',
+            content: '您是否确认删除所选数据?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysDictDel + '/' + event[0].guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getData();
+                        },
+                        response => {
+                            // 如果数据不正确，则在这里给初始数据
+                            this.data = [];
+                        });
+            },
+            onCancel: () => {
+                console.log('取消成功');
+            }
+        });
     }
 
 
     // 列表按钮方法
     buttonDataHandler(event) {
-
         console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
         if (event.value ===  'Authority') {
             console.log(event.key);
@@ -274,13 +279,14 @@ export class DictComponent implements OnInit {
     isActive(event) {
         console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
         // 路由跳转
-        this.router.navigate(['APPlication'],{ queryParams: { name: event } });
+        this.router.navigate(['APPlication'],  { queryParams: { name: event } });
     }
 
 
-
-    selectedRow(event) { // 选中方法，折叠层按钮显示方法
-        if (event.indeterminate) {
+    selectedRow(event) {
+        // 选中方法，折叠层按钮显示方法
+        // console.log(this.listTable.selectedRows)
+        if (event.selectedRows.length === 1) {
             this.treeshow = true;
         } else {
             this.treeshow = false;
@@ -301,41 +307,32 @@ export class DictComponent implements OnInit {
         ]; // 有效
     }
 
+
     // 弹出框保存组件
     save() {
         if (this.creatExit) { // 调用新增的逻辑
-            console.log(this.dictAdd);
             // 调用服务来获取列表节点操作
             const jsonOption = this.dictAdd;
-            console.log(jsonOption);
-            if (jsonOption.dictName !== undefined) {
-                this.utilityService.postData(appConfig.ABFUrl + '/' + appConfig.API.listData, jsonOption)
-                    .subscribe(
-                        (val) => {
-
-                            console.log(val);
-                        },
-                        response => {
-                        },
-                        () => {
-                            // 新增接口之后，在调用查询接口，查询最新的数据
-                            this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
-                                .subscribe(
-                                    (val) => {
-                                        this.treeshow = false;
-                                        this.data = val; // 绑定列表数据
-                                    });
-                        });
-
-            }else {
-                alert('请填写完成信息之后在进行提交');
+            console.log(jsonOption)
+            if (jsonOption.fromType === '0') {
+                jsonOption.fromType = 'DICT_ITEM'; // 测试，后台枚举值还没改 改好之后直接删掉即可
             }
+            this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictAdd, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        console.log(val);
+                    },
+                    response => {
+                    },
+                    () => {
+                    });
 
 
         } else { // 调用修改的逻辑
-              console.log(this.eventData.id)
-              const id  = this.eventData.id;
-              const jsonOption = this.dictAdd;
+            console.log(this.eventData.id)
+            const id  = this.eventData.id;
+            const jsonOption = this.dictAdd;
             this.utilityService.putData(appConfig.ABFUrl + '/' + appConfig.API.listData + id, jsonOption)
                 .subscribe(
                     (val) => {
@@ -352,7 +349,7 @@ export class DictComponent implements OnInit {
                         this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
                             .subscribe(
                                 (val) => {
-                                     this.data = val; // 绑定列表数据
+                                    this.data = val; // 绑定列表数据
                                 });
                     });
         }
@@ -396,7 +393,7 @@ export class DictComponent implements OnInit {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-               console.log('好的');
+                console.log('好的');
             },
             onCancel: () => {
                 console.log('失败');

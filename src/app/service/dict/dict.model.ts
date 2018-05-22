@@ -2,7 +2,7 @@ export class DictModule {
     // 当前页数
     public pi: 1;
     // 每业个数
-    public ps: 10;
+    public size: 10;
     // 字典项来源类型
     public fromType: any;
     // 业务字典类型

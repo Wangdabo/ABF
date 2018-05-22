@@ -22,6 +22,13 @@ export let appConfig = {
         sysDictDel: '/sysDicts',  // 删除业务字典，传对应guid
         sysDictqeury: '/sysDicts',  // 查询对应业务字典，传对应guid
 
+        // 应用管理
+        acappAdd: '/acApp/add', //  新增应用接口
+        appList: '/acApp/list', // 查询应用列表
+        openApp: '/acApp/openApp', // 开启应用 传对应guid
+        stopApp: '/acApp/stopApp', // 关闭应用 传对应guid
+        appDed: '/acApp', // 查询/修改/删除 应用详情 传对应guid
+
     }
 }
 

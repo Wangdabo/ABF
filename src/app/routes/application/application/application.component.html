@@ -1,5 +1,150 @@
-<div class="content__title">
-    <h1>Page Name</h1>
-</div>
-<pro-header [title]="'Page Name'"></pro-header>
+<pro-header></pro-header>
 
+<!--引入list组件-->
+<nz-card [nzBordered]="false">
+    <!--  form表单搜索 -->
+    <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+        <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>应用名称</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appItem.appName" name="appName" [nzSize]="'large'" [nzPlaceHolder]="'应用名称'" nzId="appName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>应用代码</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appItem.appCode" name="appCode" [nzSize]="'large'" [nzPlaceHolder]="'应用代码'" nzId="appCode"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col  [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>应用类型</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="appItem.appType" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'员工职级'" nzId="emprank">
+                            <nz-option  *ngFor="let i of emprank;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>是否开通</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="appItem.isOpen"  name="isOpen" [nzSize]="'large'" [nzPlaceHolder]="'是否开通'" nzId="isOpen">
+                            <nz-option  *ngFor="let i of isOpen;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col  [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>IP地址:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appItem.ipAddr" name="Ip" [nzSize]="'large'" [nzPlaceHolder]="'IP地址'" nzId="ipAddr"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
+                <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
+                <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <a (click)="expandForm=!expandForm">
+                    {{expandForm ? '收起' : '展开'}}
+                    <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+    <!--列表组件-->
+    <app-list #child [initDate]="data" (addCreat)="addHandler($event)" (buttonData)="buttonDataHandler($event)" (pageNumber)="monitorHandler($event)"
+              (deleatData)="deleatData($event)" (isActive)="isActive($event)" (buttonEvent)="buttonEvent($event)" (selectedRow)="selectedRow($event)" [headerDate]="headerData"
+              [moreData]="moreData" [total]="total"></app-list>
+</nz-card>
+
+<!-- 弹出框 -->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新增应用'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <!-- 主要信息 -->
+        <div *ngIf="!ifshow" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">应用名称:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.appName" name="appName" [nzSize]="'large'" [nzPlaceHolder]="'应用名称'" nzId="appName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">应用代码:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.appCode" name="appCode" [nzSize]="'large'" [nzPlaceHolder]="'应用代码'" nzId="appCode"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>应用类型:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="appAdd.appType"  name="appType" [nzSize]="'large'" [nzPlaceHolder]="'应用类型'" nzId="appType">
+                            <nz-option  *ngFor="let i of appType;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>是否开通:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%"  [nzDisabled]="true" [nzFilter]="true" [(ngModel)]="appAdd.isOpen" name="isOpen"  [nzSize]="'large'" [nzPlaceHolder]="'是否开通'" nzId="isOpen">
+                            <nz-option  *ngFor="let i of isOpen;"  disabled [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">IP地址:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.ipAddr" name="Ip" [nzSize]="'large'" [nzPlaceHolder]="'ip地址'" nzId="ipAddr"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">访问地址:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.url" name="url" [nzSize]="'large'" [nzPlaceHolder]="'访问地址'" nzId="url"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">端口:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.ipPort" name="ipPort" [nzSize]="'large'" [nzPlaceHolder]="'端口'" nzId="ipPort"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="24" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment">
+                        <label for="no">应用描述:</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="appAdd.appDesc" nzAutosize=true nzType="textarea" name="appDesc" [nzSize]="'large'" [nzPlaceHolder]="'应用描述'"
+                                  nzId="appDesc"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ng-template>
+</nz-modal>

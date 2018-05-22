@@ -21,7 +21,8 @@ export class ListComponent implements OnInit {
 
     // 拿到table的实例，获取table的方法和属性
     @ViewChild('nzTable')
-    table: ListComponent
+    table: ListComponent;
+
 
     loading = false;
     selectedRows: any[] = [];
@@ -45,7 +46,6 @@ export class ListComponent implements OnInit {
     @Input() // 输入属性,数据总条数
     total: number;
 
-
     data: any[] = [];
 
     @Output()
@@ -66,6 +66,8 @@ export class ListComponent implements OnInit {
     @Output()
     selectedRow: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
 
+    @Output()
+    buttonEvent: EventEmitter<any> = new EventEmitter(); // 定义一个输出属性，按钮点击事件，非必选
 
     constructor(
         private http: _HttpClient,
@@ -88,9 +90,11 @@ export class ListComponent implements OnInit {
         } else {
             this.addCreat.emit('这里是新增的方法'); // 点击新增了，把事件发给父组件
         }
-
     }
 
+    buttonClick(event) {
+        this.buttonEvent.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
+    }
 
     // 点击事件方法
     isClick(d, i) {
@@ -113,7 +117,6 @@ export class ListComponent implements OnInit {
             key: this.selectedRows[0],
             value: event
         };
-
         this.buttonData.emit(obj); // 把要删除的内容发射给父组件
     }
 
@@ -121,8 +124,6 @@ export class ListComponent implements OnInit {
     clear() {
         this.selectedRows = [];
         this.totalCallNo = 0;
-        // this.data.forEach(i => i.checked = false);
-        // this.allChecked = false; // 不在全选
         this.initDate.forEach(i => i.checked = false);
         this.refreshStatus();
     }
@@ -152,10 +153,7 @@ export class ListComponent implements OnInit {
             indeterminate: this.indeterminate,
             selectedRows: this.selectedRows,
         }
-        if (this.selectedRows.length < 2) {
-            this.selectedRow.emit(obj); // 把是否旋转和选中的内容传出去
-        }
-
+        this.selectedRow.emit(obj); // 把是否旋转和选中的内容传出去
     }
 
 
