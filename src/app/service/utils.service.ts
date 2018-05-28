@@ -6,7 +6,6 @@ import 'rxjs/Rx';
 @Injectable()
 export class UtilityService {
     constructor(private http: Http) { }
-
     /**
      * @param {string} url地址
      * @param {any} [options]可选提交的参数
@@ -46,7 +45,6 @@ export class UtilityService {
 
 
     // put 修改测试封装
-
     putData(url: string, options?: any): Observable<any> {
         return this.http.put(url, options);
     }

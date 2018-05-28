@@ -36,6 +36,13 @@ export let appConfig = {
         openFun: '/acFunc/oepnFunc', // 启用功能
         closeFun: '/acFunc/closeunc', // 启用功能
 
+        // 行为管理
+        acFuncAttr: '/acFuncAttr/add', // 新增功能接口
+        acFuncList: '/acFuncAttr/list', // 查询行为接口
+        acFuncDel: '/acFuncAttr/' , // 删除行为接口(deleat)
+        acFuncPut: '/acFuncAttr/' , // 修改行为接口(deleat)
+        acFunLists: '/acFuncAttr/detailList'
+
     }
 }
 

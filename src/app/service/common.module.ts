@@ -59,7 +59,7 @@ export class FuncModule {
     public isopen: any;
 
     // 是否验证权限
-    public  isCheck: any;
+    public  ischeck: any;
 
     // 父功能
     public  guidFunc: string;
@@ -76,16 +76,12 @@ export class FuncattrModule {
     public size: number = 10;
     // 对应功能
     public  guidFunc: string;
-
     // 属性类型
     public  attrType: any;
-
     // 属性名
     public attrKey: string;
-
     // 属性值
     public  attrValue: string;
-
     // 备注
     public  memo: string;
 

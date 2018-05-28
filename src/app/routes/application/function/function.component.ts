@@ -7,7 +7,7 @@ import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {appConfig} from '../../../service/common';
 import {AppliaModule} from '../../../service/common.module';
 import {FuncModule} from '../../../service/common.module';
-import {TreeNode} from 'primeng/api';
+import {FuncattrModule} from '../../../service/common.module';
 
 @Component({
   selector: 'app-function',
@@ -15,8 +15,8 @@ import {TreeNode} from 'primeng/api';
     styleUrls: ['./function.component.less']
 })
 export class FunctionComponent implements OnInit {
-
     appGuid: any;
+    funGuid: string;
     appName: string;
     modalVisible  = false; // 弹出框默认不打开
     activeModal = false; // 默认列表弹出框不打开
@@ -32,7 +32,7 @@ export class FunctionComponent implements OnInit {
         { value: '功能名称', key: 'funcName', isclick: false },
         { value: '功能类型', key: 'funcType', isclick: false },
         { value: '是否启用', key: 'isopen', isclick: false },
-        { value: '是否验证权限', key: 'isCheck', isclick: false },
+        { value: '是否验证权限', key: 'ischeck', isclick: false },
         { value: '显示顺序', key: 'displayOrder', isclick: false },
         { value: '功能描述', key: 'funcDesc', isclick: false },
     ];
@@ -59,18 +59,20 @@ export class FunctionComponent implements OnInit {
 
     // 是否启用
     isOpen = [
-        { key: 'Y', value: '开启' },
-        { key: 'N', value: '关闭' }
+        { key: 'YES', value: '开启' },
+        { key: 'NO', value: '关闭' }
     ]
 
     isCheck = [
-        { key: 'Y', value: '需进行权限验证' },
-        { key: 'N', value: '无需验权' }
+        { key: 'YES', value: '需进行权限验证' },
+        { key: 'NO', value: '无需验权' }
     ]
     // 应用的数据值
     appItem: AppliaModule = new AppliaModule(); // 搜索值
     // 功能的数据值
     funcItem: FuncModule = new FuncModule();
+    // 行为的数据类型
+    activeItem: FuncattrModule = new FuncattrModule();
 
     constructor(
         private http: _HttpClient,
@@ -84,11 +86,11 @@ export class FunctionComponent implements OnInit {
 
     // 列表的方法
     addHandler(event) {
-        console.log(event)
+
+        setTimeout(_ => {
+            this.funcItem.funcType = 'F';
+        }, 100);
         if (event === '这里是新增的方法') {
-            setTimeout(_ => {
-                this.funcItem.funcType = 'F';
-            }, 100);
             this.funTitle = '新增功能';
             for (const key in this.funcItem) {
                 delete this.funcItem[key];
@@ -118,7 +120,6 @@ export class FunctionComponent implements OnInit {
 
     // 接受子组件删除的数据 单条还是多条
     deleatData(event) {
-        console.log(event);
         this.modal.open({
             title: '是否删除',
             content: '您是否确认删除所选数据?',
@@ -127,11 +128,12 @@ export class FunctionComponent implements OnInit {
             onOk: () => {
                 // 模拟接口
                 this.utilityService.deleatData(appConfig.testUrl + appConfig.API.funcDel + '/' + event[0].guid)
+                    .map(res => res.json())
                     .subscribe(
                         (val) => {
-                            if (val.status === 200) {
-                                // 修改成功只和的处理逻辑
-                            }
+                            // 修改成功只和的处理逻辑
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getData();
                         });
             },
             onCancel: () => {
@@ -144,12 +146,14 @@ export class FunctionComponent implements OnInit {
 
     // 按钮点击事件
     buttonEvent(event) {
+        this.funGuid = event.guid;
+        this.attrDate(); // 查询行为列表
         this.activeModal = true;
     }
+
     // 列表按钮方法
     buttonDataHandler(event) {
         console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
-
     }
 
 
@@ -171,17 +175,15 @@ export class FunctionComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.appGuid = queryParams.productId;
         });
-
         this.getData();
-
     }
 
     // 根据id查询内容
-    getData() { // 初始化请求后台数据
+    getData() {
+        // 初始化请求后台数据
         // 根据guid查询应用信息
         this.utilityService.getData(appConfig.testUrl + appConfig.API.appDed + '/' + this.appGuid)
             .subscribe(
@@ -199,28 +201,18 @@ export class FunctionComponent implements OnInit {
                 size: this.funcItem.size,
             }
         };
-
         this.utilityService.postData(appConfig.testUrl + appConfig.API.funcList, this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    for (let i = 0; i < val.result.records.length; i++ ) {
+                        val.result.records[i].buttonData = [];
+                        val.result.records[i].buttonData[0] = '查看行为';
+                    }
                     this.data = val.result.records;
                     this.total = val.result.total;
                 }
             );
-
-        // 模拟请求
-       /* this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
-            .subscribe(
-                (val) => {
-                    for (let i = 0; i < val.length; i++ ) {
-                        val[i].buttonData = [];
-                        val[i].buttonData[0] = '查看行为';
-                    }
-                    this.data = val;
-                    this.total = 10;
-                }
-            );*/
     }
 
     // 保存方法
@@ -229,13 +221,15 @@ export class FunctionComponent implements OnInit {
         if (!this.isEdit) {  // 新增的业务逻辑
             this.funcItem.guidApp = this.appGuid;
             this.utilityService.postData(appConfig.testUrl + appConfig.API.funcAdd, jsonObj)
+                .map(res => res.json())
                 .subscribe(
                     (val) => {
-                        console.log(val);
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getData();
                     }
                 );
-            // 模拟新增
-        } else {    // 修改的保存逻辑
+        } else {
+            // 修改的保存逻辑
             this.utilityService.putData(appConfig.testUrl + appConfig.API.funcDel, jsonObj)
                 .map(res => res.json())
                 .subscribe(
@@ -252,19 +246,125 @@ export class FunctionComponent implements OnInit {
     }
 
 
-
+    // 行为方法内容
+    acfundata: any[] = []; // 表格数据
     // 弹窗功能行为
     activeData = [  // 配置表头内容
-        { value: '行为代码', key: 'funcCode', isclick: false },
-        { value: '行为名称', key: 'funcName', isclick: false },
-        { value: '行为类型', key: 'funcType', isclick: false },
-        { value: '属性', key: 'isopen', isclick: false }
+        { value: '属性类型', key: 'attrType', isclick: false },
+        { value: '属性名', key: 'attrKey', isclick: false },
+        { value: '属性值', key: 'attrValue', isclick: false },
+        { value: '备注', key: 'memo', isclick: false }
     ];
+    activeTitle: string; // 列表标题
+    ActriceData = {
+        morebutton: true,
+        buttons: [
+            { key: 'Overview', value: '行为概况' }
+        ]
+    }
+
+    attrDate = function () {
+    // 查询功能列表信息
+        this.page = {
+            page: {
+                current: this.activeItem.pi,
+                size: this.activeItem.size,
+            }
+        };
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.acFuncList, this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.acfundata = val.result.records;
+                    this.total = val.result.total;
+                }
+            );
+    }
+
+    // 行为弹框新增方法
+    addActives(event) {
+        console.log(this.funGuid)
+        setTimeout(_ => {
+            this.activeItem.attrType = 'F';
+        }, 100);
+        if (event === '这里是新增的方法') {
+            this.activeTitle = '新增行为';
+            for (const key in this.activeItem) {
+                delete this.activeItem[key];
+            }
+            this.isEdit = false;
+        } else { // 代表修改，把修改的内容传递进去，重新渲染
+            this.activeTitle = '修改行为';
+            this.isEdit = true;
+            this.activeItem = event;
+        }
+        this.activeModal = false;
+        this.activeAddModal = true;  // 此时点击了列表组件的新增，打开模态框
+    }
+
+    // 列表取消方法
+    acTiveCancel() {
+
+        this.activeAddModal = false;  // 关闭行为新增弹窗
+        this.activeModal = true;    // 打开行为列表弹窗
+
+    }
 
     // 行为保存方法
     activeSave() {
-        // this.activeModal = false;
-        this.activeAddModal = true;
+        const jsonObj = this.activeItem;
+        jsonObj.guidFunc = this.funGuid;
+        if (!this.isEdit) {  // 新增的业务逻辑
+            this.funcItem.guidApp = this.appGuid;
+            this.utilityService.postData(appConfig.testUrl + appConfig.API.acFuncAttr, jsonObj)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.attrDate(); // 查询行为列表;
+                    }
+                );
+        } else {
+            // 修改的保存逻辑
+            this.utilityService.putData(appConfig.testUrl + appConfig.API.acFuncPut, jsonObj)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.attrDate(); // 查询行为列表;
+                    });
+        }
+
+        this.activeAddModal = false;
+        this.activeModal = true;
     }
+
+
+    // 列表弹窗删除方法
+    deleatActiveData(event) {
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.acFuncDel + '/' + event[0].guid)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    // 修改成功只和的处理逻辑
+                    this.nznot.create('success', val.msg , val.msg);
+                    this.attrDate(); // 查询行为列表;
+                });
+    }
+
+
+    // 列表翻页方法
+    activeHandler(event) {
+        this.activeItem.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.activeItem.size, //  每页个数
+            }
+        };
+        console.log(this.page)
+        this.attrDate();
+    }
+
 
 }

@@ -74,85 +74,34 @@
     }
   ],
   "listData": [
-    {
-      "funcCode": "func0001",
-      "funcName": "序号数重置方式",
-      "funcType": "F",
-      "isopen": "Y",
-      "displayOrder": 1,
-      "id": 1,
-       "isCheck": "N",
-      "funcDesc": "这是第一条数据"
-    },
-    {
-      "funcCode": "func0002",
-      "funcName": "权限资源类型",
-      "funcType": "F",
-      "isopen": "Y",
-      "id": 2,
-       "isCheck": "N",
-      "displayOrder": 2,
-      "funcDesc": "这是第二条数据"
-    },
-    {
-      "funcCode": "func0003",
-      "displayOrder": 3,
-      "funcName": "操作员状态",
-      "funcType": "F",
-      "isopen": "Y",
-      "isCheck": "N",
-      "funcDesc": "这是第三条数据"
-    },
-    {
-      "id": 4,
-      "displayOrder": 4,
-      "funcCode": "func0004",
-      "funcName": "数据操作类型",
-      "funcType": "F",
-      "isopen": "N",
-      "isCheck": "Y",
-      "funcDesc": "这是第四条数据"
-    },
-    {
-      "id": 5,
-      "displayOrder": 5,
-      "funcCode": "func0005",
-      "funcName": "配置类型",
-      "funcType": "F",
-      "isopen": "Y",
-      "isCheck": "N",
-      "funcDesc": "这是第五条数据"
-    },
-    {
-      "id": 6,
-      "displayOrder": 6,
-      "funcCode": "func0006",
-      "funcName": "认证模式",
-      "funcType": "F",
-      "isopen": "N",
-      "isCheck": "N",
-      "funcDesc": "这是第六条数据"
-    },
-    {
-      "id": 7,
-      "displayOrder": 7,
-      "funcCode": "func0007",
-      "funcName": "功能类型",
-      "funcType": "F",
-      "isopen": "N",
-      "isCheck": "N",
-      "funcDesc": "这是第七条数据"
-    },
-    {
-      "id": 8,
-      "displayOrder": 8,
-      "funcCode": "func0008",
-      "funcName": "应用类型",
-      "funcType": "F",
-      "isopen": "Y",
-      "isCheck": "N",
-      "funcDesc": "这是第八条数据"
-    }
+      {
+          "attrType": "行为类型",
+          "attrKey": "test",
+          "attrValue": "测试",
+          "memo": "测试而已别着急",
+          "id": 1
+      },
+      {
+          "attrType": "行为类型",
+          "attrKey": "test2",
+          "attrValue": "测试2",
+          "memo": "测试行为2",
+          "id": 2
+      },
+      {
+          "attrType": "行为类型",
+          "attrKey": "test3",
+          "attrValue": "测试3",
+          "memo": "测试行为3",
+          "id": 3
+      },
+      {
+          "attrType": "行为类型",
+          "attrKey": "test4",
+          "attrValue": "测试4",
+          "memo": "测试行为4",
+          "id": 4
+      }
   ],
   "orgTreeData": [
         {
