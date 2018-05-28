@@ -75,78 +75,83 @@
   ],
   "listData": [
     {
-      "dictKey": "DICT_SYS_RESET",
-      "dictName": "序号数重置方式",
-      "dictType": "SYS",
-      "fromType": "normal",
-      "seqNo": 1,
+      "funcCode": "func0001",
+      "funcName": "序号数重置方式",
+      "funcType": "F",
+      "isopen": "Y",
+      "displayOrder": 1,
       "id": 1,
-      "dictDrsc": "这是第一条数据"
+       "isCheck": "N",
+      "funcDesc": "这是第一条数据"
     },
     {
-      "dictKey": "DICT_AC_RESOURCETYPE",
-      "dictName": "权限资源类型",
-      "dictType": "SYS",
-      "fromType": "normal",
+      "funcCode": "func0002",
+      "funcName": "权限资源类型",
+      "funcType": "F",
+      "isopen": "Y",
       "id": 2,
-      "seqNo": 2,
-      "dictDrsc": "这是第二条数据"
+       "isCheck": "N",
+      "displayOrder": 2,
+      "funcDesc": "这是第二条数据"
     },
     {
-      "id": 3,
-      "seqNo": 3,
-      "dictKey": "DICT_AC_OPERATOR_STATUS",
-      "dictName": "操作员状态",
-      "dictType": "SYS",
-      "fromType": "normal",
-      "dictDrsc": "这是第三条数据"
+      "funcCode": "func0003",
+      "displayOrder": 3,
+      "funcName": "操作员状态",
+      "funcType": "F",
+      "isopen": "Y",
+      "isCheck": "N",
+      "funcDesc": "这是第三条数据"
     },
     {
       "id": 4,
-      "seqNo": 4,
-      "dictKey": "DICT_AC_DATAOPTYPE",
-      "dictName": "数据操作类型",
-      "dictType": "SYS",
-      "fromType": "hang",
-      "dictDrsc": "这是第四条数据",
-      "checked": false,
-      "guidParents": "S"
+      "displayOrder": 4,
+      "funcCode": "func0004",
+      "funcName": "数据操作类型",
+      "funcType": "F",
+      "isopen": "N",
+      "isCheck": "Y",
+      "funcDesc": "这是第四条数据"
     },
     {
       "id": 5,
-      "seqNo": 5,
-      "dictKey": "DICT_AC_CONFIGTYPE",
-      "dictName": "配置类型",
-      "dictType": "SYS",
-      "fromType": "normal",
-      "dictDrsc": "这是第五条数据"
+      "displayOrder": 5,
+      "funcCode": "func0005",
+      "funcName": "配置类型",
+      "funcType": "F",
+      "isopen": "Y",
+      "isCheck": "N",
+      "funcDesc": "这是第五条数据"
     },
     {
       "id": 6,
-      "seqNo": 6,
-      "dictKey": "DICT_AC_AUTHMODE",
-      "dictName": "认证模式",
-      "dictType": "APP",
-      "fromType": "normal",
-      "dictDrsc": "这是第六条数据"
+      "displayOrder": 6,
+      "funcCode": "func0006",
+      "funcName": "认证模式",
+      "funcType": "F",
+      "isopen": "N",
+      "isCheck": "N",
+      "funcDesc": "这是第六条数据"
     },
     {
       "id": 7,
-      "seqNo": 7,
-      "dictKey": "DICT_AC_FUNCTYPE",
-      "dictName": "功能类型",
-      "dictType": "APP",
-      "fromType": "normal",
-      "dictDrsc": "这是第七条数据"
+      "displayOrder": 7,
+      "funcCode": "func0007",
+      "funcName": "功能类型",
+      "funcType": "F",
+      "isopen": "N",
+      "isCheck": "N",
+      "funcDesc": "这是第七条数据"
     },
     {
       "id": 8,
-      "seqNo": 8,
-      "dictKey": "DICT_AC_APPTYPE",
-      "dictName": "应用类型",
-      "dictType": "SYS",
-      "fromType": "normal",
-      "dictDrsc": "这是第八条数据"
+      "displayOrder": 8,
+      "funcCode": "func0008",
+      "funcName": "应用类型",
+      "funcType": "F",
+      "isopen": "Y",
+      "isCheck": "N",
+      "funcDesc": "这是第八条数据"
     }
   ],
   "orgTreeData": [

@@ -18,8 +18,10 @@ import { Exception403Component } from './exception/403.component';
 import { Exception404Component } from './exception/404.component';
 import { Exception500Component } from './exception/500.component';
 
+
 // 应用管理
 import { ApplicationComponent } from './application/application/application.component';
+import { FunctionComponent } from './application/function/function.component';
 import { OperatorsComponent } from './authority/operators/operators.component';
 
 // 权限管理
@@ -48,6 +50,7 @@ import { ListComponent } from '../component/list/list.component';
 import { TreeDemoComponent} from '../component/tree/tree';
 
 
+
 // 服务
 import { UtilityService } from '../service/utils.service';
 
@@ -65,6 +68,7 @@ import { UtilityService } from '../service/utils.service';
         Exception500Component,
         // 业务需求页面 组织机构+应用管理
         ApplicationComponent,
+        FunctionComponent,
         OrgComponent,
         EmpComponent,
         PostComponent,

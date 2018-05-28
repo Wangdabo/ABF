@@ -17,7 +17,7 @@ export let appConfig = {
         // 业务字典
         sysDictList: '/sysDicts/list', // 查询所有业务字典
         sysDictLists: '/sysDicts/lists', // dictKey和dictName查询
-        sysDictAdd: '/sysDicts/add', // 新增业务字典
+        sysDictAdd: '/sysDicts', // 新增业务字典
         sysDictEdit: '/sysDicts', // 修改业务字典,传guid
         sysDictDel: '/sysDicts',  // 删除业务字典，传对应guid
         sysDictqeury: '/sysDicts',  // 查询对应业务字典，传对应guid
@@ -28,6 +28,13 @@ export let appConfig = {
         openApp: '/acApp/openApp', // 开启应用 传对应guid
         stopApp: '/acApp/stopApp', // 关闭应用 传对应guid
         appDed: '/acApp', // 查询/修改/删除 应用详情 传对应guid
+
+        // 功能管理
+        funcList: '/acFunc/list', // 查询功能列表
+        funcAdd: '/acFunc/add', // 新增功能接口
+        funcDel: '/acFunc/' , // 删除功能接口(deleat), 修改功能接口(put), 查看功能详情(get)
+        openFun: '/acFunc/oepnFunc', // 启用功能
+        closeFun: '/acFunc/closeunc', // 启用功能
 
     }
 }

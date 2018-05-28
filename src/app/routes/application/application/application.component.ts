@@ -12,8 +12,6 @@ import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
   styleUrls: ['./application.component.less']
 })
 export class ApplicationComponent implements OnInit {
-
-
     constructor(
         private http: _HttpClient,
         private router: Router,
@@ -25,7 +23,6 @@ export class ApplicationComponent implements OnInit {
     }
 
     appItem: AppliaModule = new AppliaModule(); // 搜索值
-
     appAdd: AppliaModule = new AppliaModule(); // 新增内容
 
     loading = false;
@@ -64,8 +61,6 @@ export class ApplicationComponent implements OnInit {
         ]
     }
 
-
-
     test: string;
     page: any;
     total: number;
@@ -96,11 +91,14 @@ export class ApplicationComponent implements OnInit {
                                 val.result.records[i].buttonData[0] = '关闭';
                             }
                     }
+
                     this.data = val.result.records;
+                    console.log(this.data)
                     this.total = val.result.total;
                 }
             );
     }
+
 
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
@@ -155,7 +153,7 @@ export class ApplicationComponent implements OnInit {
                         });
             },
             onCancel: () => {
-                console.log('取消成功');
+
             }
         });
 
@@ -208,9 +206,13 @@ export class ApplicationComponent implements OnInit {
 
     // 处理行为代码，跳转、弹出框、其他交互
     isActive(event) {
-        console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
         // 路由跳转 跳转到对应的功应用页
-        this.router.navigate(['APPlication'], { queryParams: { name: event } });
+        this.router.navigate(['function'],
+            { queryParams:
+                    { productId: event.guid
+                    }
+            });
+
     }
 
 
@@ -229,9 +231,11 @@ export class ApplicationComponent implements OnInit {
 
     // 弹出框保存组件
     save() {
+        console.log(1)
         const jsonOption = this.appAdd;
         console.log(jsonOption)
         if (!this.isEdit) {
+
             this.utilityService.postData(appConfig.testUrl + appConfig.API.acappAdd, jsonOption)
                 .map(res => res.json())
                 .subscribe(

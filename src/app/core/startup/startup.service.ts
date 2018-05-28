@@ -41,7 +41,6 @@ export class StartupService {
                 // setting language data
                 this.translate.setTranslation(this.i18n.defaultLang, langData);
                 this.translate.setDefaultLang(this.i18n.defaultLang);
-
                 // application data
                 const res: any = appData;
                 // 应用信息：包括站点名、描述、年份

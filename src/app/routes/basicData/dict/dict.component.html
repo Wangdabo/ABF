@@ -53,7 +53,7 @@
         <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
             <div nz-col [nzSpan]="16" [nzPush]="7" class="mb-md">
                     <div nz-form-item class="d-flex">
-                        <div nz-form-label><label for="fromType">字典项来源:</label></div>
+                        <div nz-form-label><label for="fromType">字典项来源</label></div>
                         <div nz-form-control class="flex-1">
                             <nz-radio-group [(ngModel)]="dictAdd.fromType" >
                                 <span *ngFor="let i of fromType;">
@@ -68,7 +68,7 @@
 
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="dictType">字典类型:</label></div>
+                    <div nz-form-label><label for="dictType">字典类型</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%" [(ngModel)]="dictAdd.dictType"  name="dictType" [nzSize]="'large'" [nzPlaceHolder]="'业务字典类型'" nzId="dictType">
                             <nz-option  *ngFor="let i of dictType; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
@@ -78,7 +78,7 @@
             </div>
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="dictKey">业务字典:</label></div>
+                    <div nz-form-label><label for="dictKey">业务字典</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.dictKey"  name="dictKey" [nzSize]="'large'" [nzPlaceHolder]="'DICT_XXXX'" nzId="dictKey"></nz-input>
                     </div>
@@ -87,7 +87,7 @@
 
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="dictName">字典名称:</label></div>
+                    <div nz-form-label><label for="dictName">字典名称</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.dictName" name="dictName" [nzSize]="'large'" [nzPlaceHolder]="'字典名称'" nzId="dictName"></nz-input>
                     </div>
@@ -96,7 +96,7 @@
 
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="guidParents">父字典:</label></div>
+                    <div nz-form-label><label for="guidParents">父字典</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%" [(ngModel)]="dictAdd.guidParents"  name="guidParents" [nzSize]="'large'" [nzPlaceHolder]="'父字典'" nzId="guidParents">
                             <nz-option  *ngFor="let i of guidParents; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
@@ -107,7 +107,7 @@
 
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="seqNo">顺序号:</label></div>
+                    <div nz-form-label><label for="seqNo">顺序号</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.seqNo" name="seqNo" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqNo"></nz-input>
                     </div>
@@ -116,7 +116,7 @@
 
             <div nz-col [nzSpan]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="dictDrsc">解释说明:</label></div>
+                    <div nz-form-label><label for="dictDrsc">解释说明</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.dictDrsc"  nzAutosize=true nzType="textarea" name="dictDrsc" [nzSize]="'large'" [nzPlaceHolder]="'解释说明'" nzId="dictDrsc"></nz-input>
                     </div>
@@ -126,7 +126,7 @@
             <!-- 來自单表或视图 -->
             <div nz-col  *ngIf="dictAdd.fromType =='1'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="fromTable">字典项来源表:</label></div>
+                    <div nz-form-label><label for="fromTable">字典项来源表</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.fromTable" name="fromTable" [nzSize]="'large'" [nzPlaceHolder]="'字典项来源表'" nzId="fromTable"></nz-input>
                     </div>
@@ -134,7 +134,7 @@
             </div>
             <div nz-col *ngIf="dictAdd.fromType === '1' || dictAdd.fromType === '2'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="usefroKey">作为字典项名称的列:</label></div>
+                    <div nz-form-label><label for="usefroKey">作为字典项名称的列</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.usefroKey" name="usefroKey" [nzSize]="'large'" [nzPlaceHolder]="'作为字典项名称的列'" nzId="usefroKey"></nz-input>
                     </div>
@@ -142,7 +142,7 @@
             </div>
             <div nz-col *ngIf="dictAdd.fromType === '1' || dictAdd.fromType ==='2'" [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="defaultValue">字典项实际值:</label></div>
+                    <div nz-form-label><label for="defaultValue">字典项实际值</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.defaultValue" name="defaultValue" [nzSize]="'large'" [nzPlaceHolder]="'实际值'" nzId="defaultValue"></nz-input>
                     </div>
@@ -152,7 +152,7 @@
             <!--来自视图-->
             <div *ngIf="dictAdd.fromType =='2'" nz-col [nzSpan]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="sqlFilter">记录过滤条件:</label></div>
+                    <div nz-form-label><label for="sqlFilter">记录过滤条件</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="dictAdd.sqlFilter"  nzAutosize=true nzType="textarea" name="sqlFilter" [nzSize]="'large'" [nzPlaceHolder]="' 假如有表A 字段为a，b和表B 字段为c, d.其中A和B关联为A.a = B.c。需要以name为c，vlaue为d的字典，则填入 SELECT A.b, B.d FROM A, B WHERE A.a = B.c
 '" nzId="sqlFilter"></nz-input>

@@ -13,5 +13,9 @@
     "basisdata":"basisdata",
     "business":"business",
     "system":"system",
-    "errorcode":"errorcode"
+    "errorcode":"errorcode",
+    "function":"function",
+    "fullscreen": "Fullscreen",
+    "language": "Language",
+    "clear-local-storage": "Clear Local Storage"
 }

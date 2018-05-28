@@ -62,8 +62,8 @@ export class DictComponent implements OnInit {
 
     // dictType 业务字典类型
     dictType = [
-        { text: '应用级', value: false, key: 'APP' },
-        { text: '系统级', value: false,  key: 'SYS' },
+        { text: '应用级', value: false, key: 'a' },
+        { text: '系统级', value: false,  key: 's' },
     ];
 
     // guidParents 父字典
@@ -152,7 +152,6 @@ export class DictComponent implements OnInit {
             }
         };
 
-
         // 调用服务获取树节点操作
         this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
             .subscribe(
@@ -162,44 +161,13 @@ export class DictComponent implements OnInit {
                 },
                 response => {
                     // 如果数据不正确，则在这里给初始数据
-                    this.treedata = [
-                        {
-                            'label': '测试数据',
-                            'data': 'Documents Folder',
-                            'expandedIcon': 'fa-folder-open',
-                            'collapsedIcon': 'fa-folder',
-                            'children': [{
-                                'label': '工作',
-                                'data': 'Work Folder',
-                                'expandedIcon': 'fa-folder-open',
-                                'collapsedIcon': 'fa-folder',
-                                'children': [{'label': '睡觉', 'icon': 'fa-file-word-o', 'data': 'Expenses Document'}, {'label': '唱歌', 'icon': 'fa-file-word-o', 'data': 'Resume Document'}]
-                            },
-                                {
-                                    'label': '下班',
-                                    'data': 'Home Folder',
-                                    'expandedIcon': 'fa-folder-open',
-                                    'collapsedIcon': 'fa-folder',
-                                    'children': [{'label': '回家', 'icon': 'fa-file-word-o', 'data': 'Invoices for this month'}]
-                                }]
-                        },
-                        {
-                            'label': '你瞅啥',
-                            'data': 'Pictures Folder',
-                            'expandedIcon': 'fa-folder-open',
-                            'collapsedIcon': 'fa-folder',
-                            'children': [
-                                {'label': '瞅你咋地', 'icon': 'fa-file-image-o', 'data': 'Barcelona Photo'},
-                                {'label': '不服干我', 'icon': 'fa-file-image-o', 'data': 'PrimeFaces Logo'},
-                                {'label': '你丫等着', 'icon': 'fa-file-image-o', 'data': 'PrimeUI Logo'}]
-                        },
-                    ]; // 传入树节点数据
                 });
         // 调用服务来获取列表节点操作
         this.utilityService.postData(appConfig.testUrl + appConfig.API.sysDictList ,  this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val.result.records)
                     this.data = val.result.records; // 绑定列表数据
                     this.total = val.result.total;
                 });
@@ -314,14 +282,12 @@ export class DictComponent implements OnInit {
             // 调用服务来获取列表节点操作
             const jsonOption = this.dictAdd;
             console.log(jsonOption)
-            if (jsonOption.fromType === '0') {
-                jsonOption.fromType = 'DICT_ITEM'; // 测试，后台枚举值还没改 改好之后直接删掉即可
-            }
             this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictAdd, jsonOption)
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
-                        console.log(val);
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getData();
                     },
                     response => {
                     },

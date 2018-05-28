@@ -13,6 +13,7 @@ import { DashboardV1Component } from './index/v1/v1.component';
 
 import { ApplicationComponent } from './application/application/application.component';
 import { OperatorsComponent } from './authority/operators/operators.component';
+import { FunctionComponent} from './application/function/function.component';
 
 // 权限管理
 
@@ -52,11 +53,12 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
-            { path: 'dashboard/v1', component: DashboardV1Component, data: { translate: 'dashboard_v1' } },
+            { path: 'dashboard/v1', component: DashboardV1Component },
             // 应用
             { path: 'role', component: RoleComponent },
             { path: 'menu', component: MenuComponent },
             { path: 'APPlication', component: ApplicationComponent },
+            { path: 'function', component: FunctionComponent, data: { i18n: 'function' , title: '应用功能' } },
             { path: 'operator', component: OperatorsComponent },
             // 组织机构
             { path: 'org', component: OrgComponent, children: [

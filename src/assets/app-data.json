@@ -29,7 +29,8 @@
                     "text": "菜单管理",
                     "link": "/menu",
                     "i18n": "menuName"
-                }]
+                }
+                ]
             },
             {
                 "text": "组织管理",
@@ -39,7 +40,7 @@
                 "i18n": "organization",
                 "children": [
                     {
-                        "text": "组织机构管理",
+                        "text": "织机构管组理",
                         "link": "/org",
                         "translate": "org",
                         "i18n": "organization",

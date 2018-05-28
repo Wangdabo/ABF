@@ -14,5 +14,9 @@
     "basisdata":"基础数据",
     "business":"业务字典",
     "system":"系统参数",
-    "errorcode":"错误码"
+    "errorcode":"错误码",
+    "function":"功能管理",
+    "fullscreen": "全屏",
+    "language": "语言",
+    "clear-local-storage": "清理本地缓存"
 }
