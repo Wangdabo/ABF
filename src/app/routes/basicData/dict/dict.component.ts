@@ -196,6 +196,13 @@ export class DictComponent implements OnInit {
     // 列表传入的翻页数据
     monitorHandler(event) {
         this.dict.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.dict.size, //  每页个数
+            }
+        };
+        this.getData();
     }
 
 
@@ -214,6 +221,11 @@ export class DictComponent implements OnInit {
                         (val) => {
 
                             this.nznot.create('success', val.msg , val.msg);
+                            if ( !(( this.total - 1) % 10)) {
+                                // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                this.dict.pi -- ;
+                                this.getData();
+                            }
                             this.getData();
                         },
                         response => {

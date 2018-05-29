@@ -90,6 +90,7 @@ export class SystemComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val.result)
                     this.data = val.result.records;
                     this.total = val.result.total;
                 }
@@ -136,9 +137,15 @@ export class SystemComponent implements OnInit {
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-                            console.log(val)
-                            this.nznot.create('success', '状态码' + val.code + val.msg , val.msg);
+
+                             this.nznot.create('success', '状态码' + val.code + val.msg , val.msg);
+                            if ( !(( this.total - 1) % 10)) {
+                                // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                this.system.pi -- ;
+                                this.getData();
+                            }
                             this.getData();
+
                         },
                         response => {
                             // 如果数据不正确，则在这里给初始数据

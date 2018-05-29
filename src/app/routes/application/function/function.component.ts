@@ -108,11 +108,11 @@ export class FunctionComponent implements OnInit {
 
     // 列表传入的翻页数据
     monitorHandler(event) {
-        this.appItem.pi = event;
+        this.funcItem.pi = event;
         this.page = {
             page: {
                 current: event, // 页码
-                size: this.appItem.size, //  每页个数
+                size: this.funcItem.size, //  每页个数
             }
         };
         this.getData();
@@ -133,6 +133,12 @@ export class FunctionComponent implements OnInit {
                         (val) => {
                             // 修改成功只和的处理逻辑
                             this.nznot.create('success', val.msg , val.msg);
+                            if ( !(( this.total - 1) % 10)) {
+                                // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                this.funcItem.pi -- ;
+                                this.attrDate();
+                            }
+
                             this.getData();
                         });
             },
@@ -263,12 +269,22 @@ export class FunctionComponent implements OnInit {
         ]
     }
 
+
+    // 列表翻页方法
+    activeHandler(event) {
+        console.log(event);
+        this.activeItem.pi = event;
+        this.activeItem.size = 10;
+        this.attrDate();
+    }
+
+    // 行为列表方法
     attrDate = function () {
     // 查询功能列表信息
         this.page = {
             page: {
-                current: this.activeItem.pi,
-                size: this.activeItem.size,
+                current: this.activeItem.pi, // 当前页码
+                size: this.activeItem.size, // 每页个数
             }
         };
         this.utilityService.postData(appConfig.testUrl + appConfig.API.acFuncList, this.page)
@@ -283,7 +299,7 @@ export class FunctionComponent implements OnInit {
 
     // 行为弹框新增方法
     addActives(event) {
-        console.log(this.funGuid)
+        // 打开弹窗就查询
         setTimeout(_ => {
             this.activeItem.attrType = 'F';
         }, 100);
@@ -304,11 +320,11 @@ export class FunctionComponent implements OnInit {
 
     // 列表取消方法
     acTiveCancel() {
-
         this.activeAddModal = false;  // 关闭行为新增弹窗
         this.activeModal = true;    // 打开行为列表弹窗
 
     }
+
 
     // 行为保存方法
     activeSave() {
@@ -321,7 +337,7 @@ export class FunctionComponent implements OnInit {
                 .subscribe(
                     (val) => {
                         this.nznot.create('success', val.msg , val.msg);
-                        this.attrDate(); // 查询行为列表;
+                        this.attrDate(); // 新增总是回到第一页，跟数据有关，可以参考删除的写法
                     }
                 );
         } else {
@@ -331,7 +347,8 @@ export class FunctionComponent implements OnInit {
                 .subscribe(
                     (val) => {
                         this.nznot.create('success', val.msg , val.msg);
-                        this.attrDate(); // 查询行为列表;
+                        this.attrDate(); // 新增总是回到第一页，跟数据有关，可以参考删除的写法
+
                     });
         }
 
@@ -348,23 +365,19 @@ export class FunctionComponent implements OnInit {
                 (val) => {
                     // 修改成功只和的处理逻辑
                     this.nznot.create('success', val.msg , val.msg);
-                    this.attrDate(); // 查询行为列表;
+                    console.log((this.total - 1) % 10)
+                    if ( !(( this.total - 1) % 10)) {
+                    // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                        this.activeItem.pi -- ;
+                        this.attrDate();
+                    }
+                    this.attrDate();
+
+
                 });
     }
 
 
-    // 列表翻页方法
-    activeHandler(event) {
-        this.activeItem.pi = event;
-        this.page = {
-            page: {
-                current: event, // 页码
-                size: this.activeItem.size, //  每页个数
-            }
-        };
-        console.log(this.page)
-        this.attrDate();
-    }
 
 
 }

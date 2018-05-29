@@ -80,8 +80,7 @@
                     "text": "系统参数",
                     "link": "/system",
                     "i18n": "system"
-                }
-                , {
+                }, {
                         "text": "错误码",
                         "link": "/errorcode",
                         "i18n": "errorcode"
