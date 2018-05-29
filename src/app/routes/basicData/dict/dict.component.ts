@@ -219,7 +219,6 @@ export class DictComponent implements OnInit {
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-
                             this.nznot.create('success', val.msg , val.msg);
                             if ( !(( this.total - 1) % 10)) {
                                 // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
