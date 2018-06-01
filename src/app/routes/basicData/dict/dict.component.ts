@@ -41,10 +41,24 @@ export class DictComponent implements OnInit {
     dictAdd: DictModule = new DictModule(); // 绑定新增数据
 
     dictItemAdd: DictItemModule = new DictItemModule(); // 绑定业务字典项数据
-
     loading = false;
-    urlconfig:  string = 'http://localhost:3000';
     treeshow = false; // 是否显示树结构
+    isEdit = false; // 默认是新增
+    // guidParents 父字典
+    guidParents: any;
+    modalVisible = false; // 弹出框是否打开
+    dictionaryItems = false; // 新增字典项是否打开
+    creatExit = false; // 默认是新增
+    eventData: any;
+    dictInfo: any; // 业务字典数据信息
+    data: any[] = []; // 表格数据
+    treedata: any[]; // tree组件数据
+    treemenus: MenuItem[];
+    searchTitle: string;
+    // 翻页和总数数据
+    page: any;
+    total: number;
+    treeSelectData: any; // 树节点选择的数据
 
     // fromType 字典项来源类型
     fromType = [
@@ -66,16 +80,7 @@ export class DictComponent implements OnInit {
         { text: '系统级', value: false,  key: 's' },
     ];
 
-    // guidParents 父字典
-    guidParents = [
-        { text: '字段类型', value: false, key: 'A' },
-        { text: '配置风格', value: false,  key: 'S' },
-        { text: '认证模式', value: false,  key: 'P' },
-        { text: '岗位状态', value: false,  key: 'O' },
-        { text: '岗位类别', value: false,  key: 'E' },
-        { text: '是与否', value: false,  key: 'Y' },
-        { text: '交易状态', value: false,  key: 'F' },
-    ];
+
 
     // 字典项
     itemValue = [
@@ -96,19 +101,12 @@ export class DictComponent implements OnInit {
     ]
 
 
-    modalVisible = false; // 弹出框是否打开
-    dictionaryItems = false; // 新增字典项是否打开
-    creatExit = false; // 默认是新增
-    eventData: any;
-
-    data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
         {value: '业务字典', key: 'dictKey',  isclick: false},
         {value: '字典名称' , key: 'dictName', isclick: false},
         {value: '字典类型', key: 'dictType',  isclick:  false},
         {value: '字典项来源' , key: 'fromType', isclick: false}
     ];
-
 
     moreData = { morebutton: true,
         buttons: [
@@ -118,24 +116,14 @@ export class DictComponent implements OnInit {
     }
 
 
-    treedata: any[]; // tree组件数据
-
-    treemenus: MenuItem[];
-
-    searchTitle: string;
-    // 翻页和总数数据
-    page: any;
-    total: number;
-
     // 右击菜单数据
-
-
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
 
-    getData() { // 初始化请求后台数据
+    getData() {
+        // 初始化请求后台数据
         this.searchTitle = '请输入业务字典名称';
         // 传入右击菜单数组,根据需求定
         this.treemenus = [
@@ -152,27 +140,37 @@ export class DictComponent implements OnInit {
             }
         };
 
-        // 调用服务获取树节点操作
-        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
-            .subscribe(
-                (val) => {
-                    console.log(val)
-                    this.treedata = val; // 绑定树节点
-                },
-                response => {
-                    // 如果数据不正确，则在这里给初始数据
-                });
         // 调用服务来获取列表节点操作
         this.utilityService.postData(appConfig.testUrl + appConfig.API.sysDictList ,  this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val.result.records)
                     this.data = val.result.records; // 绑定列表数据
+                    this.guidParents = val.result.records;
                     this.total = val.result.total;
                 });
 
     }
+
+    // 枚举值转换
+    dictTypeMode(event) {
+        if (event.dictType === '应用级') {
+            event.dictType = 'a';
+        } else if (event.dictType === '系统级') {
+            event.dictType = 's';
+        }
+    }
+
+    formTypeMode(event) {
+        if (event.fromType === '字典项') {
+            event.fromType = '0';
+        } else if (event.fromType === '来自单表') {
+            event.fromType = '1';
+        } else if (event.fromType === '多表或视图') {
+            event.fromType = '2';
+        }
+    }
+
 
 
     // 列表组件传过来的内容
@@ -185,9 +183,11 @@ export class DictComponent implements OnInit {
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.creatExit = true;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
-            console.log(event);
+            console.log(event)
             this.dictAdd =  event;
             this.eventData = event;
+            this.dictTypeMode(event); // 枚举值转换
+            this.formTypeMode(event); // 枚举值转换
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.creatExit = false;
         }
@@ -219,7 +219,6 @@ export class DictComponent implements OnInit {
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-
                             this.nznot.create('success', val.msg , val.msg);
                             if ( !(( this.total - 1) % 10)) {
                                 // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
@@ -227,10 +226,6 @@ export class DictComponent implements OnInit {
                                 this.getData();
                             }
                             this.getData();
-                        },
-                        response => {
-                            // 如果数据不正确，则在这里给初始数据
-                            this.data = [];
                         });
             },
             onCancel: () => {
@@ -263,11 +258,51 @@ export class DictComponent implements OnInit {
     }
 
 
+    getTreeList(event) {
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictsTree + '/' + event, {})
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    if (val.result.dictName) {
+                        val.result.label = val.result.dictName;
+                        val.result.expandedIcon = 'fa-folder-open';
+                        val.result.collapsedIcon = 'fa-folder';
+                        val.result.childDict = true; // 是业务字典
+                    }
+
+                    if (val.result.children) {
+                        for (let i = 0 ; i < val.result.children.length; i++) {
+                            if (val.result.children[i].dictName) { // 子业务字典
+                                val.result.children[i].label = val.result.children[i].dictName;
+                                val.result.children[i].expandedIcon = 'fa-folder-open';
+                                val.result.children[i].collapsedIcon = 'fa-folder';
+                                val.result.children[i].childDict = true;
+                            }
+
+                            if (val.result.children[i].itemName) { // 字典项
+                                val.result.children[i].label = val.result.children[i].itemName;
+                                val.result.children[i].icon = 'fa-file-word-o';
+                                val.result.children[i].childDict = false;
+                            }
+
+
+                        }
+                    }
+                    const treeData = [];
+                    treeData.push(val.result);
+                    this.treedata  = treeData;
+                    this.treeshow = true;
+                },
+            );
+    }
+
+
     selectedRow(event) {
         // 选中方法，折叠层按钮显示方法
-        // console.log(this.listTable.selectedRows)
         if (event.selectedRows.length === 1) {
-            this.treeshow = true;
+            this.dictInfo = event.selectedRows; // 当前选中的业务字典，绑定 全局使用，用来重新查询树
+            // 请求树接口
+            this.getTreeList(event.selectedRows[0].guid);
         } else {
             this.treeshow = false;
         }
@@ -287,74 +322,55 @@ export class DictComponent implements OnInit {
         ]; // 有效
     }
 
-
+    reset() {
+            this.dict = new DictModule();
+        }
     // 弹出框保存组件
     save() {
-        if (this.creatExit) { // 调用新增的逻辑
-            // 调用服务来获取列表节点操作
             const jsonOption = this.dictAdd;
-            console.log(jsonOption)
-            this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictAdd, jsonOption)
+            if (this.creatExit) { // 调用新增的逻辑
+                // 调用服务来获取列表节点操作
+                 this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictAdd, jsonOption)
+                     .map(res => res.json())
+                     .subscribe(
+                         (val) => {
+                             this.nznot.create('success', val.msg , val.msg);
+                             this.getData();
+                         },
+                     );
+
+            } else { // 调用修改的逻辑
+            this.utilityService.putData(appConfig.testUrl + appConfig.API.sysDictEdit, jsonOption)
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
+                        console.log(val);
                         this.nznot.create('success', val.msg , val.msg);
                         this.getData();
-                    },
-                    response => {
-                    },
-                    () => {
-                    });
-
-
-        } else { // 调用修改的逻辑
-            console.log(this.eventData.id)
-            const id  = this.eventData.id;
-            const jsonOption = this.dictAdd;
-            this.utilityService.putData(appConfig.ABFUrl + '/' + appConfig.API.listData + id, jsonOption)
-                .subscribe(
-                    (val) => {
-                        console.log(val);
-                        if (val.status === 200) {
-                            // 修改成功只和的处理逻辑
-                        }
-                    },
-                    response => {
-                    },
-                    () => {
-                        // 流结束之后再去做查询验证
-                        // 新增接口之后，在调用查询接口，查询最新的数据
-                        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.listData)
-                            .subscribe(
-                                (val) => {
-                                    this.data = val; // 绑定列表数据
-                                });
                     });
         }
         this.modalVisible = false;
+        this.treeshow = false; // 关闭右侧树结构
     }
 
 
     // 树的方法
-
     // 右击菜单传递值
     RightSelect(event) {
-        // console.log(event);
-        if (event.node.isLeaf) {
+        this.treeSelectData = event.node; // 右击选中的数据绑定全局使用
+        if (event.node.childDict) { // 子业务字典
+            this.treemenus = [
+                {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
+                {label: '新增字典项', icon: 'fa-close' , command: (event) => this.addDictItem()},
+                {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdict()},
+            ];
+        } else {  // 字典项
             this.treemenus = [
                 {label: '删除字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.delectdictItem()},
                 {label: '修改字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdictItem()},
                 {label: '设置默认值', icon: 'fa fa-circle-o-notch' , command: (event) => this.setdefault()},
             ];
-        } else {
-            this.treemenus = [
-                {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
-                {label: '新增字典项', icon: 'fa-close' , command: (event) => this.addDictItem()},
-                {label: '删除字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.delectdictItem()},
-                {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdict()},
-            ];
         }
-
     }
 
     // 左击树菜单节点信息
@@ -371,7 +387,43 @@ export class DictComponent implements OnInit {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                console.log('好的');
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysDictDel + '/' +  this.treeSelectData.guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            if ( !(( this.total - 1) % 10)) {
+                                // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                this.dict.pi -- ;
+                                this.getData();
+                            }
+                            this.getData();
+                            this.getTreeList(this.dictInfo[0].guid);
+                        });
+            },
+            onCancel: () => {
+                console.log('失败');
+            }
+        });
+    }
+
+
+
+    // 删除业务字典项
+    delectdictItem() {
+        this.modal.open({
+            title: '是否删除',
+            content: '您确认要删除选中的字典项吗',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.sysDicttems + '/' +  this.treeSelectData.guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getTreeList(this.dictInfo[0].guid);
+                        });
             },
             onCancel: () => {
                 console.log('失败');
@@ -381,39 +433,39 @@ export class DictComponent implements OnInit {
 
     // 新增字典项
     addDictItem() {
+        this.dictItemAdd = new DictItemModule(); // 初始化模块
+        this.isEdit  = false; // 新增
         this.dictItemAdd.itemType = 'dict'; // 默认子字典
         this.dictionaryItems = true; // 打开弹出框
-    }
-
-    // 删除业务字典项目
-    delectdictItem() {
-        this.modal.open({
-            title: '是否删除',
-            content: '您确认要删除选中的字典项吗',
-            okText: '确定',
-            cancelText: '取消',
-            onOk: () => {
-                console.log('好的');
-            },
-            onCancel: () => {
-                console.log('失败');
-            }
-        });
-    }
-
-
-
-    // 修改业务字典
-    exitdict() {
-        this.modalVisible = true;
-        this.dictAdd.fromType = 'normal'; // 弹出框默认选中
     }
 
     // 修改字典项
     exitdictItem() {
-        this.dictItemAdd.itemType = 'dict'; // 默认子字典
+        console.log(this.treeSelectData);
+        this.isEdit  = true; // 修改
+        // this.dictItemAdd.itemType = 'dict'; // 默认子字典
+        this.dictItemAdd = this.treeSelectData;
         this.dictionaryItems = true; // 打开弹出框
     }
+
+
+    // 修改业务字典
+    exitdict() {
+        // 根据guid查询业务字典详情，然后去复制修改信息
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.sysDictAdd + '/' + this.treeSelectData.guid)
+            .subscribe(
+                (val) => {
+                    console.log(val.result); // 查询业务字典详情
+                    this.dictAdd =  val.result;
+                    this.dictTypeMode(val.result); // 枚举值转换
+                    this.formTypeMode(val.result); // 枚举值转换
+                });
+
+        this.modalVisible = true;
+
+    }
+
+
 
     // 设置默认值
     setdefault() {
@@ -422,36 +474,38 @@ export class DictComponent implements OnInit {
 
     // 字典项保存
     itemSava() {
-        console.log(this.dictItemAdd);
-        this.dictionaryItems = false; // 关闭弹窗
+        const jsonOption = this.dictItemAdd;
+        jsonOption.guidDict = this.treeSelectData.guid;
+        console.log(jsonOption);
+        if (!this.isEdit) { // 新增字典项
+            this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                        // this.getData();
+                        this.getTreeList(this.dictInfo[0].guid);
+                    },
+                );
+        } else { // 修改业务字典项接口
+            this.utilityService.putData( appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        console.log(val);
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getTreeList(this.dictInfo[0].guid);
+                    }
+                );
+        }
 
+        this.dictionaryItems = false; // 关闭弹窗
     }
 
 
     dropEvent($event) {
         console.log($event) ; // 拿到tree拖拽来的数据
-        this.treedata = [
-            {
-                'label': '测试数据1111',
-                'data': 'Documents Folder',
-                'expandedIcon': 'fa-folder-open',
-                'collapsedIcon': 'fa-folder',
-                'children': [{
-                    'label': '工作',
-                    'data': 'Work Folder',
-                    'expandedIcon': 'fa-folder-open',
-                    'collapsedIcon': 'fa-folder',
-                    'children': [{'label': '睡觉', 'icon': 'fa-file-word-o', 'data': 'Expenses Document'}, {'label': '唱歌', 'icon': 'fa-file-word-o', 'data': 'Resume Document'}]
-                },
-                    {
-                        'label': '下班',
-                        'data': 'Home Folder',
-                        'expandedIcon': 'fa-folder-open',
-                        'collapsedIcon': 'fa-folder',
-                        'children': [{'label': '回家', 'icon': 'fa-file-word-o', 'data': 'Invoices for this month'}]
-                    }]
-            }
-        ];
+
     }
 
     // 树节点搜索框的内容

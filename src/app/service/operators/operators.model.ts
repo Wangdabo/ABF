@@ -1,10 +1,10 @@
 export class OperatrModule {
     // 当前页数
-    public pi: 1;
+    public pi: number = 1;
     // 每业个数
-    public ps: 10;
+    public size: number = 10;
     // 操作员姓名
-    public name: string;
+    public operatorName: string;
     // 登陆密码
     public password: string;
     // 操作员id
@@ -12,6 +12,10 @@ export class OperatrModule {
     // 过期时间
     public invalDate: string;
     // 操作员状态
-    public status: null;
+    public operatorStatus: null;
+    // 认证模式
+    public  authMode: null;
+    // 锁定次数限制
+    public lockLimit: number;
 
 }

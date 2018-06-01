@@ -15,9 +15,9 @@ export class DictModule {
     // 父字典
     public guidParents: null;
     // 顺序号
-    public seqNo: number;
+    public seqno: number;
     // 解释说明
-    public dictDrsc: string;
+    public dictDesc: string;
 
     // 字典项来源表
     public  fromTable: string;

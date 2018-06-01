@@ -12,6 +12,7 @@ import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
   styleUrls: ['./application.component.less']
 })
 export class ApplicationComponent implements OnInit {
+
     constructor(
         private http: _HttpClient,
         private router: Router,
@@ -30,8 +31,8 @@ export class ApplicationComponent implements OnInit {
 
     // 应用类型
     appType = [
-        { key: 'local', value: '本地' },
-        { key: 'remote', value: '远程' }
+        { key: '本地', value: '本地' },
+        { key: '远程', value: '远程' }
     ]
 
     // 是否开通
@@ -40,6 +41,7 @@ export class ApplicationComponent implements OnInit {
         { key: 'N', value: '关闭' }
     ]
     modalVisible = false;
+
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -83,17 +85,7 @@ export class ApplicationComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    for (let i = 0; i < val.result.records.length; i++ ) {
-                            val.result.records[i].buttonData = [];
-                            if (val.result.records[i].isopen === 'NO') {
-                                val.result.records[i].buttonData[0] = '开启';
-                            } else {
-                                val.result.records[i].buttonData[0] = '关闭';
-                            }
-                    }
-
                     this.data = val.result.records;
-                    console.log(this.data)
                     this.total = val.result.total;
                 }
             );
@@ -103,6 +95,7 @@ export class ApplicationComponent implements OnInit {
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
+        console.log(event)
         setTimeout(_ => {
             this.appAdd.isOpen = 'N'; // 默认关闭
         }, 100);
@@ -146,6 +139,13 @@ export class ApplicationComponent implements OnInit {
                     .subscribe(
                         (val) => {
                             this.nznot.create('success', val.msg , val.msg);
+
+                            if ( !(( this.total - 1) % 10)) {
+                                // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                this.appItem.pi -- ;
+                                this.getData();
+                            }
+
                             this.getData();
                         },
                         response => {
@@ -231,19 +231,22 @@ export class ApplicationComponent implements OnInit {
 
     // 弹出框保存组件
     save() {
-        console.log(1)
         const jsonOption = this.appAdd;
         console.log(jsonOption)
+        // 枚举值转换
+        // 枚举值转换
+        if (jsonOption.appType === '本地') {
+            jsonOption.appType = 'local';
+        } else {
+            jsonOption.appType = 'remote';
+        }
         if (!this.isEdit) {
-
             this.utilityService.postData(appConfig.testUrl + appConfig.API.acappAdd, jsonOption)
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
                         this.nznot.create('success', val.msg , val.msg);
                         this.getData();
-                    },
-                    response => {
                     });
         } else {
             this.utilityService.putData(appConfig.testUrl + appConfig.API.appDed, jsonOption)
@@ -252,14 +255,9 @@ export class ApplicationComponent implements OnInit {
                     (val) => {
                         this.nznot.create('success', val.msg , val.msg);
                         this.getData();
-                    },
-                    response => {
-                        this.getData();
                     });
         }
 
         this.modalVisible = false;
     }
-
-
 }
