@@ -48,6 +48,7 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 // 公共封装组件
 import { ListComponent } from '../component/list/list.component';
 import { TreeDemoComponent} from '../component/tree/tree';
+import { LogsComponent } from './basicData/logs/logs.component';
 
 
 
@@ -79,6 +80,7 @@ import { UtilityService } from '../service/utils.service';
         // 系统参数组件
         SystemComponent,
         // 封装组件
+        LogsComponent,
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件

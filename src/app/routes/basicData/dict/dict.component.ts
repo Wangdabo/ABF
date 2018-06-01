@@ -263,13 +263,13 @@ export class DictComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val)
                     if (val.result.dictName) {
                         val.result.label = val.result.dictName;
                         val.result.expandedIcon = 'fa-folder-open';
                         val.result.collapsedIcon = 'fa-folder';
                         val.result.childDict = true; // 是业务字典
                     }
-
                     if (val.result.children) {
                         for (let i = 0 ; i < val.result.children.length; i++) {
                             if (val.result.children[i].dictName) { // 子业务字典
@@ -277,6 +277,7 @@ export class DictComponent implements OnInit {
                                 val.result.children[i].expandedIcon = 'fa-folder-open';
                                 val.result.children[i].collapsedIcon = 'fa-folder';
                                 val.result.children[i].childDict = true;
+                                val.result.children[i].children = [];
                             }
 
                             if (val.result.children[i].itemName) { // 字典项
@@ -288,6 +289,7 @@ export class DictComponent implements OnInit {
 
                         }
                     }
+
                     const treeData = [];
                     treeData.push(val.result);
                     this.treedata  = treeData;
@@ -375,7 +377,41 @@ export class DictComponent implements OnInit {
 
     // 左击树菜单节点信息
     TreeSelect(event) {
-        // console.log(event);
+        console.log(event);
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictsTree + '/' + event.node.guid, {})
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    event.node.children = val.result.children;
+                    console.log(event.node)
+                    if (val.result.dictName) {
+                        val.result.label = val.result.dictName;
+                        val.result.expandedIcon = 'fa-folder-open';
+                        val.result.collapsedIcon = 'fa-folder';
+                        val.result.childDict = true; // 是业务字典
+                    }
+                    if (val.result.children) {
+                        for (let i = 0 ; i < val.result.children.length; i++) {
+                            if (val.result.children[i].dictName) { // 子业务字典
+                                val.result.children[i].label = val.result.children[i].dictName;
+                                val.result.children[i].expandedIcon = 'fa-folder-open';
+                                val.result.children[i].collapsedIcon = 'fa-folder';
+                                val.result.children[i].childDict = true;
+                            }
+
+                            if (val.result.children[i].itemName) { // 字典项
+                                val.result.children[i].label = val.result.children[i].itemName;
+                                val.result.children[i].icon = 'fa-file-word-o';
+                                val.result.children[i].childDict = false;
+                            }
+                        }
+                    } else {
+                        console.log(val.result);
+                    }
+
+
+                },
+            );
     }
 
 
@@ -455,14 +491,12 @@ export class DictComponent implements OnInit {
         this.utilityService.getData(appConfig.testUrl  + appConfig.API.sysDictAdd + '/' + this.treeSelectData.guid)
             .subscribe(
                 (val) => {
-                    console.log(val.result); // 查询业务字典详情
                     this.dictAdd =  val.result;
                     this.dictTypeMode(val.result); // 枚举值转换
                     this.formTypeMode(val.result); // 枚举值转换
                 });
 
         this.modalVisible = true;
-
     }
 
 

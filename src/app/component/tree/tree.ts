@@ -104,6 +104,10 @@ export class TreeDemoComponent implements OnInit, OnChanges {
         this.Select.emit(event); // 点击了树节点，把节点信息传过去
     }
 
+
+    zhede(event) {
+        console.log(event);
+    }
 }
 
 
