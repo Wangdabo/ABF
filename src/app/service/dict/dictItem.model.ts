@@ -16,7 +16,7 @@ export class DictItemModule {
     sendValue: string;
 
     // 顺序号
-    seqNo: number;
+    seqno: number;
 
     // 字典项说明
     itemDesc: string;

@@ -97,6 +97,7 @@ export class SystemComponent implements OnInit {
             );
     }
 
+
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
@@ -190,10 +191,13 @@ export class SystemComponent implements OnInit {
 
     // 搜索框
     search() {
-        console.log(this.system); // 有效
+
     }
 
 
+    reset() {
+        this.system = new SystemModule(); // 重置
+    }
     // selete监听方法
     checkSelect(i, k) {
         if (i !== null) {

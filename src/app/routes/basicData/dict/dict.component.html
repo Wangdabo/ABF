@@ -28,7 +28,7 @@
                     </div>
                     <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                         <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
-                        <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
+                        <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
                         <!--<a (click)="expandForm=!expandForm">
                             {{expandForm ? '收起' : '展开'}}
                             <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
@@ -99,7 +99,7 @@
                     <div nz-form-label><label for="guidParents">父字典</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%" [(ngModel)]="dictAdd.guidParents"  name="guidParents" [nzSize]="'large'" [nzPlaceHolder]="'父字典'" nzId="guidParents">
-                            <nz-option  *ngFor="let i of guidParents; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                            <nz-option  *ngFor="let i of guidParents; let app = index" [nzLabel]="i.dictKey +'-'+ i.dictName" [nzValue]="i.guid"></nz-option>
                         </nz-select>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="seqNo">顺序号</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="dictAdd.seqNo" name="seqNo" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqNo"></nz-input>
+                        <nz-input [(ngModel)]="dictAdd.seqno" name="seqno" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqno"></nz-input>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="dictDrsc">解释说明</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="dictAdd.dictDrsc"  nzAutosize=true nzType="textarea" name="dictDrsc" [nzSize]="'large'" [nzPlaceHolder]="'解释说明'" nzId="dictDrsc"></nz-input>
+                        <nz-input [(ngModel)]="dictAdd.dictDesc"  nzAutosize=true nzType="textarea" name="dictDrsc" [nzSize]="'large'" [nzPlaceHolder]="'解释说明'" nzId="dictDrsc"></nz-input>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="itemName">顺序号:</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="dictItemAdd.seqNo" name="seqNo" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqNo"></nz-input>
+                        <nz-input [(ngModel)]="dictItemAdd.seqno" name="seqNo" [nzSize]="'large'" [nzPlaceHolder]="'顺序号'" nzId="seqNo"></nz-input>
                     </div>
                 </div>
             </div>

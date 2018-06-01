@@ -16,7 +16,7 @@ import {FuncattrModule} from '../../../service/common.module';
 })
 export class FunctionComponent implements OnInit {
     appGuid: any;
-    funGuid: string;
+    funGuid: string; // 功能的id
     appName: string;
     modalVisible  = false; // 弹出框默认不打开
     activeModal = false; // 默认列表弹出框不打开
@@ -86,7 +86,6 @@ export class FunctionComponent implements OnInit {
 
     // 列表的方法
     addHandler(event) {
-
         setTimeout(_ => {
             this.funcItem.funcType = 'F';
         }, 100);
@@ -100,6 +99,7 @@ export class FunctionComponent implements OnInit {
             this.funTitle = '修改功能';
             this.isEdit = true;
             this.funcItem = event;
+
         }
         this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
     }
@@ -189,7 +189,6 @@ export class FunctionComponent implements OnInit {
 
     // 根据id查询内容
     getData() {
-        // 初始化请求后台数据
         // 根据guid查询应用信息
         this.utilityService.getData(appConfig.testUrl + appConfig.API.appDed + '/' + this.appGuid)
             .subscribe(
@@ -207,7 +206,7 @@ export class FunctionComponent implements OnInit {
                 size: this.funcItem.size,
             }
         };
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.funcList, this.page)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.funcList + '/' + this.appGuid, this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
@@ -224,6 +223,17 @@ export class FunctionComponent implements OnInit {
     // 保存方法
     save() {
         const jsonObj = this.funcItem;
+        // 枚举值转换
+        if (jsonObj.ischeck === 'YES') {
+            jsonObj.ischeck = 'Y';
+        } else {
+            jsonObj.ischeck = 'N';
+        }
+        if (jsonObj.isopen === 'YES') {
+            jsonObj.isopen = 'Y';
+        } else {
+            jsonObj.isopen = 'N';
+        }
         if (!this.isEdit) {  // 新增的业务逻辑
             this.funcItem.guidApp = this.appGuid;
             this.utilityService.postData(appConfig.testUrl + appConfig.API.funcAdd, jsonObj)
@@ -287,7 +297,7 @@ export class FunctionComponent implements OnInit {
                 size: this.activeItem.size, // 每页个数
             }
         };
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.acFuncList, this.page)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.acFuncList + '/' + this.funGuid, this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
@@ -342,6 +352,7 @@ export class FunctionComponent implements OnInit {
                 );
         } else {
             // 修改的保存逻辑
+
             this.utilityService.putData(appConfig.testUrl + appConfig.API.acFuncPut, jsonObj)
                 .map(res => res.json())
                 .subscribe(
@@ -365,14 +376,11 @@ export class FunctionComponent implements OnInit {
                 (val) => {
                     // 修改成功只和的处理逻辑
                     this.nznot.create('success', val.msg , val.msg);
-                    console.log((this.total - 1) % 10)
                     if ( !(( this.total - 1) % 10)) {
                     // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
                         this.activeItem.pi -- ;
-                        this.attrDate();
                     }
                     this.attrDate();
-
 
                 });
     }

@@ -21,9 +21,16 @@ export let appConfig = {
         sysDictEdit: '/sysDicts', // 修改业务字典,传guid
         sysDictDel: '/sysDicts',  // 删除业务字典，传对应guid
         sysDictqeury: '/sysDicts',  // 查询对应业务字典，传对应guid
+        sysDictsTree: '/sysDicts/tree', // 查询业务字典树 传guid
+
+        // 业务字典项
+        sysDictItems: '/sysDictItems', // 新增业务字典项, 修改业务字典使用put,
+        sysDictItemsList: '/sysDictItems/list', // 查询所有业务字典项
+        listDict: '/sysDictItems/listDict', // 根据guid查询业务字典项
+        sysDicttems: '/sysDictItems', // 删除业务字典项,
 
         // 应用管理
-        acappAdd: '/acApp/add', //  新增应用接口
+        acappAdd: '/acApp', //  新增应用接口
         appList: '/acApp/list', // 查询应用列表
         openApp: '/acApp/openApp', // 开启应用 传对应guid
         stopApp: '/acApp/stopApp', // 关闭应用 传对应guid
@@ -31,17 +38,22 @@ export let appConfig = {
 
         // 功能管理
         funcList: '/acFunc/list', // 查询功能列表
-        funcAdd: '/acFunc/add', // 新增功能接口
+        funcAdd: '/acFunc', // 新增功能接口
         funcDel: '/acFunc/' , // 删除功能接口(deleat), 修改功能接口(put), 查看功能详情(get)
         openFun: '/acFunc/oepnFunc', // 启用功能
         closeFun: '/acFunc/closeunc', // 启用功能
 
         // 行为管理
-        acFuncAttr: '/acFuncAttr/add', // 新增功能接口
+        acFuncAttr: '/acFuncAttr', // 新增功能接口
         acFuncList: '/acFuncAttr/list', // 查询行为接口
         acFuncDel: '/acFuncAttr/' , // 删除行为接口(deleat)
-        acFuncPut: '/acFuncAttr/' , // 修改行为接口(deleat)
-        acFunLists: '/acFuncAttr/detailList'
+        acFuncPut: '/acFuncAttr/' , // 修改行为接口(d,eleat)
+        acFunLists: '/acFuncAttr/detailList', //  查询行为详情
+
+        // 操作员管理
+        acOperatorsList: '/acOperators/list', // 查询操作员列表
+        acOperatorsAdd: '/acOperators/add', // 增删改操作员列表
+        acOperatorsDel: '/acOperators', // 增删改操作员列表
 
     }
 }
