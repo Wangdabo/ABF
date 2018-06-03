@@ -199,7 +199,7 @@ export class LogsComponent implements OnInit {
         console.log(event);
         // 路由跳转
     }
-    
+
     monitordetailsData(event) { // 翻页事件
 
     }

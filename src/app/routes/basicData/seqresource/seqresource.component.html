@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div  nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label>
                         <label for="SEQKEY">序号键值</label>
@@ -28,7 +28,6 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label>
@@ -36,6 +35,16 @@
                     </div>
                     <div nz-form-control class="flex-1">
                         <nz-input [(ngModel)]="sequenceResource.seqNo" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号数'" nzId="seqNo"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="resetParams">重置处理参数</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.resetParams" name="resetParams" [nzSize]="'large'" [nzPlaceHolder]="'重置处理参数'" nzId="resetParams"></nz-input>
                     </div>
                 </div>
             </div>
@@ -67,7 +76,6 @@
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
     <ng-template #modalContent>
         <div nz-row [nzGutter]="24">
-
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label>
@@ -111,16 +119,6 @@
                     </div>
                 </div>
             </div>
-
-        <div nz-form-item class="d-flex">
-            <div nz-form-label class="alignment">
-                <label for="RESETPARAMS">重置处理参数</label>
-            </div>
-            <div nz-form-control class="flex-1">
-                <nz-input [(ngModel)]="sequenceResource.resetParams"  name="name" [nzSize]="'large'" [nzPlaceHolder]="'重置处理参数'"
-                          nzId="resetParams"></nz-input>
-            </div>
-        </div>
         </div>
     </ng-template>
 
