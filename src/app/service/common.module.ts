@@ -87,3 +87,37 @@ export class FuncattrModule {
 
 
 }
+
+    // 日志模块
+export class LogsModule {
+    // 当前页数
+    public pi: number = 1;
+    // 每业个数
+    public size: number = 10;
+    // 操作类型
+    public  operatorType: null;
+    // 操作时间
+    public  operatorTime: string;
+    // 操作结果
+    public operatorResult: string;
+    // 操作员姓名
+    public  operatorName: string;
+    // 操作员
+    public  userId: string;
+    // 应用代码
+    public  appCode: string;
+    // 应用名称
+    public  appName: string;
+    // 功能编号
+    public  funcCode: string;
+    // 功能名称
+    public  funcName: string;
+    // 服务地址
+    public  restfulRul: string;
+    // 异常堆栈
+    public  stacktRace: string;
+    // 处理描述
+    public  procssdesc: string;
+
+
+}

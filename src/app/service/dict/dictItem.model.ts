@@ -1,5 +1,7 @@
 export class DictItemModule {
 
+    // guid
+    guid: string;
     // 隶属业务字典
     guidDict: string;
 

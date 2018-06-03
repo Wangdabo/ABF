@@ -17,5 +17,6 @@
     "function":"function",
     "fullscreen": "Fullscreen",
     "language": "Language",
-    "clear-local-storage": "Clear Local Storage"
+    "clear-local-storage": "Clear Local Storage",
+    "logs": "logs"
 }

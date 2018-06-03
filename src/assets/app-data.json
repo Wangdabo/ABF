@@ -81,6 +81,10 @@
                     "link": "/system",
                     "i18n": "system"
                 }, {
+                    "text": "日志管理",
+                    "link": "/logs",
+                    "i18n": "logs"
+                }, {
                         "text": "错误码",
                         "link": "/errorcode",
                         "i18n": "errorcode"

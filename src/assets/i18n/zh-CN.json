@@ -18,5 +18,6 @@
     "function":"功能管理",
     "fullscreen": "全屏",
     "language": "语言",
-    "clear-local-storage": "清理本地缓存"
+    "clear-local-storage": "清理本地缓存",
+    "logs": "日志管理"
 }

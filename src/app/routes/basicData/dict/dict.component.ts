@@ -257,13 +257,13 @@ export class DictComponent implements OnInit {
         this.router.navigate(['APPlication'],  { queryParams: { name: event } });
     }
 
-
+    // 查询树方法
     getTreeList(event) {
         this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictsTree + '/' + event, {})
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val)
+                    console.log(val);
                     if (val.result.dictName) {
                         val.result.label = val.result.dictName;
                         val.result.expandedIcon = 'fa-folder-open';
@@ -277,9 +277,8 @@ export class DictComponent implements OnInit {
                                 val.result.children[i].expandedIcon = 'fa-folder-open';
                                 val.result.children[i].collapsedIcon = 'fa-folder';
                                 val.result.children[i].childDict = true;
-                                val.result.children[i].children = [];
+                                val.result.children[i].children = [{'label': ''}];
                             }
-
                             if (val.result.children[i].itemName) { // 字典项
                                 val.result.children[i].label = val.result.children[i].itemName;
                                 val.result.children[i].icon = 'fa-file-word-o';
@@ -297,7 +296,42 @@ export class DictComponent implements OnInit {
                 },
             );
     }
+    // 查询树节点方法
+    getTreeNode(event) {
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictsTree + '/' + event.node.guid, {})
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.treeResult = event.node.guid; // 赋值
+                    event.node.children = val.result.children;
+                    // 组装树
+                    if (val.result.dictName) {
+                        val.result.label = val.result.dictName;
+                        val.result.expandedIcon = 'fa-folder-open';
+                        val.result.collapsedIcon = 'fa-folder';
+                        val.result.childDict = true; // 是业务字典
+                    }
+                    if (val.result.children) {
+                        for (let i = 0 ; i < val.result.children.length; i++) {
+                            if (val.result.children[i].dictName) { // 子业务字典
+                                val.result.children[i].label = val.result.children[i].dictName;
+                                val.result.children[i].expandedIcon = 'fa-folder-open';
+                                val.result.children[i].collapsedIcon = 'fa-folder';
+                                val.result.children[i].childDict = true;
+                                val.result.children[i].children = [{'label': ''}];
+                            }
 
+                            if (val.result.children[i].itemName) { // 字典项
+                                val.result.children[i].label = val.result.children[i].itemName;
+                                val.result.children[i].icon = 'fa-file-word-o';
+                                val.result.children[i].childDict = false;
+                            }
+                        }
+                    }
+
+                },
+            );
+    }
 
     selectedRow(event) {
         // 选中方法，折叠层按钮显示方法
@@ -308,6 +342,22 @@ export class DictComponent implements OnInit {
         } else {
             this.treeshow = false;
         }
+    }
+
+    treeResult: string; // 接收ID值
+    istrue: boolean; // 树请求标识符 true才可以请求
+    // 展开节点事件
+    Unfold(event) {
+        if (event.node.guid === this.treeResult) {
+            this.istrue = false;
+        } else {
+            this.istrue = true;
+        }
+        if (this.istrue) { // 为true的时候 说明不存在，没有请求过 才去请求
+            this.getTreeNode(event);
+        }
+
+
     }
 
 
@@ -377,41 +427,7 @@ export class DictComponent implements OnInit {
 
     // 左击树菜单节点信息
     TreeSelect(event) {
-        console.log(event);
-        this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictsTree + '/' + event.node.guid, {})
-            .map(res => res.json())
-            .subscribe(
-                (val) => {
-                    event.node.children = val.result.children;
-                    console.log(event.node)
-                    if (val.result.dictName) {
-                        val.result.label = val.result.dictName;
-                        val.result.expandedIcon = 'fa-folder-open';
-                        val.result.collapsedIcon = 'fa-folder';
-                        val.result.childDict = true; // 是业务字典
-                    }
-                    if (val.result.children) {
-                        for (let i = 0 ; i < val.result.children.length; i++) {
-                            if (val.result.children[i].dictName) { // 子业务字典
-                                val.result.children[i].label = val.result.children[i].dictName;
-                                val.result.children[i].expandedIcon = 'fa-folder-open';
-                                val.result.children[i].collapsedIcon = 'fa-folder';
-                                val.result.children[i].childDict = true;
-                            }
 
-                            if (val.result.children[i].itemName) { // 字典项
-                                val.result.children[i].label = val.result.children[i].itemName;
-                                val.result.children[i].icon = 'fa-file-word-o';
-                                val.result.children[i].childDict = false;
-                            }
-                        }
-                    } else {
-                        console.log(val.result);
-                    }
-
-
-                },
-            );
     }
 
 
@@ -477,10 +493,9 @@ export class DictComponent implements OnInit {
 
     // 修改字典项
     exitdictItem() {
-        console.log(this.treeSelectData);
         this.isEdit  = true; // 修改
-        // this.dictItemAdd.itemType = 'dict'; // 默认子字典
         this.dictItemAdd = this.treeSelectData;
+        console.log(this.treeSelectData)
         this.dictionaryItems = true; // 打开弹出框
     }
 
@@ -508,9 +523,16 @@ export class DictComponent implements OnInit {
 
     // 字典项保存
     itemSava() {
-        const jsonOption = this.dictItemAdd;
-        jsonOption.guidDict = this.treeSelectData.guid;
-        console.log(jsonOption);
+        const jsonOption = {
+            guid: this.dictItemAdd.guid,
+            guidDict: this.dictItemAdd.guidDict,
+            itemDesc: this.dictItemAdd.itemDesc,
+            itemName: this.dictItemAdd.itemName,
+            itemType: this.dictItemAdd.itemType,
+            itemValue: this.dictItemAdd.itemValue,
+            sendValue: this.dictItemAdd.sendValue,
+            seqNo: this.dictItemAdd.seqno,
+        };
         if (!this.isEdit) { // 新增字典项
             this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
                 .map(res => res.json())

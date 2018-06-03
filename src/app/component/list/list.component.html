@@ -1,17 +1,17 @@
 <!--  列表组件 -->
 <div class="mb-md">
-    <button nz-button (click)="add()" [nzType]="'primary'" [nzSize]="'large'">
+    <button  *ngIf="!showAdd" nz-button (click)="add()" [nzType]="'primary'" [nzSize]="'large'">
         <i class="anticon anticon-plus"></i>
         <span>新建</span>
     </button>
 
-    <button *ngIf="selectedRows.length >0" nz-button (click)="remove()" style="margin-left: 10px;" [nzType]="'danger'" [nzSize]="'large'">
+    <button *ngIf="selectedRows.length >0 && !showAdd" nz-button (click)="remove()" style="margin-left: 10px;" [nzType]="'danger'" [nzSize]="'large'">
         <i class="anticon anticon-minus"></i>
         <span>删除</span>
     </button>
 
     <!--必须选中一个的时候，即数组长度大于-的时候，才会显示这一块内容，否则不显示-->
-    <ng-container *ngIf="selectedRows.length == 1 && moreData.morebutton">
+    <ng-container *ngIf="selectedRows.length == 1 && moreData.morebutton && !showAdd">
         <!--<button nz-button [nzSize]="'large'" class="ml-sm">批量操作</button>-->
         <nz-dropdown [nzPlacement]="'bottomLeft'">
             <button nz-button nz-dropdown [nzSize]="'large'" class="ml-sm">
@@ -70,7 +70,9 @@
             <a *ngIf="d.isclick"  [routerLink]="['/APPlication']"  [queryParams]="data[l]">{{data[l][d.key]}}</a>-->
         </td>
         <td nz-td>
-            <a style="color:#108ee9;" (click)="add(i)">修改</a>&nbsp;
+            <a *ngIf="!showAdd" style="color:#108ee9;" (click)="add(i)">修改</a>&nbsp;
+            <!--查看日志详情页面-->
+            <a *ngIf="showAdd" style="color:#108ee9;" (click)="add(i)">查看详情</a>&nbsp;
             <a *ngFor="let c of i.buttonData" style="color:#108ee9;" (click)="buttonClick(i)">{{c}}</a>&nbsp;
         </td>
     </tr>

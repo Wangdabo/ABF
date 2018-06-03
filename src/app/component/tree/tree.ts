@@ -54,6 +54,10 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     @Output()
     Select: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
 
+
+    @Output()
+    develop: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
+
     constructor() {
     }
 
@@ -93,6 +97,11 @@ export class TreeDemoComponent implements OnInit, OnChanges {
         });
     }
 
+    // 展开事件
+    Unfold(event) {
+        this.develop.emit(event); // 展开了节点树信息
+    }
+
     // 右击菜单事件
     RightSelect(event) {
         this.MenuSelect.emit(event); // 进行了右击，到父组件中去定位右击菜单数据
@@ -105,9 +114,7 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     }
 
 
-    zhede(event) {
-        console.log(event);
-    }
+
 }
 
 
