@@ -49,6 +49,7 @@ import {ModelCustomComponent} from './codeGeneration/custom.component';
 import { ListComponent } from '../component/list/list.component';
 import { TreeDemoComponent} from '../component/tree/tree';
 import { LogsComponent } from './basicData/logs/logs.component';
+import { SeqresourceComponent } from './basicData/seqresource/seqresource.component';
 
 
 
@@ -79,6 +80,7 @@ import { UtilityService } from '../service/utils.service';
         DictComponent,
         // 系统参数组件
         SystemComponent,
+        SeqresourceComponent,
         // 封装组件
         LogsComponent,
         ListComponent,

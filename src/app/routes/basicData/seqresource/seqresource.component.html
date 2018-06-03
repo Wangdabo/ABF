@@ -1,0 +1,128 @@
+<!--引入面包屑组件-->
+<pro-header></pro-header>
+
+<!--引入list组件-->
+<nz-card [nzBordered]="false">
+
+    <!--  form表单搜索 -->
+    <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+        <div nz-row [nzGutter]="24">
+
+            <div nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="SEQNAME">序号资源表名称</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqName" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号资源表名称'" nzId="seqName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="SEQKEY">序号键值</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqKey" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号键值'" nzId="seqKey"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="SEQNO">序号数</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqNo" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号数'" nzId="seqNo"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
+                <button nz-button type="submit" (click)="getData()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
+                <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <a (click)="expandForm=!expandForm">
+                    {{expandForm ? '收起' : '展开'}}
+                    <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+    <!--列表组件-->
+    <app-list [initDate]="data" (addCreat)="addHandler($event)"
+              (buttonData)="buttonDataHandler($event)" (pageNumber)="monitorHandler($event)"
+              (deleatData)="deleatData($event)" (isActive)="isActive($event)"
+              (selectedRow)="selectedRow($event)" [headerDate]="headerData"
+              [moreData]="moreData" [total]="total">
+
+    </app-list>
+</nz-card>
+
+
+
+
+<!-- 弹出框 -->
+<nz-modal [nzVisible]="modalVisible" [nzWidth]="1024" [nzTitle]="'新增运行参数'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <div nz-row [nzGutter]="24">
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="seqName">序号资源表名称</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqName" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号资源表名称'" nzId="seqName"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="SEQKEY">序号键值</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqKey" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号键值'" nzId="seqKey"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="SEQNO">序号数</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.seqNo" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号数'" nzId="seqNo"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label>
+                        <label for="RESET">重置方式</label>
+                    </div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="sequenceResource.reset" name="name" [nzSize]="'large'" [nzPlaceHolder]="'重置方式'" nzId="reset"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+        <div nz-form-item class="d-flex">
+            <div nz-form-label class="alignment">
+                <label for="RESETPARAMS">重置处理参数</label>
+            </div>
+            <div nz-form-control class="flex-1">
+                <nz-input [(ngModel)]="sequenceResource.resetParams"  name="name" [nzSize]="'large'" [nzPlaceHolder]="'重置处理参数'"
+                          nzId="resetParams"></nz-input>
+            </div>
+        </div>
+        </div>
+    </ng-template>
+
+</nz-modal>
+

@@ -121,3 +121,22 @@ export class LogsModule {
 
 
 }
+
+// 序号资源表模块
+export class SequenceResModule {
+    // 当前页数
+    public pi: number;
+    // 每页个数
+    public size: number;
+    // 序号资源表名称
+    public seqName: string;
+    // 序号键值
+    public seqKey: string;
+    // 序号数
+    public seqNo: number;
+    // 重置方式
+    public reset: string;
+    // 重置处理参数
+    public resetParams: string;
+
+}

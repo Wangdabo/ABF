@@ -19,5 +19,6 @@
     "fullscreen": "全屏",
     "language": "语言",
     "clear-local-storage": "清理本地缓存",
-    "logs": "日志管理"
+    "logs": "日志管理",
+    "seqresource":"序号资源表"
 }

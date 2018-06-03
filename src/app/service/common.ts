@@ -55,6 +55,10 @@ export let appConfig = {
         acOperatorsAdd: '/acOperators/add', // 增删改操作员列表
         acOperatorsDel: '/acOperators', // 增删改操作员列表
 
+
+        // 序号资源
+        seqResource: '/seq/list', // 查询序号资源数据
+        seqResourcedel: '/seq/del', // 删除序号资源数据
     }
 }
 

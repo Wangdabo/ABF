@@ -29,6 +29,7 @@ import { PostComponent } from './organization/post/post.component';
 import { DictComponent } from './basicData/dict/dict.component';
 import { SystemComponent } from './basicData/system/system.component';
 import { LogsComponent } from './basicData/logs/logs.component';
+import {SeqresourceComponent} from './basicData/seqresource/seqresource.component';
 
 // 用户登录引入
 import { UserLoginComponent } from './passport/login/login.component';
@@ -45,6 +46,7 @@ import {TableStandardComponent} from './codeGeneration/standard.component';
 import {modelDetailComponent} from './codeGeneration/model-detail/modelDetail.component';
 import {ModelCountComponent} from './codeGeneration/model-count/modelCount.component';
 import {FormDetailComponent} from './codeGeneration/form-detail/formDetail.component';
+
 
 
 const routes: Routes = [
@@ -70,6 +72,7 @@ const routes: Routes = [
             { path: 'business', component: DictComponent },
             { path: 'system', component: SystemComponent },
             { path: 'logs', component: LogsComponent },
+            { path: 'seqresource', component: SeqresourceComponent },
             // 代码生成路由
             {path: 'standard', component: TableStandardComponent },
             {path:  'model-detail/modelDetail/:name', component: modelDetailComponent},
