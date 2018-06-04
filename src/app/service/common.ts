@@ -57,8 +57,9 @@ export let appConfig = {
 
 
         // 序号资源
-        seqResource: '/seq/list', // 查询序号资源数据
-        seqResourcedel: '/seq/del', // 删除序号资源数据
+        seqResource: '/sysSeqno/list', // 查询序号资源数据
+        seqResourcedel: '/sysSeqno', // 删除序号资源数据
+        seqResourceadd: '/sysSeqno', // 增加序号资源数据
     }
 }
 

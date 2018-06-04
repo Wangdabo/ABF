@@ -49,7 +49,7 @@
             </div>
             <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" (click)="getData()" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
-                <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
+                <button nz-button type="reset" (click)="resetf()" [nzSize]="'large'" class="mx-sm">重置</button>
                 <a (click)="expandForm=!expandForm">
                     {{expandForm ? '收起' : '展开'}}
                     <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
@@ -71,8 +71,8 @@
 
 
 <!-- 弹出框 -->
-<nz-modal [nzVisible]="modalVisible" [nzWidth]="1024" [nzTitle]="'新增运行参数'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
-          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+<nz-modal [nzVisible]="modalVisible" [nzWidth]="1024" [nzTitle]="'新增序号资源'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="cancel()" (nzOnOk)="save()">
     <ng-template #modalContent>
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="12" class="mb-md">
@@ -114,8 +114,12 @@
                         <label for="RESET">重置方式</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="sequenceResource.reset" name="name" [nzSize]="'large'" [nzPlaceHolder]="'重置方式'" nzId="reset"></nz-input>
+                        <nz-select  style="width:100%;"  [(ngModel)]="sequenceResource.reset" name="valueFrom" [nzSize]="'large'" [nzPlaceHolder]="'重置方式'"
+                                   nzId="reset">
+                            <nz-option *ngFor="let i of reset; let app = index" [nzLabel]="i.key" [nzValue]="i.value"></nz-option>
+                        </nz-select>
                     </div>
+
                 </div>
             </div>
         </div>
