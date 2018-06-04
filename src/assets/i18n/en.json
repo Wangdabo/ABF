@@ -19,5 +19,6 @@
     "language": "Language",
     "clear-local-storage": "Clear Local Storage",
     "logs": "logs",
-    "seqresource":"sequenceresource"
+    "seqresource":"sequenceresource",
+    "Timeline": "Log history"
 }

@@ -15,9 +15,6 @@ export class LogsComponent implements OnInit {
     constructor(
         private http: _HttpClient,
         private router: Router,
-        private utilityService: UtilityService,
-        private modal: NzModalService,
-        private nznot: NzNotificationService
     ) { }
 
     logitem: LogsModule = new LogsModule(); // 搜索值
@@ -196,8 +193,12 @@ export class LogsComponent implements OnInit {
     }
 
     detailsHandler(event) {
-        console.log(event);
         // 路由跳转
+        this.router.navigate(['Timeline'],
+            { queryParams:
+                    { logInfo: event
+                    }
+            });
     }
 
     monitordetailsData(event) { // 翻页事件

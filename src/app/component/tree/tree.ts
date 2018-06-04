@@ -28,7 +28,6 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     items: MenuItem[];
     title: string;
     searsh: string; // 搜索框内容
-
     @Input() // 输入属性,接受父组件传入的树数据
     initDate: any[];
 
@@ -38,6 +37,12 @@ export class TreeDemoComponent implements OnInit, OnChanges {
 
     @Input() // 输入属性,接受父组件传入的树搜索框内容文字
     searchTitle: string;
+
+
+    @Input() // 输入属性,接受父组件传入的树搜索框内容文字
+    nodrop: boolean;
+
+
 
     @Output()
     dropEvent: EventEmitter<string> = new EventEmitter(); // 定义一个输出属性，当点击按钮的时候 发射出去
@@ -65,7 +70,7 @@ export class TreeDemoComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.getData(); // 初始化树数据
         this.searchaValue(); // 搜索值
-
+        console.log(this.nodrop);
 
     }
 

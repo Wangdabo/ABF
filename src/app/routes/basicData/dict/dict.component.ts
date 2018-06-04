@@ -59,6 +59,7 @@ export class DictComponent implements OnInit {
     page: any;
     total: number;
     treeSelectData: any; // 树节点选择的数据
+    nodrop: boolean; // 是否有拖动的树
 
     // fromType 字典项来源类型
     fromType = [
@@ -120,6 +121,7 @@ export class DictComponent implements OnInit {
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.nodrop = true;
     }
 
     getData() {
