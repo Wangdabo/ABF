@@ -135,7 +135,7 @@ export class SequenceResModule {
     // 序号数
     public seqNo: number;
     // 重置方式
-    public reset: string;
+    public reset: any;
     // 重置处理参数
     public resetParams: string;
 

@@ -36,7 +36,12 @@ export class SeqresourceComponent implements OnInit {
         { value: '重置处理参数', key: 'resetParams', isclick: false }
     ];
 
-
+    reset = [
+        {key: '不重置', value: 'E'},
+        {key: '按天重置', value: 'D'},
+        {key: '按周重置', value: 'W'},
+        {key: '自定义重置周期 ', value: 'C'},
+    ]
     moreData = {
         morebutton: false,
         buttons: [
@@ -46,10 +51,11 @@ export class SeqresourceComponent implements OnInit {
 
     ngOnInit() {
         this.sequenceResource.pi = 1;
+        this.getData();
     }
 
 
-    reset() {
+    resetf() {
         this.sequenceResource = new SequenceResModule();
     }
     // 父组件初始化数据
@@ -60,7 +66,7 @@ export class SeqresourceComponent implements OnInit {
                 size: 10
             }
         };
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.sysConfigsList, this.page)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.seqResource, this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
@@ -146,6 +152,31 @@ export class SeqresourceComponent implements OnInit {
     }
 
     selectedRow(event) { // 选中方法，折叠层按钮显示方法
+
+    }
+
+    // 取消新增
+    cancel() {
+        this.modalVisible = false;
+        this.sequenceResource = new SequenceResModule();
+    }
+
+    // 弹出框保存组件
+    save() {
+        const jsonOption = this.sequenceResource;
+         // 调用新增的逻辑
+            // 调用服务来获取列表节点操作
+            this.utilityService.postData(appConfig.testUrl  + appConfig.API.seqResourceadd, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getData();
+                    },
+                );
+
+        this.sequenceResource = new SequenceResModule();
+        this.modalVisible = false;
 
     }
 }
