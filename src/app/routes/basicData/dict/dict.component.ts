@@ -62,11 +62,7 @@ export class DictComponent implements OnInit {
     nodrop: boolean; // 是否有拖动的树
 
     // fromType 字典项来源类型
-    fromType = [
-        { text: '字典项', value: false, key: '0' },
-        { text: '来自单表', value: false, key: '1' },
-        { text: '多表或视图', value: false, key: '2' }
-    ];
+    fromType: any;
 
     // itemType  字典项类型
     itemType = [
@@ -74,14 +70,8 @@ export class DictComponent implements OnInit {
         { text: '字典值', value: false, key: 'value' }
     ]
 
-
     // dictType 业务字典类型
-    dictType = [
-        { text: '应用级', value: false, key: 'a' },
-        { text: '系统级', value: false,  key: 's' },
-    ];
-
-
+    dictType: any;
 
     // 字典项
     itemValue = [
@@ -120,6 +110,9 @@ export class DictComponent implements OnInit {
     // 右击菜单数据
 
     ngOnInit() {
+        this.fromType = appConfig.Enumeration.fromType;
+        this.dictType = appConfig.Enumeration.systemType;
+
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
         this.nodrop = true;
     }

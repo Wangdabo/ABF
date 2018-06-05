@@ -16,12 +16,83 @@
 <div class="ui-g">
     <div class="ui-g-6">
         <nz-card nzTitle="基本信息" [nzBordered]="false">
-                你好啊
+            <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+                <div *ngFor="let d of array" nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">{{d.key}}:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{d.value}}</div>
+                    </div>
+                </div>
+            </div>
         </nz-card>
     </div>
     <div class="ui-g-6">
         <nz-card nzTitle="时间轴信息" [nzBordered]="false">
-            时间轴信息
+            <nz-timeline>
+                <nz-timeline-item *ngFor="let d of data" style="margin-bottom: 100px;">
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="margin-top: 0px;padding: 0 0 5px 0;border-bottom: 1px solid rgba(95, 108, 108, 0.3);font-size: 24px">操作内容:{{d.key}} <span style="font-weight: normal;font-size: 14px;" class="pull-right ng-binding">状态:{{d.value}}</span> </h2>
+                        <span style="font-size: 18px; margin:10px 0px; display: inline-block ">
+                            用户名:{{d.userId}}
+                        </span>
+                        <span style="font-size: 18px; margin:10px 0px; display: inline-block " class="pull-right ng-binding">
+                            时间:{{d.items}}
+                        </span>
+                        <div style="margin-bottom: 10px;">
+                            <a  style="text-underline: none;" href="javascript:;" class="nav-link pull-left" (click)="objChange(d)">
+                                查看对象差异值 <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </nz-timeline-item>
+            </nz-timeline>
         </nz-card>
     </div>
 </div>
+
+
+
+<!-- 弹出框 -->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'对象改变差异值'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <!-- 主要信息 -->
+        <div *ngIf="!ifshow" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div style="margin-top: 7px;margin-right: 10px;" nz-form-label class="alignment"><label for="no">变化项字段名:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input disabled [(ngModel)]="logChange.physicalName" name="physicalName" [nzSize]="'large'" [nzPlaceHolder]="'变化项字段名'" nzId="physicalName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div style="margin-top: 7px;margin-right: 10px;" nz-form-label class="alignment"><label for="no">变化项逻辑名:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input disabled [(ngModel)]="logChange.logicName" name="logicName" [nzSize]="'large'" [nzPlaceHolder]="'变化项逻辑名称'" nzId="logicName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div style="margin-top: 7px;margin-right: 10px;" nz-form-label class="alignment"><label for="no">变化之前值:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input disabled [(ngModel)]="logChange.oldValue" name="oldValue" [nzSize]="'large'" [nzPlaceHolder]="'变化之前值'" nzId="oldValue"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div style="margin-top: 7px;margin-right: 10px;" nz-form-label class="alignment"><label for="no">变化之后值:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input disabled [(ngModel)]="logChange.newValue" name="newValue" [nzSize]="'large'" [nzPlaceHolder]="'变化之后值'" nzId="newValue"></nz-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+
+

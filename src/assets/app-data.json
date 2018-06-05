@@ -84,15 +84,16 @@
                     "text": "日志管理",
                     "link": "/logs",
                     "i18n": "logs"
-                }, { "text": "序号资源",
-                        "link": "/seqresource",
-                        "i18n": "seqresource"
-                    },
-                    {
-                        "text": "错误码",
-                        "link": "/errorcode",
-                        "i18n": "errorcode"
-                    }]
+                },
+                { "text": "序号资源",
+                   "link": "/seqresource",
+                   "i18n": "seqresource"
+                },
+                {
+                   "text": "错误码",
+                   "link": "/errorcode",
+                    "i18n": "errorcode"
+                }]
             },
             {
                 "text": "开发管理",

@@ -47,6 +47,7 @@ import {modelDetailComponent} from './codeGeneration/model-detail/modelDetail.co
 import {ModelCountComponent} from './codeGeneration/model-count/modelCount.component';
 import {FormDetailComponent} from './codeGeneration/form-detail/formDetail.component';
 import {TimelineComponent} from './basicData/timeline/timeline.component';
+import {LogDataComponent} from './basicData/log-data/log-data.component';
 
 
 
@@ -75,6 +76,7 @@ const routes: Routes = [
             { path: 'logs', component: LogsComponent },
             { path: 'seqresource', component: SeqresourceComponent },
             { path: 'Timeline', component: TimelineComponent, data: { i18n: 'Timeline' , title: '日志历史记录' }},
+            { path: 'logData', component: LogDataComponent, data: { i18n: 'logData' , title: '日志详情' }},
             // 代码生成路由
             {path: 'standard', component: TableStandardComponent },
             {path:  'model-detail/modelDetail/:name', component: modelDetailComponent},

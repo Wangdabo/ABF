@@ -217,6 +217,7 @@ export class FunctionComponent implements OnInit {
                     this.data = val.result.records;
                     this.total = val.result.total;
                 }
+
             );
     }
 

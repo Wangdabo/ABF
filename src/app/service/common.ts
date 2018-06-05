@@ -55,11 +55,31 @@ export let appConfig = {
         acOperatorsAdd: '/acOperators/add', // 增删改操作员列表
         acOperatorsDel: '/acOperators', // 增删改操作员列表
 
-
         // 序号资源
         seqResource: '/sysSeqno/list', // 查询序号资源数据
         seqResourcedel: '/sysSeqno', // 删除序号资源数据
         seqResourceadd: '/sysSeqno', // 增加序号资源数据
+
+        // 日志管理
+        logList: '/logOperate/list', // 查询所有日志
+        logDetail: '/logOperate', // 查询日志详情
+        logData: '/logData', // 查询日志操作记录
+    },
+
+    // 枚举值
+    Enumeration: {
+        // 字典项枚举值
+        fromType: [
+            { text: '字典项', key: '0' },
+            { text: '来自单表', key: '1' },
+            { text: '多表或视图', key: '2' }
+        ],
+
+        // 系统类型
+        systemType: [
+            { text: '应用级', key: 'a' },
+            { text: '系统级',  key: 's' }
+        ]
     }
 }
 

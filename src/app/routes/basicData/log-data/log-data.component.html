@@ -1,0 +1,91 @@
+<div class="content__title">
+    <nz-breadcrumb [nzSeparator]="'>'">
+        <nz-breadcrumb-item>
+            首页
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a href="javascript:;">日志管理</a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a href="javascript:;">{{logName}}日志详情</a>
+        </nz-breadcrumb-item>
+    </nz-breadcrumb>
+</div>
+
+
+<nz-card  nzTitle="日志详情"  [nzBordered]="false">
+    <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">登陆用户名:</div>
+                <div class="ad-desc-list__detail ng-star-inserted">{{logDetails.userId}}</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">操作员姓名:</div>
+                <!--<div class="ad-desc-list__detail ng-star-inserted">{{logDetails.operatorName}}</div>-->
+                <div class="ad-desc-list__detail ng-star-inserted">汪波</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">操作时间:</div>
+                <div class="ad-desc-list__detail ng-star-inserted">{{logDetails.operateTime}}</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div   class="ad-desc-list__term ng-star-inserted">操作渠道:</div>
+                <div  class="ad-desc-list__detail ng-star-inserted">{{logDetails.operateFrom }}</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">操作类型:</div>
+                <div class="ad-desc-list__detail ng-star-inserted">{{logDetails.operateType}}</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">操作结果:</div>
+                <div class="ad-desc-list__detail ng-star-inserted">{{logDetails.operateResult}}</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">服务地址:</div>
+                <!--<div class="ad-desc-list__detail ng-star-inserted">{{logitem.restfulRul}}</div>-->
+                <div class="ad-desc-list__detail ng-star-inserted">httP://www.baidu.com</div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted">处理描述:</div>
+                <div class="ad-desc-list__detail ng-star-inserted"> {{logDetails.procssDesc}} </div>
+            </div>
+        </div>
+        <div *ngIf="iserror" nz-col [nzSpan]="24" class="mb-md">
+            <div nz-form-item class="d-flex" style="font-size: 18px;">
+                <div class="ad-desc-list__term ng-star-inserted" style="margin-right: 5px;">异常堆栈:</div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="logDetails.stackTrace"  [nzAutosize]="autosize" nzType="textarea" name="description" [nzSize]="'large'" [nzPlaceHolder]="'参数描述'"
+                              nzId="description"></nz-input>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div style="margin-top: 30px;border-bottom: 1px solid #ccc">
+        <div style="margin-bottom: 16px;">
+            <span  style="font-size: 16px;padding: 16px 0;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color: rgba(0, 0, 0, 0.85);font-weight: 500;display: inline-block;flex: 1;">操作日志集合</span>
+        </div>
+        <!--列表组件-->
+        <app-list #child [showAdd]="showAdd" [initDate]="detailsData" (addCreat)="detailsHandler($event)"  (pageNumber)="monitordetailsData($event)"
+                  [headerDate]="headerDetails"
+                   [total]="detailstotal"></app-list>
+    </div>
+</nz-card>
+

@@ -95,11 +95,13 @@ export class LogsModule {
     // 每业个数
     public size: number = 10;
     // 操作类型
-    public  operatorType: null;
+    public  operateType: null;
     // 操作时间
-    public  operatorTime: string;
+    public  operateTime: string;
     // 操作结果
-    public operatorResult: string;
+    public operateResult: string;
+    // 操作渠道
+    public operateFrom: string;
     // 操作员姓名
     public  operatorName: string;
     // 操作员
@@ -113,13 +115,25 @@ export class LogsModule {
     // 功能名称
     public  funcName: string;
     // 服务地址
-    public  restfulRul: string;
+    public  restfulUrl: string;
     // 异常堆栈
-    public  stacktRace: string;
+    public  stackTrace: string;
     // 处理描述
-    public  procssdesc: string;
+    public  procssDesc: string;
+}
 
-
+// 对象差异模块
+export class LogcChangeModule {
+    // 操作数据GUID
+    public guidData: string;
+    // 变化项字段名
+    public physicalName: string;
+    // 变化项逻辑名称
+    public logicName: string;
+    // 变化之前值
+    public oldValue: string;
+    // 变化之后值
+    public newValue: string;
 }
 
 // 序号资源表模块

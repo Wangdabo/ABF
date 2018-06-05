@@ -51,6 +51,7 @@ import { TreeDemoComponent} from '../component/tree/tree';
 import { LogsComponent } from './basicData/logs/logs.component';
 import { SeqresourceComponent } from './basicData/seqresource/seqresource.component';
 import { TimelineComponent } from './basicData/timeline/timeline.component';
+import { LogDataComponent } from './basicData/log-data/log-data.component';
 
 
 
@@ -85,6 +86,7 @@ import { UtilityService } from '../service/utils.service';
         TimelineComponent,
         LogsComponent,
         // 封装组件
+        LogDataComponent,
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件
