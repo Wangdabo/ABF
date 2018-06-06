@@ -21,12 +21,7 @@ export class LogDataComponent implements OnInit {
 
     // 查看详情界面
     detailsData: any[] = []; // 表格数据
-    q: {
-        page: {
-            pi: 1,
-            size: 0
-        }
-    };  // 翻页数据
+    // 翻页数据
     showAdd: true;
     logDetails: LogsModule = new LogsModule(); // 日志详情值
     headerDetails = [ // 配置表头

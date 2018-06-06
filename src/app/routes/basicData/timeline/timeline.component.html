@@ -46,6 +46,8 @@
                     </div>
                 </nz-timeline-item>
             </nz-timeline>
+            <!-- 翻页数据 -->
+            <nz-pagination style="float: right"   (nzPageIndexChange)="pageChange($event)"	 [nzPageIndex]="1" [nzTotal]="500"></nz-pagination>
         </nz-card>
     </div>
 </div>

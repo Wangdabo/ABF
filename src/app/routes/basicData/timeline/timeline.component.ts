@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {UtilityService} from '../../../service/utils.service';
 import {ActivatedRoute} from '@angular/router';
-import {LogcChangeModule} from '../../../service/common.module';
+import {LogcChangeModule, PageModule} from '../../../service/common.module';
+import {appConfig} from '../../../service/common';
 
 @Component({
   selector: 'app-timeline',
@@ -10,6 +11,8 @@ import {LogcChangeModule} from '../../../service/common.module';
 })
 export class TimelineComponent implements OnInit {
 
+
+    page: any;
     logName: string;
     infoData: any;
     dataInfo: any;
@@ -17,21 +20,22 @@ export class TimelineComponent implements OnInit {
     modalVisible = false;
 
     logChange: LogcChangeModule = new LogcChangeModule(); // 对象差异值
-
+    pages: PageModule = new PageModule();
     constructor(
         private http: _HttpClient,
         public activatedRoute: ActivatedRoute,
         private utilityService: UtilityService,
     ) { }
 
-
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.infoData = JSON.parse(queryParams.logInfo);
         });
         this.getInfo(JSON.parse(this.infoData.dataString));
+        this.getData(this.infoData.dataGuid);
     }
 
+    // 详情信息
     getInfo(event) {
         this.dataInfo = event;
 
@@ -42,6 +46,24 @@ export class TimelineComponent implements OnInit {
             };
             this.array.push(strs);
         }
+    }
+
+    getData(event) {
+        console.log(event)
+        this.page = {
+            page: {
+                current: this.pages.pi,
+                size: this.pages.size,
+            }
+        };
+
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.logData + '/' + event, this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    console.log(val.result.records);
+                }
+            );
     }
 
 
@@ -56,6 +78,12 @@ export class TimelineComponent implements OnInit {
 
     objChange(event) {
         this.modalVisible = true;
+
+        
+    }
+
+    pageChange(event) {
+        console.log(event);
     }
 
 

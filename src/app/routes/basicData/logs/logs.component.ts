@@ -65,15 +65,6 @@ export class LogsComponent implements OnInit {
 
     // 父组件初始化数据
     getData() { // 初始化请求后台数据
-        this.data = [
-            {operatorType: '查询', appName: 'ABF应用管理', operatorResult: '成功', operatorTime: '2018/6/3 21:49', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '修改数据', appName: 'ABF应用管理', operatorResult: '失败', operatorTime: '2018/6/3 21:50', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '查询', appName: 'ABF应用管理', operatorResult: '成功', operatorTime: '2018/6/3 21:51', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '修改数据', appName: 'ABF应用管理', operatorResult: '失败', operatorTime: '2018/6/3 21:52', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '新增数据', appName: 'ABF应用管理', operatorResult: '成功', operatorTime: '2018/6/3 21:53', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '查询', appName: 'ABF应用管理', operatorResult: '失败', operatorTime: '2018/6/3 21:54', userId: 'wangbo', procssdesc: '登陆用户'},
-            {operatorType: '删除数据', appName: 'ABF应用管理', operatorResult: '系统处理异常', operatorTime: '2018/6/3 21:55', userId: 'wangbo', procssdesc: '登陆用户'}
-        ];
         this.page = {
             page: {
                 current: this.logitem.pi,
