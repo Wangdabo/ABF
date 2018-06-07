@@ -24,6 +24,7 @@ export class LogDataComponent implements OnInit {
     // 翻页数据
     showAdd: true;
     logDetails: LogsModule = new LogsModule(); // 日志详情值
+    configTitle: string;
     headerDetails = [ // 配置表头
         { value: '操作数据类型', key: 'operateType', isclick: false },
         { value: '数据GUID', key: 'dataGuid', isclick: false },
@@ -45,6 +46,7 @@ export class LogDataComponent implements OnInit {
             this.logGuid = queryParams.logGuid;
         });
 
+        this.configTitle = '查看详情'
         this.showAdd = true;
         this.getinfo(this.logGuid);
         this.getDetail(this.logGuid);

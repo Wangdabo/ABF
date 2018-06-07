@@ -65,7 +65,8 @@ export let appConfig = {
         logList: '/logOperate/list', // 查询所有日志
         logDetail: '/logOperate', // 查询日志详情
         logData: '/logData', // 查询日志操作记录
-        logChange: '/logChange',
+        logChange: '/logData/list',
+        logChanges: '/logChange', //  查看对象差异值
 
         // 菜单管理
         acMenuList: '/acMenus/queryPageAllList', // 查询所有

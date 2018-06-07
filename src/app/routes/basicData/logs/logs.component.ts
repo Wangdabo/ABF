@@ -38,6 +38,7 @@ export class LogsComponent implements OnInit {
     ];
     modalVisible = false;
     showAdd: boolean;
+    configTitle: string;
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -61,6 +62,7 @@ export class LogsComponent implements OnInit {
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办\
         this.showAdd = true;
+        this.configTitle = '查看详情';
     }
 
     // 父组件初始化数据
