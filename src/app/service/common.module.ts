@@ -140,3 +140,42 @@ export class SequenceResModule {
     public resetParams: string;
 
 }
+
+// 菜单管理
+export class AcMenuModule {
+    // 当前页数
+    public pi: number;
+    // 每页个数
+    public size: number;
+    // 应用ID
+    public guidApp: string;
+    // 功能ID
+    public guidFunc: string;
+    // 菜单名称
+    public menuName: string;
+    // 菜单中文显示
+    public menuLabel: string;
+    // 菜单代码
+    public menuCode: string;
+    // 是否叶子菜单
+    public isLeaf: boolean;
+    // UI入口
+    public uiEntry: string;
+    // 菜单层次
+    public menuLevel: number;
+    // 父菜单的ID
+    public guidParents: string;
+    // 根菜单的ID
+    public guidRoot: string;
+    // 显示顺序
+    public displayOrder: number;
+    // 菜单闭合图片路径
+    public imagePath: string;
+    // 菜单展开图片路径
+    public expandPath: string;
+    // 菜单路径序列
+    public menuSeq: string;
+    // 页面打开方式
+    public openMode: string;
+}
+

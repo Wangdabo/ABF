@@ -3,6 +3,8 @@ import {_HttpClient, User} from '@delon/theme';
 import {MenuItem} from 'primeng/api';
 import { UtilityService} from '../../../service/utils.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {appConfig} from '../../../service/common';
+import { AcMenuModule} from '../../../service/common.module';
 
 @Component({
   selector: 'app-menu',
@@ -19,15 +21,42 @@ export class MenuComponent implements OnInit {
     ) { }
 
     treedata: any[]; // tree组件数据
-
     treemenus: MenuItem[]; // 右击菜单数据
+    page: any;
+    total: number;
+    acmenuModule: AcMenuModule = new AcMenuModule();
+    data: any[] = []; // 表格数据
+    appData: any[]; // 应用数据
+    guidParents: any; // 父菜单
+    isDisplay: boolean ;
+    treeshow = false; // 是否显示树结构
 
     ngOnInit() {
-        // this.getData(); // 调用初始化方法，把树数据传输进去
+        this.isDisplay = true;
+        this.acmenuModule.pi = 1;
+        this.acmenuModule.size = 10;
+         this.getAppData(); // 先查询应用信息
     }
 
-/*
-    getData() { // 初始化请求后台数据
+    // 查询有哪些应用
+    getAppData() {
+        this.page = {
+            page: {
+                current: 1,
+                size: 100,
+            }
+        };
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.appList, this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.appData = val.result.records;
+                }
+            );
+    }
+
+    appCodeChange(uuid: string) {
+        //  根据应用ID 查菜单
         // 传入右击菜单数组,根据需求定
         this.treemenus = [
             {label: '新增', icon: 'fa-search', command: (event) => this.viewFile()},
@@ -36,61 +65,25 @@ export class MenuComponent implements OnInit {
         ];
 
         // 调用服务获取树操作
-        const uri = this.urlconfig + '/treeData';
-        // 请求头和请求参数是可选的，根据需求来选择是否使用
-        // this.utilityService.getData(uri, {name: 'hello', age: 20}, {QQ: '332904234'})
-        this.utilityService.getData(uri)
-            .subscribe(
-                (val) => {
-                    console.log(val)
-                    this.treedata = val;
-                },
-                response => {
-                    // 如果数据不正确，则在这里给初始数据
-                    this.treedata = [
-                        {
-                            'label': '测试数据',
-                            'data': 'Documents Folder',
-                            'expandedIcon': 'fa-folder-open',
-                            'collapsedIcon': 'fa-folder',
-                            'children': [{
-                                'label': '工作',
-                                'data': 'Work Folder',
-                                'expandedIcon': 'fa-folder-open',
-                                'collapsedIcon': 'fa-folder',
-                                'children': [{'label': '睡觉', 'icon': 'fa-file-word-o', 'data': 'Expenses Document'}, {'label': '唱歌', 'icon': 'fa-file-word-o', 'data': 'Resume Document'}]
-                            },
-                                {
-                                    'label': '下班',
-                                    'data': 'Home Folder',
-                                    'expandedIcon': 'fa-folder-open',
-                                    'collapsedIcon': 'fa-folder',
-                                    'children': [{'label': '回家', 'icon': 'fa-file-word-o', 'data': 'Invoices for this month'}]
-                                }]
-                        },
-                        {
-                            'label': '你瞅啥',
-                            'data': 'Pictures Folder',
-                            'expandedIcon': 'fa-folder-open',
-                            'collapsedIcon': 'fa-folder',
-                            'children': [
-                                {'label': '瞅你咋地', 'icon': 'fa-file-image-o', 'data': 'Barcelona Photo'},
-                                {'label': '不服干我', 'icon': 'fa-file-image-o', 'data': 'PrimeFaces Logo'},
-                                {'label': '你丫等着', 'icon': 'fa-file-image-o', 'data': 'PrimeUI Logo'}]
-                        },
-                    ]; // 传入树节点数据
-                },
-                () => {
-                    console.log('The POST observable is now completed.');
-                });
+        // this.page = {
+        //     page: {
+        //         current: this.acmenuModule.pi,
+        //         size: this.acmenuModule.size,
+        //     }
+        // };
 
-      /!*  const ur = this.urlconfig + '/news';
+        // 调用服务来获取列表节点操作
+        // this.utilityService.gettData(appConfig.testUrl + appConfig.API.acMenuListByAppcode + uuid)
+        //     .map(res => res.json())
+        //     .subscribe(
+        //         (val) => {
+        //             this.data = val.result.records; // 绑定列表数据
+        //             // this.guidParents = val.result.records;
+        //             // this.total = val.result.total;
+        //         });
+        this.treeshow = true; // 显示树结构
+        this.treedata = [{'s': 'ss'}];
 
-        this.utilityService.postData( ur, {'id': '4' , 'title': 'add data', 'author': 'wangbo'})
-            .subscribe(
-                (val) => {
-                    console.log(val);
-                });*!/
     }
 
 
@@ -144,6 +137,6 @@ export class MenuComponent implements OnInit {
 
         console.log($event);
     }
-*/
+
 
 }

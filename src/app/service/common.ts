@@ -60,6 +60,10 @@ export let appConfig = {
         seqResource: '/sysSeqno/list', // 查询序号资源数据
         seqResourcedel: '/sysSeqno', // 删除序号资源数据
         seqResourceadd: '/sysSeqno', // 增加序号资源数据
+
+        // 菜单管理
+        acMenuList: '/acMenus/queryPageAllList', // 查询所有
+        acMenuListByAppcode: '/queryAcMenuLists/', // 根据应用ID 查询菜单
     }
 }
 
