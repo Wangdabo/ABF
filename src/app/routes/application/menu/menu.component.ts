@@ -73,16 +73,19 @@ export class MenuComponent implements OnInit {
         // };
 
         // 调用服务来获取列表节点操作
-        // this.utilityService.gettData(appConfig.testUrl + appConfig.API.acMenuListByAppcode + uuid)
-        //     .map(res => res.json())
-        //     .subscribe(
-        //         (val) => {
-        //             this.data = val.result.records; // 绑定列表数据
-        //             // this.guidParents = val.result.records;
-        //             // this.total = val.result.total;
-        //         });
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.acMenuListByAppcode + uuid)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    // this.treedata = val.result.records; // 绑定列表数据
+                    // this.guidParents = val.result.records;
+                    // this.total = val.result.total;
+                    val.result.label = '应用';
+                    val.result.expandedIcon = 'fa-folder-open';
+                    val.result.collapsedIcon = 'fa-folder';
+                    val.result.childDict = true; // 是业务字典
+                });
         this.treeshow = true; // 显示树结构
-        this.treedata = [{'s': 'ss'}];
 
     }
 

@@ -28,6 +28,8 @@ export class SeqresourceComponent implements OnInit {
     total: number;
     modalVisible = false;
     isEdit = false; // 是否是修改，默认不是
+    showAdd = true;
+    title: string;
     headerData = [  // 配置表头内容
         { value: '序号资源表名称', key: 'seqName', isclick: false },
         { value: '序号键值', key: 'seqKey', isclick: false },
@@ -70,7 +72,11 @@ export class SeqresourceComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val.result)
+                    console.log(val.result);
+                    for (let i = 0; i < val.result.records.length; i++ ) {
+                        val.result.records[i].buttonData = ['重置序号', '修改序号'];
+
+                    }
                     this.data = val.result.records;
                     this.total = val.result.total;
                 }
@@ -84,6 +90,7 @@ export class SeqresourceComponent implements OnInit {
 
     // 列表组件传过来的内容
     addHandler(event) {
+        this.title = '查看详情'
         if (event === '这里是新增的方法') {
             this.sequenceResource = new SequenceResModule(); // 先清空
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
@@ -97,7 +104,7 @@ export class SeqresourceComponent implements OnInit {
 
     // 列表按钮方法
     buttonDataHandler(event) {
-
+        console.log(event);
     }
 
     // 列表传入的翻页数据
@@ -110,6 +117,36 @@ export class SeqresourceComponent implements OnInit {
             }
         };
         this.getData();
+    }
+
+    buttonEvent(e) {
+      if (e.names) {
+            if (e.names === '重置序号') {
+                console.log('调用重置序号方法');
+                this.modal.open({
+                    title: '是否重置',
+                    content: '你是否要重置该序号，一旦重置，该序号恢复成0',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => {
+
+                        console.log('重置成功');
+                    },
+                    onCancel: () => {
+                        console.log('失败');
+                    }
+                });
+
+            }
+
+            if (e.names === '修改序号') {
+                this.modalVisible = true;
+                this.title = '修改序号'
+                console.log('调用修改序号方法');
+            }
+      } else {
+          console.log('调用查看详情方法')
+      }
     }
 
     // 接受子组件删除的数据 单条还是多条
@@ -163,21 +200,14 @@ export class SeqresourceComponent implements OnInit {
 
     // 弹出框保存组件
     save() {
-        const jsonOption = this.sequenceResource;
-         // 调用新增的逻辑
-            // 调用服务来获取列表节点操作
-            this.utilityService.postData(appConfig.testUrl  + appConfig.API.seqResourceadd, jsonOption)
-                .map(res => res.json())
-                .subscribe(
-                    (val) => {
-                        this.nznot.create('success', val.msg , val.msg);
-                        this.getData();
-                    },
-                );
+       console.log(this.title)
+        if (this.title === '查看详情') {
 
-        this.sequenceResource = new SequenceResModule();
+        } else {
+           console.log('调用修改序号接口')
+        }
+
         this.modalVisible = false;
-
     }
 }
 

@@ -58,11 +58,11 @@
         </div>
     </form>
     <!--列表组件-->
-    <app-list [initDate]="data" (addCreat)="addHandler($event)"
+    <app-list [initDate]="data" (addCreat)="addHandler($event)" [showAdd]="true"
               (buttonData)="buttonDataHandler($event)" (pageNumber)="monitorHandler($event)"
               (deleatData)="deleatData($event)" (isActive)="isActive($event)"
               (selectedRow)="selectedRow($event)" [headerDate]="headerData"
-              [moreData]="moreData" [total]="total">
+              [moreData]="moreData" [total]="total" (buttonEvent) = "buttonEvent($event)">
 
     </app-list>
 </nz-card>
@@ -71,7 +71,7 @@
 
 
 <!-- 弹出框 -->
-<nz-modal [nzVisible]="modalVisible" [nzWidth]="1024" [nzTitle]="'新增序号资源'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
+<nz-modal [nzVisible]="modalVisible" [nzWidth]="1024" [nzTitle]="title" [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="cancel()" (nzOnOk)="save()">
     <ng-template #modalContent>
         <div nz-row [nzGutter]="24">

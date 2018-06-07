@@ -93,8 +93,14 @@ export class ListComponent implements OnInit {
         }
     }
 
-    buttonClick(event) {
-        this.buttonEvent.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
+    buttonClick(event, Name) {
+        if (Name) {
+            event.names = Name;
+            this.buttonEvent.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
+        } else {
+            this.buttonEvent.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
+        }
+
     }
 
     // 点击事件方法
