@@ -81,7 +81,7 @@
                         <label for="seqName">序号资源表名称</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="sequenceResource.seqName" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号资源表名称'" nzId="seqName"></nz-input>
+                        <nz-input [(ngModel)]="sequenceResource2.seqName"  name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号资源表名称'" nzId="seqName"></nz-input>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         <label for="SEQKEY">序号键值</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="sequenceResource.seqKey" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号键值'" nzId="seqKey"></nz-input>
+                        <nz-input [(ngModel)]="sequenceResource2.seqKey" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号键值'" nzId="seqKey"></nz-input>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                         <label for="SEQNO">序号数</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="sequenceResource.seqNo" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号数'" nzId="seqNo"></nz-input>
+                        <nz-input [(ngModel)]="sequenceResource2.seqNo" name="name" [nzSize]="'large'" [nzPlaceHolder]="'序号数'" nzId="seqNo"></nz-input>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                         <label for="RESET">重置方式</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-select  style="width:100%;"  [(ngModel)]="sequenceResource.reset" name="valueFrom" [nzSize]="'large'" [nzPlaceHolder]="'重置方式'"
+                        <nz-select  style="width:100%;"  [(ngModel)]="sequenceResource2.reset" name="valueFrom" [nzSize]="'large'" [nzPlaceHolder]="'重置方式'"
                                    nzId="reset">
                             <nz-option *ngFor="let i of reset; let app = index" [nzLabel]="i.key" [nzValue]="i.value"></nz-option>
                         </nz-select>

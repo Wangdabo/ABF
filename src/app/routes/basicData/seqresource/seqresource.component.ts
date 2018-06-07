@@ -23,6 +23,7 @@ export class SeqresourceComponent implements OnInit {
     ) { }
 
     sequenceResource: SequenceResModule = new SequenceResModule();
+    sequenceResource2: SequenceResModule = new SequenceResModule(); // 弹出框对象
     page: any;
     data: any[] = []; // 表格数据
     total: number;
@@ -30,6 +31,7 @@ export class SeqresourceComponent implements OnInit {
     isEdit = false; // 是否是修改，默认不是
     showAdd = true;
     title: string;
+
     headerData = [  // 配置表头内容
         { value: '序号资源表名称', key: 'seqName', isclick: false },
         { value: '序号键值', key: 'seqKey', isclick: false },
@@ -90,16 +92,17 @@ export class SeqresourceComponent implements OnInit {
 
     // 列表组件传过来的内容
     addHandler(event) {
-        this.title = '查看详情'
-        if (event === '这里是新增的方法') {
-            this.sequenceResource = new SequenceResModule(); // 先清空
-            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
-            this.isEdit = false;
-        } else { // 代表修改，把修改的内容传递进去，重新渲染
-            this.sequenceResource = event;
-            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
-            this.isEdit = true;
+        this.title = '查看详情';
+        this.modalVisible = true;
+        const restval = event.reset;
+        this.sequenceResource2 = event;
+        for (let i = 0 ; i < this.reset.length; i++) {
+            if (this.reset[i].key === restval ) {
+                this.sequenceResource2.reset = this.reset[i].value;
+                break;
+            }
         }
+
     }
 
     // 列表按钮方法
@@ -129,7 +132,8 @@ export class SeqresourceComponent implements OnInit {
                     okText: '确定',
                     cancelText: '取消',
                     onOk: () => {
-
+                        // 接口待确认
+                        // this.utilityService.putData(appConfig.testUrl + appConfig.API.seqResource);
                         console.log('重置成功');
                     },
                     onCancel: () => {
@@ -141,11 +145,18 @@ export class SeqresourceComponent implements OnInit {
 
             if (e.names === '修改序号') {
                 this.modalVisible = true;
-                this.title = '修改序号'
-                console.log('调用修改序号方法');
+                this.title = '修改序号';
+                this.sequenceResource2 = e;
+
+                for (let i = 0 ; i < this.reset.length; i++) {
+                    if (this.reset[i].key === e.reset ) {
+                        this.sequenceResource2.reset = this.reset[i].value;
+                        break;
+                    }
+                }
             }
       } else {
-          console.log('调用查看详情方法')
+          console.log('调用查看详情方法');
       }
     }
 
@@ -196,15 +207,18 @@ export class SeqresourceComponent implements OnInit {
     cancel() {
         this.modalVisible = false;
         this.sequenceResource = new SequenceResModule();
+        this.getData();
     }
 
     // 弹出框保存组件
     save() {
-       console.log(this.title)
         if (this.title === '查看详情') {
-
+            this.getData();
         } else {
-           console.log('调用修改序号接口')
+           console.log('调用修改序号接口');
+           console.log(this.sequenceResource2);
+            this.utilityService.putData(appConfig.testUrl + appConfig.API.seqResourceUpdate, this.sequenceResource2);
+
         }
 
         this.modalVisible = false;
