@@ -52,6 +52,8 @@ import { LogsComponent } from './basicData/logs/logs.component';
 import { SeqresourceComponent } from './basicData/seqresource/seqresource.component';
 import { TimelineComponent } from './basicData/timeline/timeline.component';
 import { LogDataComponent } from './basicData/log-data/log-data.component';
+import { GroupComponent } from './organization/group/group.component';
+import { AuthorityComponent } from './organization/authority/authority.component';
 
 
 
@@ -86,6 +88,8 @@ import { UtilityService } from '../service/utils.service';
         TimelineComponent,
         LogsComponent,
         // 封装组件
+        GroupComponent,
+        AuthorityComponent,
         LogDataComponent,
         ListComponent,
         TreeDemoComponent,

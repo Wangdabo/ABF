@@ -52,7 +52,7 @@ export let appConfig = {
 
         // 操作员管理
         acOperatorsList: '/acOperators/list', // 查询操作员列表
-        acOperatorsAdd: '/acOperators/add', // 增删改操作员列表
+        acOperatorsAdd: '/acOperators', // 增删改操作员列表
         acOperatorsDel: '/acOperators', // 增删改操作员列表
 
         // 序号资源
@@ -65,6 +65,9 @@ export let appConfig = {
         logDetail: '/logOperate', // 查询日志详情
         logData: '/logData', // 查询日志操作记录
         logChange: '/logChange'
+
+
+        // 组织机构管理
     },
 
     // 枚举值
@@ -80,7 +83,53 @@ export let appConfig = {
         systemType: [
             { text: '应用级', key: 'a' },
             { text: '系统级',  key: 's' }
+        ],
+
+        // 工作组类型
+        groupType: [
+            { text: '普通工作组', key: 'normal' },
+            { text: '项目型',  key: 'project' },
+            { text: '事务型',  key: 'affair' },
+        ],
+        // 工作组状态
+        groupStatus: [
+            { text: '正常', key: 'running' },
+            { text: '注销',  key: 'cancel' }
+        ],
+
+        // 是否
+        dictYon: [
+            { text: '是', key: 'Y' },
+            { text: '否',  key: 'N' }
+        ],
+        // 机构类型
+        orgType: [
+            { text: '总公司', key: '10' },
+            { text: '总部部门',  key: '11' },
+            { text: '分公司',  key: '20' },
+            { text: '分公司部门',  key: '21' },
+            { text: '营业网点',  key: '90' }
+        ],
+        // 机构等级
+        orgDegree: [
+            { text: '总行', key: '0' },
+            { text: '分行',  key: '1' },
+            { text: '海外',  key: '2' },
+            { text: '区域分行',  key: '3' },
+            { text: '网点',  key: '4' }
+        ],
+        // 机构状态
+        orgStatus: [
+            { text: '正常', key: 'running' },
+            { text: '注销',  key: 'cancel' },
+            { text: '停用',  key: 'stop' },
+        ],
+        // 所属地域
+        area: [
+            { text: '北京地区', key: '010' },
+            { text: '上海地区',  key: '021' },
         ]
+
     }
 }
 

@@ -4,6 +4,7 @@ export class PageModule {
     // 每业个数
     public size: number = 10;
 }
+
 export class AppliaModule {
     // 当前页数
     public pi: number = 1;
@@ -159,4 +160,56 @@ export class SequenceResModule {
     // 重置处理参数
     public resetParams: string;
 
+}
+
+// 工作组模块
+export class GroupModule {
+    // 工作组代码
+    public groupCode: string;
+    // 工作组名称
+    public groupName: string;
+    // 工作组类型
+    public groupType: any;
+    // 工作组状态
+    public groupStatus: any;
+    // 工作组描述
+    public groupDesc: string;
+    // 负责人
+    public guidEmpManager: string;
+    // 隶属机构
+    public guidOrg: string;
+    // 是否叶子节点
+    public  isleaf: boolean;
+    // 工作组有效开始日期
+    public  startDate: boolean;
+    // 工作组有效截止日期
+    public  endDate: boolean;
+}
+
+// 组织机构模块
+export class OrgModule {
+    // 机构代码
+    public orgCode: string;
+    // 机构名称
+    public orgName: string;
+    // 机构类型
+    public orgType: any;
+    // 机构等级
+    public orgDegree: string;
+    // 机构状态
+    public orgStatus: any;
+    // 父机构GUID
+    public guidParents: string;
+    // 机构地址
+    public orgAddr: string;
+    // 联系人姓名
+    public  linkMan: string;
+    // 联系电话
+    public  linkTel: string;
+    // 所属地域
+    public  area: any;
+    // 排列顺序编号
+    public  sortNo: string;
+    // 备注
+    public remark: string;
 }

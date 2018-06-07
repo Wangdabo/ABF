@@ -1,27 +1,27 @@
 {
   "treeData": [
     {
-      "label": "测试",
+      "label": "TIS项目开发组",
       "data": "Documents Folder",
       "expandedIcon": "fa-folder-open",
       "collapsedIcon": "fa-folder",
       "isLeaf": false,
       "children": [
         {
-          "label": "工作",
+          "label": "平台组",
           "data": "Work Folder",
           "expandedIcon": "fa-folder-open",
           "collapsedIcon": "fa-folder",
           "isLeaf": false,
           "children": [
             {
-              "label": "睡觉",
+              "label": "平台1组",
               "icon": "fa-file-word-o",
               "data": "Expenses Document",
               "isLeaf": true
             },
             {
-              "label": "唱歌",
+              "label": "平台2组",
               "icon": "fa-file-word-o",
               "data": "Resume Document",
               "isLeaf": true
@@ -29,47 +29,63 @@
           ]
         },
         {
-          "label": "下班",
+          "label": "RCT组",
           "data": "Home Folder",
           "expandedIcon": "fa-folder-open",
           "collapsedIcon": "fa-folder",
           "isLeaf": false,
           "children": [
             {
-              "label": "回家",
+              "label": "RCTA组",
               "icon": "fa-file-word-o",
               "data": "Invoices for this month",
               "isLeaf": true
             }
           ]
-        }
-      ]
-    },
-    {
-      "label": "你瞅啥",
-      "data": "Pictures Folder",
-      "expandedIcon": "fa-folder-open",
-      "collapsedIcon": "fa-folder",
-      "isLeaf": false,
-      "children": [
-        {
-          "label": "瞅你咋地",
-          "icon": "fa-file-image-o",
-          "data": "Barcelona Photo",
-          "isLeaf": true
         },
         {
-          "label": "不服干我",
-          "icon": "fa-file-image-o",
-          "data": "PrimeFaces Logo",
-          "isLeaf": true
-        },
+              "label": "应用组",
+              "data": "Work Folder",
+              "expandedIcon": "fa-folder-open",
+              "collapsedIcon": "fa-folder",
+              "isLeaf": false,
+              "children": [
+                  {
+                      "label": "应用1组",
+                      "icon": "fa-file-word-o",
+                      "data": "Expenses Document",
+                      "isLeaf": true
+                  },
+                  {
+                      "label": "应用2组",
+                      "icon": "fa-file-word-o",
+                      "data": "Resume Document",
+                      "isLeaf": true
+                  }
+              ]
+          },
         {
-          "label": "你丫等着",
-          "icon": "fa-file-image-o",
-          "data": "PrimeUI Logo",
-          "isLeaf": true
-        }
+              "label": "1618组开发组",
+              "data": "Home Folder",
+              "expandedIcon": "fa-folder-open",
+              "collapsedIcon": "fa-folder",
+              "isLeaf": false,
+              "children": [
+                  {
+                      "label": "1618",
+                      "icon": "fa-file-word-o",
+                      "data": "Invoices for this month",
+                      "isLeaf": true
+                  }
+              ]
+          },
+        {
+              "label": "PAD开发组",
+              "data": "Home Folder",
+              "expandedIcon": "fa-folder-open",
+              "collapsedIcon": "fa-folder",
+              "isLeaf": false
+          }
       ]
     }
   ],

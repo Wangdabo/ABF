@@ -48,6 +48,7 @@ import {ModelCountComponent} from './codeGeneration/model-count/modelCount.compo
 import {FormDetailComponent} from './codeGeneration/form-detail/formDetail.component';
 import {TimelineComponent} from './basicData/timeline/timeline.component';
 import {LogDataComponent} from './basicData/log-data/log-data.component';
+import {GroupComponent} from './organization/group/group.component';
 
 
 
@@ -67,8 +68,14 @@ const routes: Routes = [
             { path: 'operator', component: OperatorsComponent },
             // 组织机构
             { path: 'org', component: OrgComponent, children: [
-                    {path: 'emp/:id', component: EmpComponent},
-                    {path: 'post/:id', component: PostComponent},
+                    {path: 'emp/:id', component: EmpComponent, data: { i18n: 'emp' , title: '组织机构' } },
+                    {path: 'post/:id', component: PostComponent, data: { i18n: 'post' , title: '组织机构' } },
+                ]},
+            // 工作组
+            { path: 'workGroup', component: GroupComponent, children: [
+                    {path: 'emp/:id', component: EmpComponent, data: { i18n: 'emp' , title: '工作组' } },
+                    {path: 'post/:id', component: PostComponent, data: { i18n: 'post' , title: '工作组' } },
+                    {path: 'authority/:id', component: PostComponent, data: { i18n: 'post' , title: '工作组' } },
                 ]},
             // 基本数据
             { path: 'business', component: DictComponent },

@@ -85,14 +85,21 @@ export class ApplicationComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val.result);
+                    for (let i = 0; i < val.result.records.length; i++ ) {
+                        if (val.result.records[i].isopen ===  'YES') {
+                            val.result.records[i].buttonData = ['关闭'];
+                        } else {
+                            val.result.records[i].buttonData = ['开启'];
+                        }
+                    }
+                    console.log(val.result.records)
                     this.data = val.result.records;
                     this.total = val.result.total;
                 }
             );
     }
 
-
-    // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
         console.log(event)

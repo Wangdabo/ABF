@@ -3,6 +3,7 @@
         <nz-tabset *ngIf="tabShow" style="position:relative;left: 82%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['emp', id]">员工</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['post', id]">岗位</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">应用权限</a></ng-template></nz-tab>
         </nz-tabset>
     </ng-template>
 </pro-header>
@@ -20,17 +21,19 @@
     </div>
 </div>
 
-<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新增组织机构'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+
+<!-- 弹出框 -->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'新增功能组'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
     <ng-template #modalContent>
         <!-- 主要信息 -->
         <div *ngIf="!ifshow" nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">机构等级:</label></div>
+                    <div nz-form-label class="alignment"><label for="no">工作组类型:</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="orgItem.orgDegree"  name="orgDegree" [nzSize]="'large'" [nzPlaceHolder]="'机构等级'" nzId="orgDegree">
-                            <nz-option  *ngFor="let i of orgDegree;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        <nz-select style="width:100%" [(ngModel)]="workItem.groupType"  name="groupType" [nzSize]="'large'" [nzPlaceHolder]="'工作组类型'" nzId="groupType">
+                            <nz-option  *ngFor="let i of groupType;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
                         </nz-select>
 
                     </div>
@@ -38,73 +41,68 @@
             </div>
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">所属地域:</label></div>
+                    <div nz-form-label class="alignment"><label for="no">工作组状态:</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="orgItem.area"  name="area" [nzSize]="'large'" [nzPlaceHolder]="'所属地域'" nzId="area">
-                            <nz-option  *ngFor="let i of area;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        <nz-select [nzDisabled]="true"  style="width:100%" [(ngModel)]="workItem.groupStatus"  name="groupStatus" [nzSize]="'large'" [nzPlaceHolder]="'工作组状态'" nzId="groupStatus">
+                            <nz-option    *ngFor="let i of groupStatus;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
                         </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">工作组名称:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="workItem.groupName" name="groupName" [nzSize]="'large'" [nzPlaceHolder]="'工作组名称'" nzId="groupName"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label>所属机构:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="workItem.guidOrg"  name="guidOrg" [nzSize]="'large'" [nzPlaceHolder]="'所属机构'" nzId="guidOrg">
+                            <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">工作组代码:</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="workItem.groupCode" name="groupCode" [nzSize]="'large'" [nzPlaceHolder]="'工作组代码'" nzId="groupCode"></nz-input>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label class="alignment"><label for="no">生效日期</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-datepicker [(ngModel)]="workItem.startDate" name="startDate" [nzSize]="'large'" [nzPlaceHolder]="'生效日期'" nzId="startDate" class="d-block"></nz-datepicker>
+                    </div>
+                </div>
+            </div>
 
-                    </div>
-                </div>
-            </div>
             <div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">机构名称:</label></div>
+                    <div nz-form-label class="alignment"><label for="no">失效日期</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.orgName" name="orgName" [nzSize]="'large'" [nzPlaceHolder]="'机构名称'" nzId="orgName"></nz-input>
+                        <nz-datepicker [(ngModel)]="workItem.endDate" name="endDate" [nzSize]="'large'" [nzPlaceHolder]="'失效日期'" nzId="endDate" class="d-block"></nz-datepicker>
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">机构类型:</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select   style="width:100%" [(ngModel)]="orgItem.orgType"  name="orgType" [nzSize]="'large'" [nzPlaceHolder]="'机构类型'" nzId="orgType">
-                            <nz-option    *ngFor="let i of orgType;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">机构代码:</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.orgCode" name="orgCode" [nzSize]="'large'" [nzPlaceHolder]="'机构代码'" nzId="orgCode"></nz-input>
-                    </div>
-                </div>
-            </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">机构地址:</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.orgAddr" name="orgAddr" [nzSize]="'large'" [nzPlaceHolder]="'机构地址'" nzId="orgAddr"></nz-input>
-                    </div>
-                </div>
-            </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">联系人姓名:</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.linkMan" name="linkMan" [nzSize]="'large'" [nzPlaceHolder]="'联系人姓名'" nzId="linkMan"></nz-input>
-                    </div>
-                </div>
-            </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label class="alignment"><label for="no">联系电话:</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.linkTel" name="linkTel" [nzSize]="'large'" [nzPlaceHolder]="'联系电话'" nzId="linkTel"></nz-input>
-                    </div>
-                </div>
-            </div>
+
+
+
             <div nz-col [nzSpan]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment">
-                        <label for="no">机构备注:</label>
+                        <label for="no">工作组描述:</label>
                     </div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="orgItem.remark" nzAutosize=true nzType="textarea" name="remark" [nzSize]="'large'" [nzPlaceHolder]="'机构备注'"
-                                  nzId="remark"></nz-input>
+                        <nz-input [(ngModel)]="workItem.groupDesc" nzAutosize=true nzType="textarea" name="groupDesc" [nzSize]="'large'" [nzPlaceHolder]="'工作组描述'"
+                                  nzId="groupDesc"></nz-input>
                     </div>
                 </div>
             </div>
@@ -112,3 +110,4 @@
         </div>
     </ng-template>
 </nz-modal>
+
