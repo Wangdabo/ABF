@@ -44,6 +44,8 @@ export class ListComponent implements OnInit {
     total: number;
     @Input() // 输入属性,接受父组件传入的数据
     showAdd: boolean;
+    @Input() // 输入属性,接受父组件传入的数据
+    configTitle: string;
 
     data: any[] = [];
 

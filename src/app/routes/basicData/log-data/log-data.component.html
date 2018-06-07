@@ -80,7 +80,7 @@
             <span  style="font-size: 16px;padding: 16px 0;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color: rgba(0, 0, 0, 0.85);font-weight: 500;display: inline-block;flex: 1;">操作日志集合</span>
         </div>
         <!--列表组件-->
-        <app-list #child [showAdd]="showAdd" [initDate]="detailsData" (addCreat)="detailsHandler($event)"  (pageNumber)="monitordetailsData($event)"
+        <app-list #child [showAdd]="showAdd" [configTitle]="configTitle" [initDate]="detailsData" (addCreat)="detailsHandler($event)"  (pageNumber)="monitordetailsData($event)"
                   [headerDate]="headerDetails"
                    [total]="detailstotal"></app-list>
     </div>

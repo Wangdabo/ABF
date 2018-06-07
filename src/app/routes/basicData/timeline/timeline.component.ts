@@ -4,6 +4,7 @@ import {UtilityService} from '../../../service/utils.service';
 import {ActivatedRoute} from '@angular/router';
 import {LogcChangeModule, PageModule} from '../../../service/common.module';
 import {appConfig} from '../../../service/common';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-timeline',
@@ -18,6 +19,8 @@ export class TimelineComponent implements OnInit {
     dataInfo: any;
     array = [];
     modalVisible = false;
+    data = [];
+    total: number;
 
     logChange: LogcChangeModule = new LogcChangeModule(); // 对象差异值
     pages: PageModule = new PageModule();
@@ -25,12 +28,15 @@ export class TimelineComponent implements OnInit {
         private http: _HttpClient,
         public activatedRoute: ActivatedRoute,
         private utilityService: UtilityService,
+        private nznot: NzNotificationService
     ) { }
 
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.infoData = JSON.parse(queryParams.logInfo);
+            this.logName = queryParams.logInfo.dictName;
         });
+
         this.getInfo(JSON.parse(this.infoData.dataString));
         this.getData(this.infoData.dataGuid);
     }
@@ -49,7 +55,6 @@ export class TimelineComponent implements OnInit {
     }
 
     getData(event) {
-        console.log(event)
         this.page = {
             page: {
                 current: this.pages.pi,
@@ -57,33 +62,45 @@ export class TimelineComponent implements OnInit {
             }
         };
 
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.logData + '/' + event, this.page)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.logChange + '/' + event, this.page)
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val.result.records);
+                    console.log(val.result);
+                    for (let i = 0 ; i < val.result.records.length; i++) {
+                        val.result.records[i].userName = 'wangbo';
+                        val.result.records[i].status = '成功';
+                        val.result.records[i].items = '2018/6/7 18:22:00';
+                    }
+                    this.data = val.result.records;
+                    this.total = val.result.total;
                 }
             );
     }
 
 
-    data = [
-        {key: '新增界面', value: '成功', userId: '汪波', items: '2018/6/4 15:34'},
-        {key: '删除界面', value: '成功', userId: '翁方雷', items: '2018/6/4 15:34'},
-        {key: '修改界面', value: '成功', userId: '汪波', items: '2018/6/4 15:34'},
-        {key: '查询界面', value: '成功', userId: '汪波', items: '2018/6/4 15:34'},
-        {key: '新增界面', value: '成功', userId: '赵春海', items: '2018/6/4 15:34'},
-    ];
-
-
     objChange(event) {
-        this.modalVisible = true;
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.logChanges + '/' + event.guid)
+            .subscribe(
+                (val) => {
+                    if (val.code === '404') {
+                        this.nznot.create('error', val.msg , val.msg);
+                    } else { // 成功才打开
+                        this.modalVisible = true;
+                        this.logChange = val.result;
 
-        
+                    }
+                }
+            );
+
     }
 
     pageChange(event) {
-        console.log(event);
+
+    }
+
+    save() {
+        this.modalVisible = false;
     }
 
 

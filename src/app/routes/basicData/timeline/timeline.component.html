@@ -31,9 +31,9 @@
             <nz-timeline>
                 <nz-timeline-item *ngFor="let d of data" style="margin-bottom: 100px;">
                     <div style="margin-bottom: 30px;">
-                        <h2 style="margin-top: 0px;padding: 0 0 5px 0;border-bottom: 1px solid rgba(95, 108, 108, 0.3);font-size: 24px">操作内容:{{d.key}} <span style="font-weight: normal;font-size: 14px;" class="pull-right ng-binding">状态:{{d.value}}</span> </h2>
+                        <h2 style="margin-top: 0px;padding: 0 0 5px 0;border-bottom: 1px solid rgba(95, 108, 108, 0.3);font-size: 24px">操作内容:{{d.dataName}} <span style="font-weight: normal;font-size: 14px;" class="pull-right ng-binding">状态:{{d.status}}</span> </h2>
                         <span style="font-size: 18px; margin:10px 0px; display: inline-block ">
-                            用户名:{{d.userId}}
+                            用户名:{{d.userName}}
                         </span>
                         <span style="font-size: 18px; margin:10px 0px; display: inline-block " class="pull-right ng-binding">
                             时间:{{d.items}}
@@ -47,7 +47,7 @@
                 </nz-timeline-item>
             </nz-timeline>
             <!-- 翻页数据 -->
-            <nz-pagination style="float: right"   (nzPageIndexChange)="pageChange($event)"	 [nzPageIndex]="1" [nzTotal]="500"></nz-pagination>
+            <nz-pagination style="float: right"   (nzPageIndexChange)="pageChange($event)"	 [nzPageIndex]="1" [nzTotal]="total"></nz-pagination>
         </nz-card>
     </div>
 </div>
