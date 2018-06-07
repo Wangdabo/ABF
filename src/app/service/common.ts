@@ -64,72 +64,71 @@ export let appConfig = {
         logList: '/logOperate/list', // 查询所有日志
         logDetail: '/logOperate', // 查询日志详情
         logData: '/logData', // 查询日志操作记录
-        logChange: '/logChange'
+        logChange: '/logChange',
 
-
-        // 组织机构管理
+        // 菜单管理
+        acMenuList: '/acMenus/queryPageAllList', // 查询所有
+        acMenuListByAppcode: '/queryAcMenuLists/', // 根据应用ID 查询菜单
     },
-
     // 枚举值
     Enumeration: {
         // 字典项枚举值
         fromType: [
-            { text: '字典项', key: '0' },
-            { text: '来自单表', key: '1' },
-            { text: '多表或视图', key: '2' }
+            {text: '字典项', key: '0'},
+            {text: '来自单表', key: '1'},
+            {text: '多表或视图', key: '2'}
         ],
 
         // 系统类型
         systemType: [
-            { text: '应用级', key: 'a' },
-            { text: '系统级',  key: 's' }
+            {text: '应用级', key: 'a'},
+            {text: '系统级', key: 's'}
         ],
 
         // 工作组类型
         groupType: [
-            { text: '普通工作组', key: 'normal' },
-            { text: '项目型',  key: 'project' },
-            { text: '事务型',  key: 'affair' },
+            {text: '普通工作组', key: 'normal'},
+            {text: '项目型', key: 'project'},
+            {text: '事务型', key: 'affair'},
         ],
         // 工作组状态
         groupStatus: [
-            { text: '正常', key: 'running' },
-            { text: '注销',  key: 'cancel' }
+            {text: '正常', key: 'running'},
+            {text: '注销', key: 'cancel'}
         ],
 
         // 是否
         dictYon: [
-            { text: '是', key: 'Y' },
-            { text: '否',  key: 'N' }
+            {text: '是', key: 'Y'},
+            {text: '否', key: 'N'}
         ],
         // 机构类型
         orgType: [
-            { text: '总公司', key: '10' },
-            { text: '总部部门',  key: '11' },
-            { text: '分公司',  key: '20' },
-            { text: '分公司部门',  key: '21' },
-            { text: '营业网点',  key: '90' }
+            {text: '总公司', key: '10'},
+            {text: '总部部门', key: '11'},
+            {text: '分公司', key: '20'},
+            {text: '分公司部门', key: '21'},
+            {text: '营业网点', key: '90'}
         ],
         // 机构等级
         orgDegree: [
-            { text: '总行', key: '0' },
-            { text: '分行',  key: '1' },
-            { text: '海外',  key: '2' },
-            { text: '区域分行',  key: '3' },
-            { text: '网点',  key: '4' }
+            {text: '总行', key: '0'},
+            {text: '分行', key: '1'},
+            {text: '海外', key: '2'},
+            {text: '区域分行', key: '3'},
+            {text: '网点', key: '4'}
         ],
         // 机构状态
         orgStatus: [
-            { text: '正常', key: 'running' },
-            { text: '注销',  key: 'cancel' },
-            { text: '停用',  key: 'stop' },
+            {text: '正常', key: 'running'},
+            {text: '注销', key: 'cancel'},
+            {text: '停用', key: 'stop'},
         ],
         // 所属地域
         area: [
-            { text: '北京地区', key: '010' },
-            { text: '上海地区',  key: '021' },
+            {text: '北京地区', key: '010'},
+            {text: '上海地区', key: '021'},
         ]
-
     }
 }
 
