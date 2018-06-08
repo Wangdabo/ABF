@@ -60,6 +60,7 @@ export let appConfig = {
         seqResourcedel: '/sysSeqno', // 删除序号资源数据
         seqResourceadd: '/sysSeqno', // 增加序号资源数据
         seqResourceUpdate: '/sysSeqno', // 修改资源
+        restSeqResource: '/sysSeqno/resetSeq/', // 重置序号资源
 
         // 日志管理
         logList: '/logOperate/list', // 查询所有日志

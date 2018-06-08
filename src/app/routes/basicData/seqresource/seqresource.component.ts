@@ -31,6 +31,8 @@ export class SeqresourceComponent implements OnInit {
     isEdit = false; // 是否是修改，默认不是
     showAdd = true;
     title: string;
+    disableFlag: boolean;
+    disableFlag2: boolean;
 
     headerData = [  // 配置表头内容
         { value: '序号资源表名称', key: 'seqName', isclick: false },
@@ -62,6 +64,8 @@ export class SeqresourceComponent implements OnInit {
     resetf() {
         this.sequenceResource = new SequenceResModule();
     }
+
+
     // 父组件初始化数据
     getData() { // 初始化请求后台数据
         this.page = {
@@ -85,6 +89,33 @@ export class SeqresourceComponent implements OnInit {
             );
     }
 
+    getDataByCondition() { // 初始化请求后台数据
+        this.page = {
+            page: {
+                current: this.sequenceResource.pi,
+                size: 10
+            },
+            condition: {
+                SequenceResModule: this.sequenceResource
+            }
+
+        };
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.seqResource, this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    console.log(val.result);
+                    for (let i = 0; i < val.result.records.length; i++ ) {
+                        val.result.records[i].buttonData = ['重置序号', '修改序号'];
+
+                    }
+                    this.data = val.result.records;
+                    this.total = val.result.total;
+                }
+            );
+    }
+
+
     // 搜索框
     search() {
         console.log(this.sequenceResource); // 有效
@@ -93,21 +124,22 @@ export class SeqresourceComponent implements OnInit {
     // 列表组件传过来的内容
     addHandler(event) {
         this.title = '查看详情';
+        this.disableFlag = true;
+        this.disableFlag2 = true;
         this.modalVisible = true;
-        const restval = event.reset;
-        this.sequenceResource2 = event;
         for (let i = 0 ; i < this.reset.length; i++) {
-            if (this.reset[i].key === restval ) {
-                this.sequenceResource2.reset = this.reset[i].value;
+            if (this.reset[i].key === event.reset ) {
+                event.reset = this.reset[i].value;
                 break;
             }
         }
-
+        console.log(event);
+        this.sequenceResource2 = event;
     }
 
     // 列表按钮方法
     buttonDataHandler(event) {
-        console.log(event);
+        // console.log(event);
     }
 
     // 列表传入的翻页数据
@@ -125,7 +157,7 @@ export class SeqresourceComponent implements OnInit {
     buttonEvent(e) {
       if (e.names) {
             if (e.names === '重置序号') {
-                console.log('调用重置序号方法');
+                console.log(e);
                 this.modal.open({
                     title: '是否重置',
                     content: '你是否要重置该序号，一旦重置，该序号恢复成0',
@@ -133,11 +165,15 @@ export class SeqresourceComponent implements OnInit {
                     cancelText: '取消',
                     onOk: () => {
                         // 接口待确认
-                        // this.utilityService.putData(appConfig.testUrl + appConfig.API.seqResource);
-                        console.log('重置成功');
+                         this.utilityService.putData(appConfig.testUrl + appConfig.API.restSeqResource + e.seqKey)
+                             .map(res => res.json())
+                                .subscribe(
+                                    (val) => {
+                                        console.log(val.result);
+                                    }
+                                );
                     },
                     onCancel: () => {
-                        console.log('失败');
                     }
                 });
 
@@ -147,7 +183,8 @@ export class SeqresourceComponent implements OnInit {
                 this.modalVisible = true;
                 this.title = '修改序号';
                 this.sequenceResource2 = e;
-
+                this.disableFlag2 = false;
+                this.disableFlag = true;
                 for (let i = 0 ; i < this.reset.length; i++) {
                     if (this.reset[i].key === e.reset ) {
                         this.sequenceResource2.reset = this.reset[i].value;
@@ -156,7 +193,7 @@ export class SeqresourceComponent implements OnInit {
                 }
             }
       } else {
-          console.log('调用查看详情方法');
+          // console.log('调用查看详情方法');
       }
     }
 
@@ -217,7 +254,13 @@ export class SeqresourceComponent implements OnInit {
         } else {
            console.log('调用修改序号接口');
            console.log(this.sequenceResource2);
-            this.utilityService.putData(appConfig.testUrl + appConfig.API.seqResourceUpdate, this.sequenceResource2);
+            this.utilityService.putData(appConfig.testUrl + appConfig.API.seqResourceUpdate, this.sequenceResource2)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        console.log(val.result);
+                    }
+                );
 
         }
 
