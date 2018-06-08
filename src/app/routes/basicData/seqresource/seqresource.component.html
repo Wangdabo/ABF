@@ -58,7 +58,7 @@
         </div>
     </form>
     <!--列表组件-->
-    <app-list [initDate]="data" (addCreat)="addHandler($event)" [showAdd]="true"
+    <app-list [initDate]="data" (addCreat)="addHandler($event)" [showAdd]="true" [configTitle]="configTitle"
               (buttonData)="buttonDataHandler($event)" (pageNumber)="monitorHandler($event)"
               (deleatData)="deleatData($event)" (isActive)="isActive($event)"
               (selectedRow)="selectedRow($event)" [headerDate]="headerData"

@@ -29,10 +29,10 @@ export class SeqresourceComponent implements OnInit {
     total: number;
     modalVisible = false;
     isEdit = false; // 是否是修改，默认不是
-    showAdd = true;
     title: string;
     disableFlag: boolean;
     disableFlag2: boolean;
+    configTitle: string;
 
     headerData = [  // 配置表头内容
         { value: '序号资源表名称', key: 'seqName', isclick: false },
@@ -58,6 +58,7 @@ export class SeqresourceComponent implements OnInit {
     ngOnInit() {
         this.sequenceResource.pi = 1;
         this.getData();
+        this.configTitle = '查看详情';
     }
 
 
