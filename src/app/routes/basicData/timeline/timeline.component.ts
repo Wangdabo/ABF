@@ -86,7 +86,6 @@ export class TimelineComponent implements OnInit {
                     if (val.code === '404') {
                         this.nznot.create('error', val.msg , val.msg);
                     } else { // 成功才打开
-                        this.modalVisible = true;
                         this.logChange = val.result;
 
                     }
@@ -97,10 +96,6 @@ export class TimelineComponent implements OnInit {
 
     pageChange(event) {
 
-    }
-
-    save() {
-        this.modalVisible = false;
     }
 
 

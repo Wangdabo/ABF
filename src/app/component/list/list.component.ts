@@ -158,6 +158,7 @@ export class ListComponent implements OnInit {
         this.indeterminate = (!allChecked) && (!allUnChecked);
         this.selectedRows = this.initDate.filter(value => value.checked);
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+
         const obj = {
             indeterminate: this.indeterminate,
             selectedRows: this.selectedRows,

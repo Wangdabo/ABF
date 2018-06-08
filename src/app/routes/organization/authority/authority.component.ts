@@ -14,7 +14,8 @@ export class AuthorityComponent implements OnInit {
     showAdd: boolean;
     configTitle: string;
     total: number;
-    array = [];
+    array = []; // 定义数组 用来清空
+
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -49,15 +50,12 @@ export class AuthorityComponent implements OnInit {
         ];
     }
 
-
     appClick() {
         console.log(this.selectedMultipleOption); // 传入后台，渲染
         this.appclick = true;
         // 调接口，第一个给工作组绑定应用的接口，第二个查询应用的接口
         this.getData('ces');
     }
-
-
     getData(id) {
         this.data = [
             {id: 'tom',  'appName': 'B应用', 'appType': '远程', 'openDate': '2018/6/7 14:45:20'},
@@ -69,6 +67,7 @@ export class AuthorityComponent implements OnInit {
 
     // 列表组件传过来的内容
     addHandler(event) {
+        this.array = [];
         for ( let i = 0; i < this.data.length; i++ ) {
             if (this.data[i].id === event.id) {
                 let indexs = this.data[i]
@@ -76,23 +75,18 @@ export class AuthorityComponent implements OnInit {
             }
         }
 
-        // 删除对应的对象
-        for ( let i = 0; i < this.selectedMultipleOption.length; i++ ) {
-            if (this.selectedMultipleOption[i] === event.id) {
-                this.selectedMultipleOption.splice(this.data[i], 1);
-            }
+
+        // 删除对应的对象  id是值要删除的那个对象
+        let indexs = this.selectedMultipleOption.findIndex(item => item.value === event.id ); // 根据条件删除数组中的指定对象,这个根据删除的id 来删除select数组对应的对象
+        this.selectedMultipleOption.splice(indexs, 1);
+
+        for ( var i = 0; i < this.selectedMultipleOption.length; i++) {
+            this.array.push(this.selectedMultipleOption[i]);
         }
 
-
-        this.array = this.selectedMultipleOption; // 数组保存剩下的数组
-
         setTimeout(_ => {
-            console.log(this.array);
-            this.selectedMultipleOption = this.array;
-            console.log(this.selectedMultipleOption);
-
+            this.selectedMultipleOption = this.array; // 重新赋值
         }, 1000);
-
 
 
     }
@@ -103,8 +97,6 @@ export class AuthorityComponent implements OnInit {
 
 
     }
-
-
 
 
     // 列表按钮方法
