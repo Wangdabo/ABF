@@ -44,6 +44,8 @@ export class ListComponent implements OnInit {
     total: number;
     @Input() // 输入属性,接受父组件传入的数据
     showAdd: boolean;
+    @Input() // 输入属性,接受父组件传入的数据
+    configTitle: string;
 
     data: any[] = [];
 
@@ -156,6 +158,7 @@ export class ListComponent implements OnInit {
         this.indeterminate = (!allChecked) && (!allUnChecked);
         this.selectedRows = this.initDate.filter(value => value.checked);
         this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+
         const obj = {
             indeterminate: this.indeterminate,
             selectedRows: this.selectedRows,

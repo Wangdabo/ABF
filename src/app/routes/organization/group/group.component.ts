@@ -156,6 +156,4 @@ export class GroupComponent implements OnInit {
         this.modalVisible = true;
         this.workItem = this.groupData; // 渲染数据
     }
-
-
 }

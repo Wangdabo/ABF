@@ -404,6 +404,7 @@ export class DictComponent implements OnInit {
     // 树的方法
     // 右击菜单传递值
     RightSelect(event) {
+        console.log(event)
         this.treeSelectData = event.node; // 右击选中的数据绑定全局使用
         if (event.node.childDict) { // 子业务字典
             this.treemenus = [
@@ -482,7 +483,7 @@ export class DictComponent implements OnInit {
     addDictItem() {
         this.dictItemAdd = new DictItemModule(); // 初始化模块
         this.isEdit  = false; // 新增
-        this.dictItemAdd.itemType = 'dict'; // 默认子字典
+        this.dictItemAdd.itemType = 'value'; // 默认字典值
         this.dictionaryItems = true; // 打开弹出框
     }
 
@@ -519,8 +520,7 @@ export class DictComponent implements OnInit {
     // 字典项保存
     itemSava() {
         const jsonOption = {
-            guid: this.dictItemAdd.guid,
-            guidDict: this.dictItemAdd.guidDict,
+            guidDict: this.treeSelectData.guid,
             itemDesc: this.dictItemAdd.itemDesc,
             itemName: this.dictItemAdd.itemName,
             itemType: this.dictItemAdd.itemType,
@@ -528,6 +528,7 @@ export class DictComponent implements OnInit {
             sendValue: this.dictItemAdd.sendValue,
             seqNo: this.dictItemAdd.seqno,
         };
+        console.log(jsonOption);
         if (!this.isEdit) { // 新增字典项
             this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
                 .map(res => res.json())

@@ -1,1 +1,41 @@
-<p>这是应用管理界面</p>
+<div style="margin-top: 10px" nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+    <div   nz-col [nzSpan]="24" class="mb-md">
+      <h2>工作组{{orgGuid}}可以使用以下应用系统:</h2>
+    </div>
+        <div [nzOffset]="2" nz-col [nzSpan]="12" class="mb-md">
+            <div  nz-form-item class="d-flex">
+                <div nz-form-label><label>应用系统</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width: 400px;"
+                               [nzMode]="'multiple'"
+                               [nzPlaceHolder]="'请选择应用'"
+                               [(ngModel)]="selectedMultipleOption"
+                               [nzNotFoundContent]="'无法找到'"
+                               nzShowSearch>
+                        <nz-option
+                            *ngFor="let option of searchOptions"
+                            [nzLabel]="option.label"
+                            [nzValue]="option.value"
+                            [nzDisabled]="option.disabled">
+                        </nz-option>
+                    </nz-select>
+                    <button style="margin-left: 1%;" (click)="appClick()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">确定</button>
+                </div>
+
+            </div>
+
+        </div>
+</div>
+
+<!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
+<app-list *ngIf="appclick" [showAdd]="showAdd" [configTitle]="configTitle"
+          (addCreat)="addHandler($event)"
+          (buttonData)="buttonDataHandler($event)"
+          (pageNumber)="monitorHandler($event)"
+          (selectedRow)="selectedRow($event)"
+          (isActive)="isActive($event)"
+          [initDate] = "data"
+          [total]="total"
+          [headerDate] = "headerData"
+          [moreData] = "moreData"></app-list>
+<!--引入列表组件-->
