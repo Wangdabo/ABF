@@ -38,6 +38,7 @@ export class AppliaModule {
     // 应用描述
     public appDesc: string;
 
+
 }
 
 // 功能module

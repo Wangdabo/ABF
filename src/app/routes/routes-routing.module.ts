@@ -19,6 +19,8 @@ import { FunctionComponent} from './application/function/function.component';
 
 import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
+import { RoleMemberComponent } from './authority/role/role-member/role-member.component';
+import { FuncperComponent } from './authority/role/funcper/funcper.component';
 
 // 组织机构管理
 import { OrgComponent } from './organization/org/org.component';
@@ -50,7 +52,9 @@ import {TimelineComponent} from './basicData/timeline/timeline.component';
 import {LogDataComponent} from './basicData/log-data/log-data.component';
 import {GroupComponent} from './organization/group/group.component';
 import {AuthorityComponent} from './organization/authority/authority.component';
-
+import { EntityauthComponent } from './authority/role/entityauth/entityauth.component';
+import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
+import { DataRangeComponent } from './authority/role/data-range/data-range.component';
 
 
 const routes: Routes = [
@@ -62,7 +66,13 @@ const routes: Routes = [
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard/v1', component: DashboardV1Component },
             // 应用
-            { path: 'role', component: RoleComponent },
+            { path: 'role', component: RoleComponent, children: [
+                    {path: 'rolemenber/:id', component: RoleMemberComponent, data: { i18n: 'rolemenber' , title: '角色管理' } },
+                    {path: 'funcper/:id', component: FuncperComponent, data: { i18n: 'funcper' , title: '角色管理' } },
+                    {path: 'entity/:id', component: EntityauthComponent, data: { i18n: 'entity' , title: '角色管理' } },
+                    {path: 'field/:id', component: FieldperComponent, data: { i18n: 'field' , title: '角色管理' } },
+                    {path: 'datarang/:id', component: DataRangeComponent, data: { i18n: 'datarang' , title: '角色管理' } },
+                ]},
             { path: 'menu', component: MenuComponent },
             { path: 'APPlication', component: ApplicationComponent },
             { path: 'function', component: FunctionComponent, data: { i18n: 'function' , title: '应用功能' } },

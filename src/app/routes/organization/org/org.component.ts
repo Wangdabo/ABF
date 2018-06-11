@@ -6,7 +6,7 @@ import { Router} from '@angular/router';
 // 公共接口名
 import {appConfig} from '../../../service/common';
 import {OrgModule} from '../../../service/common.module';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-org',
@@ -19,9 +19,8 @@ export class OrgComponent implements OnInit {
         private router: Router,
         private utilityService: UtilityService,
         private modal: NzModalService,
+        private nznot: NzNotificationService
     ) { }
-
-
 
     treedata: any[]; // tree组件数据
     treemenus: MenuItem[];
@@ -31,7 +30,8 @@ export class OrgComponent implements OnInit {
     modalVisible = false; // 弹出框默认关闭
     isEdit = false; // 默认是新增
     orgData: any; // 树节点上的数据保存
-
+    istrue: false;  // 是否请求过
+    isChild = false; // 是否是子节点调用
     orgItem: OrgModule = new OrgModule(); // 绑定数据
     // 枚举值
     orgDegree: any;
@@ -39,7 +39,23 @@ export class OrgComponent implements OnInit {
     orgType: any;
 
     ngOnInit() {
-        this.getData();
+        this.treedata = [ // 默认根节点
+            {
+                'label': '组织机构',
+                'data': 'Documents Folder',
+                'guid': '0',
+                'expandedIcon': 'fa fa-institution',
+                'collapsedIcon': 'fa fa-institution',
+                'children': [{}]
+            }
+        ];
+        this.searchTitle = '请输入机构代码/名称';
+        this.treemenus = [
+            {label: '新建跟机构', icon: 'fa fa-plus', command: (event) => this.addchildOrg()},
+            {label: '修改机构', icon: 'fa fa-edit', command: (event) => this.editOrg()},
+            {label: '删除机构', icon: 'fa fa-times', command: (event) => this.delectOrg()},
+        ];
+
         // 枚举值转换
         this.orgDegree = appConfig.Enumeration.orgDegree;
         this.area = appConfig.Enumeration.area;
@@ -47,29 +63,43 @@ export class OrgComponent implements OnInit {
 
     }
 
-    getData() {
-        // 传入右击菜单数组,根据需求定
-        this.treemenus = [
-            {label: '新建机构', icon: 'fa fa-plus', command: (event) => this.addchildOrg()},
-            {label: '修改机构', icon: 'fa fa-edit', command: (event) => this.editOrg()},
-            {label: '删除机构', icon: 'fa fa-times', command: (event) => this.delectOrg()},
-        ];
 
+    getData(event) {
+        console.log(event.node)
         // 从服务器获取树列表
-        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.orgTreeData)
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.omgTree + '/' + event.node.guid, {})
             .subscribe(
                 (val) => {
-                    this.treedata = val; // 绑定树节点
+                    console.log(val);
                 });
-        this.searchTitle = '请输入机构代码/名称';
+    }
+
+    // 树的方法
+
+    // 展开节点事件
+    Unfold(event) {
+        console.log(event)
+        this.getData(event)
+        /*if (event.node.guid === this.treeResult) {
+            this.istrue = false;
+        } else {
+            this.istrue = true;
+        }*/
+        if (this.istrue) { // 为true的时候 说明不存在，没有请求过 才去请求
+
+        }
     }
 
 
-    // 树的方法
     // 右击菜单传递值
     RightSelect(event) {
+        console.log(event.node);
+        if (event.node.guid === '0') {
+            this.isChild = false; // 说明是根节点，调用根节点的方法
+        } else {
+            this.isChild = true; // 说明不是根节点，直接调用子节点的方法
+        }
         this.orgData = event.node; // 绑定数据
-        console.log(event); // 绑定数据内容，用来修改
     }
 
     // 左击树菜单节点信息
@@ -122,9 +152,30 @@ export class OrgComponent implements OnInit {
         this.isEdit = false;
     }
 
+
     save() {
+        const jsonOption = this.orgItem;
         if (!this.isEdit) {
-            console.log('调用新增接口');
+            if (!this.isChild) { // 调用跟新增还是子新增
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addRoot, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            console.log(val)
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            } else {
+                jsonOption.guidParents = this.orgData.guid; // 绑定父机构的guid
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addChild, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            console.log(val)
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            }
         } else {
             console.log('调用修改接口');
         }

@@ -32,7 +32,7 @@
                 <div nz-form-label><label>岗位状态</label></div>
                 <div nz-form-control class="flex-1">
                     <nz-select style="width:100%" [(ngModel)]="post.positionStatus"  name="positionStatus" [nzSize]="'large'" [nzPlaceHolder]="'岗位状态'" nzId="positionStatus">
-                        <nz-option  *ngFor="let i of type;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        <nz-option  *ngFor="let i of postStatus;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
                     </nz-select>
                 </div>
             </div>

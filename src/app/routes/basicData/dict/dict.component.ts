@@ -351,8 +351,6 @@ export class DictComponent implements OnInit {
         if (this.istrue) { // 为true的时候 说明不存在，没有请求过 才去请求
             this.getTreeNode(event);
         }
-
-
     }
 
 
@@ -407,17 +405,17 @@ export class DictComponent implements OnInit {
         console.log(event)
         this.treeSelectData = event.node; // 右击选中的数据绑定全局使用
         if (event.node.childDict) { // 子业务字典
-            this.treemenus = [
-                {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
-                {label: '新增字典项', icon: 'fa-close' , command: (event) => this.addDictItem()},
-                {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdict()},
-            ];
-        } else {  // 字典项
-            this.treemenus = [
-                {label: '删除字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.delectdictItem()},
-                {label: '修改字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdictItem()},
-                {label: '设置默认值', icon: 'fa fa-circle-o-notch' , command: (event) => this.setdefault()},
-            ];
+                this.treemenus = [
+                    {label: '删除业务字典', icon: 'fa-search', command: (event) => this.delectDict()},
+                    {label: '新增字典项', icon: 'fa-close' , command: (event) => this.addDictItem()},
+                    {label: '修改业务字典', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdict()},
+                ];
+            } else {  // 字典项
+                this.treemenus = [
+                    {label: '删除字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.delectdictItem()},
+                    {label: '修改字典项', icon: 'fa fa-circle-o-notch' , command: (event) => this.exitdictItem()},
+                    {label: '设置默认值', icon: 'fa fa-circle-o-notch' , command: (event) => this.setdefault()},
+                ];
         }
     }
 
@@ -555,10 +553,6 @@ export class DictComponent implements OnInit {
     }
 
 
-    dropEvent($event) {
-        console.log($event) ; // 拿到tree拖拽来的数据
-
-    }
 
     // 树节点搜索框的内容
     searchVal($event) {

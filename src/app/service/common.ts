@@ -7,6 +7,7 @@ export let appConfig = {
     API: {
         treeData: 'treeData',
         listData: 'listData',
+        roleData: 'roleData',
         orgTreeData: 'orgTreeData',
         // 系统运行参数
         sysConfigAdd: '/sysConfigs', // 新增系统参数
@@ -72,7 +73,27 @@ export let appConfig = {
         // 菜单管理
         acMenuList: '/acMenus/queryPageAllList', // 查询所有
         acMenuListByAppcode: '/acMenus/queryAcMenuLists/', // 根据应用ID 查询菜单
+
+        // 组织机构
+        omgTree: '/omOrg/tree', // 查询组织机构树
+        omg: '/omOrg', // 删除组织机构、查询组织机构信息
+        stopStatus: '/omOrg/stopStatus', // 停用状态
+        cancelStatus: '/omOrg/cancelStatus', // 关闭状态
+        runningStatus: '/omOrg/runningStatus', // 运行状态
+        addChild: '/omOrg/addChild', //  添加子节点
+        addRoot: '/omOrg/addRoot', //  添加父节点
+
+        // 机构员工管理
+        emporgAdd: '/omEmpOrg/add', // 新增
+        emporgList: '/omEmpOrg/list', // 查询机构列表
+        emporgD: '/omEmpOrg', // 删除、修改、查询基本信息
+
+        // 机构员工管理
+
     },
+
+
+
     // 枚举值
     Enumeration: {
         // 字典项枚举值
@@ -115,11 +136,11 @@ export let appConfig = {
         ],
         // 机构等级
         orgDegree: [
-            {text: '总行', key: '0'},
-            {text: '分行', key: '1'},
-            {text: '海外', key: '2'},
-            {text: '区域分行', key: '3'},
-            {text: '网点', key: '4'}
+            {text: '总行', key: 'BS'},
+            {text: '分行', key: 'YF'},
+            {text: '海外', key: 'HW'},
+            {text: '区域分行', key: 'QY'},
+            {text: '网点', key: 'CN'}
         ],
         // 机构状态
         orgStatus: [
@@ -131,7 +152,48 @@ export let appConfig = {
         area: [
             {text: '北京地区', key: '010'},
             {text: '上海地区', key: '021'},
+        ],
+
+        // 员工状态
+        empType: [
+            {key: 'work' , value: '在职'},
+            {key: 'resignation' , value: '离职'},
+            {key: 'Departure' , value: '在招'},
+        ],
+
+        // 性别
+        gender: [
+            {key: 'M' , value: '男'},
+            {key: 'F' , value: '女'},
+            {key: 'U' , value: '未知'},
+        ],
+
+        // 证件类型
+        paperType : [
+            { value: '身份证', key: '01' },
+            { value: '军官证', key: '03' },
+            { value: '户口本', key: '02' },
+            { value: '学生证', key: '04' },
+            { value: '护照', key: '05' },
+            { value: '其他', key: '06' }
+        ],
+
+
+        // 岗位类别
+        postType: [
+            { value: '机构岗位', key: '01' },
+            { value: '工作组岗位', key: '02' },
+        ],
+
+        // 岗位状态
+        postStatus: [
+            { value: '正常', key: 'running' },
+            { value: '注销', key: 'cancel' },
         ]
+
+
+
+
     }
 }
 

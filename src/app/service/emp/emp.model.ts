@@ -20,6 +20,9 @@ export class EmpModule {
     // 主机构
     public organization: null;
 
+    // 机构guid
+    public guidOrg: string;
+
     // 入职日期
     public  entryDate: null;
     // 离职日期

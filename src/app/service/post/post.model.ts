@@ -42,4 +42,7 @@ export class PostModule {
 
     // 岗位有效截止时间
     public endDate: string;
+
+    // 组织机构guid
+    public guidOrg: string;
 }

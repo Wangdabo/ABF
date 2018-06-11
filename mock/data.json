@@ -194,5 +194,95 @@
                 }
             ]
         }
+    ],
+  "roleData": [
+        {
+            "label": "默认角色分组",
+            "data": "Documents Folder",
+            "expandedIcon": "fa-folder-open",
+            "collapsedIcon": "fa-folder",
+            "isLeaf": false,
+            "children": [
+                {
+                    "label": "角色A1",
+                    "data": "Work Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "角色AA1",
+                            "icon": "fa-file-word-o",
+                            "data": "Expenses Document",
+                            "isLeaf": true
+                        },
+                        {
+                            "label": "角色AA2",
+                            "icon": "fa-file-word-o",
+                            "data": "Resume Document",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "角色A2",
+                    "data": "Home Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "角色A22",
+                            "icon": "fa-file-word-o",
+                            "data": "Invoices for this month",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "角色A3",
+                    "data": "Work Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "角色A33",
+                            "icon": "fa-file-word-o",
+                            "data": "Expenses Document",
+                            "isLeaf": true
+                        },
+                        {
+                            "label": "角色A44",
+                            "icon": "fa-file-word-o",
+                            "data": "Resume Document",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "角色A4",
+                    "data": "Home Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false,
+                    "children": [
+                        {
+                            "label": "角色A44",
+                            "icon": "fa-file-word-o",
+                            "data": "Invoices for this month",
+                            "isLeaf": true
+                        }
+                    ]
+                },
+                {
+                    "label": "角色A5",
+                    "data": "Home Folder",
+                    "expandedIcon": "fa-folder-open",
+                    "collapsedIcon": "fa-folder",
+                    "isLeaf": false
+                }
+            ]
+        }
     ]
 }

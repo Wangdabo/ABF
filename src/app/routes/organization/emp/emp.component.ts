@@ -3,6 +3,8 @@ import { _HttpClient } from '@delon/theme';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UtilityService} from '../../../service/utils.service';
 import { EmpModule } from '../../../service/emp';
+import {appConfig} from '../../../service/common';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-emp',
@@ -15,9 +17,9 @@ export class EmpComponent implements OnInit {
         private http: _HttpClient,
         private router: Router,
         private activatedRoute: ActivatedRoute, // 注入路由，接收到参数
-        private service: UtilityService
+        private nznot: NzNotificationService,
+        private utilityService: UtilityService,
     ) {
-        service.getBillTypes();
     }
 
     emp: EmpModule = new EmpModule();
@@ -25,18 +27,10 @@ export class EmpComponent implements OnInit {
 
     ifshow: boolean = true;
 
-    gender = [ // 性别
-        {key: 'male' , value: '男'},
-        {key: 'Female' , value: '女'},
-    ];
+    gender: any;
 
     // 员工状态
-    empType = [
-        {key: 'work' , value: '在职'},
-        {key: 'resignation' , value: '离职'},
-        {key: 'Departure' , value: '在招'},
-    ]
-
+    empType: any;
 
     // 员工职级
     emprank = [
@@ -78,14 +72,7 @@ export class EmpComponent implements OnInit {
         {key: 'org008' , value: '上海银行浦东分行'},
     ];
     // 证件类型
-    paperType = [
-        { value: '身份证', key: 'shen' },
-        { value: '军官证', key: 'jun' },
-        { value: '户口本', key: 'huk' },
-        { value: '学生证', key: 'xues' },
-        { value: '护照', key: 'huzhao' },
-
-    ]
+    paperType: any;
     loading = false;
 
     type = [
@@ -105,6 +92,7 @@ export class EmpComponent implements OnInit {
     modalVisible = false;
     onboarding = false;
     departure = false; // 离职弹窗
+    isEdit = false; // 默认是新增，不是修改
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -135,8 +123,15 @@ export class EmpComponent implements OnInit {
     ngOnInit() {
         this.getData();
 
-        this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+        // this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+        this.orgGuid = '1006066753115021313'; // 测试新增员工接口
         console.log(this.orgGuid);
+
+
+        // 枚举值转换
+        this.gender = appConfig.Enumeration.gender;
+        this.paperType = appConfig.Enumeration.paperType;
+        this.empType = appConfig.Enumeration.empType;
     }
 
 
@@ -161,17 +156,18 @@ export class EmpComponent implements OnInit {
         ];
     }
 
+
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
-        console.log(this.emp);
-
+        this.empAdd = new EmpModule(); // 重新清空赋值
         this.ifshow = false; // 默认是基础信息
         if (event === '这里是新增的方法') {
+            this.isEdit = false;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.empAdd.radioValue = 'creat';
         } else { // 代表修改，把修改的内容传递进去，重新渲染
-            console.log(event)
+            this.isEdit = true;  // 修改
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
         }
     }
@@ -264,36 +260,23 @@ export class EmpComponent implements OnInit {
 
     // 弹出框保存组件
     save() {
-        console.log(this.empAdd)
-        console.log(this.emp)
-        // 添加了两条数据
-        this.data = [
-            {'id': 1, 'empName': '汪波', 'empCode': 'EMP000199', 'gender': '男', 'empType': '在职', 'emprank': '初级', 'emppost': '\n' +
-                '科长' , 'supervisor': '来哥', 'organization': '上海银行' },
-            {'id': 2, 'empName': '郝甜甜', 'empCode': 'EMP000198', 'gender': '女', 'empType': '在职', 'emprank': '中级', 'emppost': '\n' +
-                '存款业务经理' , 'supervisor': '庄壮志', 'organization': '工商分行' },
-            {'id': 3, 'empName': '李宁宁', 'empCode': 'EMP000178', 'gender': '男', 'empType': '在招', 'emprank': '高级', 'emppost': '\n' +
-                '理财柜员' , 'supervisor': '鲍晨捷', 'organization': '北京银行' },
-            {'id': 4, 'empName': '赵天赏', 'empCode': 'EMP000172', 'gender': '男', 'empType': '在职', 'emprank': '初级', 'emppost': '\n' +
-                'JAVA开发工程师' , 'supervisor': '黄锡华', 'organization': '上海银行' },
-            {'id': 5, 'empName': '李雪', 'empCode': 'EMP000172', 'gender': '男', 'empType': '离职', 'emprank': '中级', 'emppost': '\n' +
-                '贷款业务经理' , 'supervisor': '刘朋华', 'organization': '上海银行浦东分行' },
-            {'id': 6, 'empName': '赵钰', 'empCode': 'EMP000174', 'gender': '男', 'empType': '在职', 'emprank': '特级', 'emppost': '\n' +
-                '高柜综合柜员' , 'supervisor': '过光锋', 'organization': '工商分行' },
-            {'id': 7, 'empName': '李凤', 'empCode': 'EMP000179', 'gender': '女', 'empType': '在招', 'emprank': '实习', 'emppost': '\n' +
-                '现金柜员' , 'supervisor': '王勇', 'organization': '上海银行' },
-            {'id': 8, 'empName': '关月', 'empCode': 'EMP000207', 'gender': '女', 'empType': '在职', 'emprank': '初级', 'emppost': '\n' +
-                'web前端开发' , 'supervisor': '过光锋', 'organization': '工商银行网点' },
+        const jsonOption = this.empAdd;
+        jsonOption.guidOrg = this.orgGuid;
 
-            {'id': 9, 'empName': '张三', 'empCode': 'EMP000001', 'gender': '男', 'empType': '离职', 'emprank': '初级', 'emppost': '\n' +
-                '测试人员' , 'supervisor': '李四', 'organization': '上海银行' },
-            {'id': 10, 'empName': '李四', 'empCode': 'EMP000002', 'gender': '女', 'empType': '在职', 'emprank': '中级管理', 'emppost': '\n' +
-                '大堂经理' , 'supervisor': '张三', 'organization': '上海银行保税区网点' },
-            {'id': 11, 'empName': '任玉', 'empCode': 'EMP000143', 'gender': '女', 'empType': '在职', 'emprank': '中级管理', 'emppost': '\n' +
-                '存款业务经理' , 'supervisor': '张三', 'organization': '上海银行保税区网点' },
-            {'id': 12, 'empName': '李飞', 'empCode': 'EMP000147', 'gender': '男', 'empType': '在职', 'emprank': '中高级', 'emppost': '\n' +
-                '技术支持工程师' , 'supervisor': '汪波', 'organization': '农商分行' },
-        ];
+        console.log(jsonOption);
+        if (!this.isEdit) { // 新增数据
+            this.utilityService.postData(appConfig.testUrl  + appConfig.API.emporgAdd, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        console.log(val)
+                        this.nznot.create('success', val.msg , val.msg);
+                    },
+                );
+        } else {
+             console.log('修改数据');
+        }
+
         this.modalVisible = false;
     }
 

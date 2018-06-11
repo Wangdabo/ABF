@@ -54,6 +54,11 @@ import { TimelineComponent } from './basicData/timeline/timeline.component';
 import { LogDataComponent } from './basicData/log-data/log-data.component';
 import { GroupComponent } from './organization/group/group.component';
 import { AuthorityComponent } from './organization/authority/authority.component';
+import { RoleMemberComponent } from './authority/role/role-member/role-member.component';
+import { FuncperComponent } from './authority/role/funcper/funcper.component';
+import { EntityauthComponent } from './authority/role/entityauth/entityauth.component';
+import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
+import { DataRangeComponent } from './authority/role/data-range/data-range.component';
 
 
 
@@ -91,6 +96,11 @@ import { UtilityService } from '../service/utils.service';
         GroupComponent,
         AuthorityComponent,
         LogDataComponent,
+        RoleMemberComponent,
+        FuncperComponent,
+        EntityauthComponent,
+        FieldperComponent,
+        DataRangeComponent,
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件

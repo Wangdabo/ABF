@@ -88,15 +88,14 @@ export class AuthorityComponent implements OnInit {
             this.selectedMultipleOption = this.array; // 重新赋值
         }, 1000);
 
-
     }
+
 
     // 列表传入的翻页数据
     monitorHandler(event) {
        console.log(event.id);
-
-
     }
+
 
 
     // 列表按钮方法
