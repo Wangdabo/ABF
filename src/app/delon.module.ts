@@ -6,6 +6,7 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { throwIfAlreadyLoaded } from '@core/module-import-guard';
 
+
 // region: zorro modules
 
 import {
@@ -51,21 +52,19 @@ import {
     NzCollapseModule,
     NzTimelineModule,
     NzToolTipModule,
-    // NzBackTopModule,
-    // NzAffixModule,
-    // NzAnchorModule,
     NzAvatarModule,
     NzUploadModule,
+    NzTransferModule,
     // SERVICES
     NzNotificationService,
     NzMessageService
 } from 'ng-zorro-antd';
 
-
-
+// 引入zorro组件的一些控件  需要什么加什么, 添加一个穿梭框组件NzTransferModule
 export const ZORROMODULES = [
     // LoggerModule,
     // NzLocaleModule,
+    NzTransferModule,
     NzButtonModule,
     NzAlertModule,
     NzBadgeModule,

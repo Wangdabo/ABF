@@ -12,7 +12,7 @@ export class OperatrModule {
     // 过期时间
     public invalDate: string;
     // 操作员状态
-    public operatorStatus: null;
+    public operatorStatus: any;
     // 认证模式
     public  authMode: null;
     // 锁定次数限制

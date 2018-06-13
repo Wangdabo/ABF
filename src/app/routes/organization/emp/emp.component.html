@@ -28,16 +28,6 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="expandForm" nz-col  [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label>员工职级</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="emp.emprank" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'员工职级'" nzId="emprank">
-                            <nz-option  *ngFor="let i of emprank;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label>基本岗位</label></div>
@@ -53,17 +43,7 @@
                     <div nz-form-label><label>直接主管</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%" [(ngModel)]="emp.supervisor" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
-                            <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
-                <div nz-form-item class="d-flex">
-                    <div nz-form-label><label>主机构</label></div>
-                    <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="emp.organization" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'主机构'" nzId="organization">
-                            <nz-option  *ngFor="let i of organization;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.empName" [nzValue]="i.guid"></nz-option>
                         </nz-select>
                     </div>
                 </div>
@@ -89,7 +69,7 @@
         </div>
     </form>
     <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-    <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)" (selectedRow)="selectedRow($event)"  (isActive)="isActive($event)"  [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
+    <app-list (addCreat)="addHandler($event)"  [total]="total"  (buttonData)="buttonDataHandler($event)"  (buttonEvent) = "buttonEvent($event)" (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)" (selectedRow)="selectedRow($event)"  (isActive)="isActive($event)"  [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
     <!--引入列表组件-->
 
     <!--新增员工弹出框信息-->
@@ -102,7 +82,23 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">员工姓名</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-input [(ngModel)]="empAdd.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'员工姓名'" nzId="name"></nz-input>
+                            <nz-input [(ngModel)]="empAdd.empName" name="empName" [nzSize]="'large'" [nzPlaceHolder]="'员工姓名'" nzId="empName"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">员工全名</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.empRealname" name="empRealname" [nzSize]="'large'" [nzPlaceHolder]="'员工全名'" nzId="empRealname"></nz-input>
+                        </div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex">
+                        <div nz-form-label class="alignment"><label for="no">员工代码</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-input [(ngModel)]="empAdd.empCode" name="empCode" [nzSize]="'large'" [nzPlaceHolder]="'员工代码'" nzId="empCode"></nz-input>
                         </div>
                     </div>
                 </div>
@@ -118,20 +114,20 @@
                 </div>
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
-                        <div nz-form-label><label>员工职级</label></div>
+                        <div nz-form-label><label>直接主管</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-select style="width:100%" [(ngModel)]="empAdd.emprank" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'员工职级'" nzId="emprank">
-                                <nz-option  *ngFor="let i of emprank;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.guidEmpMajor" name="guidEmpMajor"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
+                                <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.empName" [nzValue]="i.guid"></nz-option>
                             </nz-select>
                         </div>
                     </div>
                 </div>
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
-                        <div nz-form-label><label>直接主管</label></div>
+                        <div nz-form-label><label>基本岗位</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-select style="width:100%" [(ngModel)]="empAdd.supervisor" name="supervisor"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
-                                <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            <nz-select style="width:100%" [(ngModel)]="empAdd.guidPosition" name="guidPosition"  [nzSize]="'large'" [nzPlaceHolder]="'基本岗位'" nzId="guidPosition">
+                                <nz-option  *ngFor="let i of emppost;" [nzLabel]="i.positionName" [nzValue]="i.guid"></nz-option>
                             </nz-select>
                         </div>
                     </div>
@@ -168,9 +164,9 @@
                 </div>
                 <div nz-col [nzSpan]="12" class="mb-md">
                     <div nz-form-item class="d-flex">
-                        <div nz-form-label class="alignment"><label for="no">家庭电话</label></div>
+                        <div nz-form-label class="alignment"><label for="no">手机号码</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-input [(ngModel)]="empAdd.htel" name="htel" [nzSize]="'large'" [nzPlaceHolder]="'家庭电话'" nzId="htel"></nz-input>
+                            <nz-input [(ngModel)]="empAdd.mobileNo" name="mobileNo" [nzSize]="'large'" [nzPlaceHolder]="'手机号码'" nzId="mobileNo"></nz-input>
                         </div>
                     </div>
                 </div>
@@ -263,7 +259,7 @@
 
 
     <!--离职弹出框信息-->
-    <nz-modal [nzVisible]="departure"  [nzWidth]="1024" [nzTitle]="'员工入职'"  [nzConfirmLoading]="loading" [nzContent]="empDeparture"
+    <nz-modal [nzVisible]="departure"  [nzWidth]="1024" [nzTitle]="'员工离职'"  [nzConfirmLoading]="loading" [nzContent]="empDeparture"
               (nzOnCancel)="departure=false" (nzOnOk)="ondeparturesave()">
         <ng-template #empDeparture>
             <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">

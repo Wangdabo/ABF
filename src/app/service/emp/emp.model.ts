@@ -2,9 +2,13 @@ export class EmpModule {
     // 当前页数
     public pi: 1;
     // 每业个数
-    public ps: 10;
+    public size: 10;
     // 员工姓名
-    public name: string;
+    public empName: string;
+    // 员工全名
+    public empRealname: string;
+    // 员工代码
+    public empCode: string;
     // 员工编号
     public numbering: string;
     // 性别
@@ -14,11 +18,12 @@ export class EmpModule {
     // 员工职级
     public emprank: null;
     // 基本岗位
-    public emppost: null;
+    public guidPosition: null;
     // 直接主管
-    public supervisor: null;
+    public guidEmpMajor: null;
     // 主机构
     public organization: null;
+
 
     // 机构guid
     public guidOrg: string;
@@ -42,6 +47,9 @@ export class EmpModule {
 
     // 家庭邮编
     public hzipCode: number;
+
+    // 手机号码
+    public  mobileNo: number;
 
     // 备注
     public  remark: string;

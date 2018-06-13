@@ -258,7 +258,6 @@ export class DictComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val);
                     if (val.result.dictName) {
                         val.result.label = val.result.dictName;
                         val.result.expandedIcon = 'fa-folder-open';

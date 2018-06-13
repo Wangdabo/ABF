@@ -1,8 +1,6 @@
 <!--引入面包屑组件-->
 <pro-header></pro-header>
 
-
-
 <nz-card [nzBordered]="false">
     <!--  form表单搜索 -->
     <form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
@@ -15,7 +13,6 @@
                     </div>
                 </div>
             </div>
-
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="name">登陆用户名</label></div>
@@ -24,8 +21,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="status">操作员状态</label></div>
@@ -36,7 +31,6 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment"><label for="no">认证模式</label></div>
@@ -47,7 +41,6 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label><label for="updatedAt">密码失效日期</label></div>
@@ -56,7 +49,6 @@
                     </div>
                 </div>
             </div>
-
             <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
                 <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
                 <button nz-button type="reset" (click)="reset()" [nzSize]="'large'" class="mx-sm">重置</button>
@@ -106,7 +98,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment"><label for="no">操作员状态</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="operatorAdd.operatorStatus" name="status"  [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="status">
+                        <nz-select style="width:100%" [(ngModel)]="operatorAdd.operatorStatus" disabled name="status"  [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="status">
                             <nz-option  *ngFor="let i of status; let idx = index" [nzLabel]="i.text" [nzValue]="i.type"></nz-option>
                         </nz-select>
                     </div>
@@ -116,7 +108,7 @@
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment"><label for="no">认证模式</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="operatorAdd.authMode"  name="authMode" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="authMode">
+                        <nz-select style="width:100%" [(ngModel)]="operatorAdd.authMode"  name="authMode" [nzSize]="'large'" [nzPlaceHolder]="'认证模式'" nzId="authMode">
                             <nz-option  *ngFor="let i of authStype; let idx = index" [nzLabel]="i.text" [nzValue]="i.type"></nz-option>
                         </nz-select>
                     </div>

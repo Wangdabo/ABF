@@ -146,6 +146,8 @@ export class OperatorsComponent implements OnInit {
             for (const key in this.operator) {
                 delete this.operator[key];
             }
+            this.operatorAdd.operatorStatus = 'stop';
+            this.operatorAdd.lockLimit = 5;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.isEdit = true;
         } else { // 代表修改，把修改的内容传递进去，重新渲染

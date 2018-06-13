@@ -84,12 +84,22 @@ export let appConfig = {
         addRoot: '/omOrg/addRoot', //  添加父节点
 
         // 机构员工管理
-        emporgAdd: '/omEmpOrg/add', // 新增
-        emporgList: '/omEmpOrg/list', // 查询机构列表
-        emporgD: '/omEmpOrg', // 删除、修改、查询基本信息
+        emporgAdd: '/omEmployee', // 新增,修改员工,删除员工
+        onJob: '/omEmployee/onJob', // 入职
+        outJob: '/omEmployee/outJob', // 离职
+        queryorgList: '/omEmployee/queryEmpByOrg', // 根据组织机构查询员工
 
-        // 机构员工管理
 
+        // 岗位管理
+        postChild: '/omPosition/addChild', // 新增子岗位
+        postRoot: '/omPosition/addRoot', // 新增父岗位
+        postList: '/omPosition/list', // 查询所有岗位
+        posttreeList: '/omPosition/treeByOrgId', // 查询组织机构下岗位
+        allpostList: '/omPosition/allPositionList', // 查询所有岗位
+        postDel: '/omPosition', // 删除岗位、修改岗位
+        running: '/omPosition/runningStatus', // 启用岗位
+        cancel: '/omPosition/cancelStatus', // 注销岗位
+        setDate: '/omPosition/setDate', // 设置岗位有效时间
     },
 
 
@@ -156,9 +166,9 @@ export let appConfig = {
 
         // 员工状态
         empType: [
-            {key: 'work' , value: '在职'},
-            {key: 'resignation' , value: '离职'},
-            {key: 'Departure' , value: '在招'},
+            {key: 'onjob' , value: '在职'},
+            {key: 'offjob' , value: '离职'},
+            {key: 'offer' , value: '在招'},
         ],
 
         // 性别

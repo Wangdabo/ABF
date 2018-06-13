@@ -30,31 +30,18 @@ export class OrgComponent implements OnInit {
     modalVisible = false; // 弹出框默认关闭
     isEdit = false; // 默认是新增
     orgData: any; // 树节点上的数据保存
-    istrue: false;  // 是否请求过
-    isChild = false; // 是否是子节点调用
+    istrue = false;  // 是否请求过
     orgItem: OrgModule = new OrgModule(); // 绑定数据
     // 枚举值
     orgDegree: any;
     area: any;
     orgType: any;
+    treeResult: string; // 接受请求id值
+    isroot = true; // 是否是子节点调用
 
     ngOnInit() {
-        this.treedata = [ // 默认根节点
-            {
-                'label': '组织机构',
-                'data': 'Documents Folder',
-                'guid': '0',
-                'expandedIcon': 'fa fa-institution',
-                'collapsedIcon': 'fa fa-institution',
-                'children': [{}]
-            }
-        ];
+        this.initData();
         this.searchTitle = '请输入机构代码/名称';
-        this.treemenus = [
-            {label: '新建跟机构', icon: 'fa fa-plus', command: (event) => this.addchildOrg()},
-            {label: '修改机构', icon: 'fa fa-edit', command: (event) => this.editOrg()},
-            {label: '删除机构', icon: 'fa fa-times', command: (event) => this.delectOrg()},
-        ];
 
         // 枚举值转换
         this.orgDegree = appConfig.Enumeration.orgDegree;
@@ -63,52 +50,85 @@ export class OrgComponent implements OnInit {
 
     }
 
-
+    initData() {
+        this.treedata = [ // 默认根节点
+            {
+                'label': '组织机构',
+                'data': 'Documents Folder',
+                'guid': 'null',
+                'expandedIcon': 'fa fa-institution',
+                'collapsedIcon': 'fa fa-institution',
+                'children': [{}]
+            }
+        ];
+    }
     getData(event) {
         console.log(event.node)
         // 从服务器获取树列表
         this.utilityService.postData(appConfig.testUrl  + appConfig.API.omgTree + '/' + event.node.guid, {})
+            .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val);
+                    this.treeResult = event.node.guid; // 赋值, 用来判断是否请求过
+                    for (let i = 0 ; i < val.result.children.length; i++) {
+                        if (val.result.children[i].isleaf === '是') { // 代表是最底层，没有下级了
+                            val.result.children[i].label = val.result.children[i].orgName;
+                            val.result.children[i].collapsedIcon = 'fa-folder';
+                        } else {
+                            val.result.children[i].label = val.result.children[i].orgName;
+                            val.result.children[i].expandedIcon = 'fa fa-institution';
+                            val.result.children[i].collapsedIcon = 'fa fa-institution';
+                            val.result.children[i].children =  [{}];
+                        }
+
+                    }
+                    event.node.children = val.result.children;
                 });
     }
+
 
     // 树的方法
 
     // 展开节点事件
     Unfold(event) {
-        console.log(event)
-        this.getData(event)
-        /*if (event.node.guid === this.treeResult) {
+        this.getData(event);
+       /* if (event.node.guid === this.treeResult) {
             this.istrue = false;
         } else {
             this.istrue = true;
-        }*/
+        }
+        console.log(this.istrue)
         if (this.istrue) { // 为true的时候 说明不存在，没有请求过 才去请求
 
-        }
+        }*/
     }
 
 
     // 右击菜单传递值
     RightSelect(event) {
         console.log(event.node);
-        if (event.node.guid === '0') {
-            this.isChild = false; // 说明是根节点，调用根节点的方法
-        } else {
-            this.isChild = true; // 说明不是根节点，直接调用子节点的方法
+        if (event.node.guid === 'null') { // 子业务字典
+            this.treemenus = [
+                {label: '新建跟机构', icon: 'fa fa-plus', command: (event) => this.addrootOrg()},
+            ];
+        } else {  // 字典项
+            this.treemenus = [
+                {label: '新增子机构', icon: 'fa fa-plus', command: (event) => this.addchildOrg()},
+                {label: '修改机构', icon: 'fa fa-edit', command: (event) => this.editOrg()},
+                {label: '删除机构', icon: 'fa fa-times', command: (event) => this.delectOrg()},
+            ];
         }
+        delete event.node.parent;
         this.orgData = event.node; // 绑定数据
     }
 
     // 左击树菜单节点信息
     TreeSelect(event) {
-        console.log(event)
-        this.id = 'POST0003';
-        this.router.navigate(['org/emp', this.id]); // 跳转路由
-        if  (event.node.parent) {
+        console.log(event.node)
+        this.id = event.node.guid;
+        if  (event.node.guid !== 'null') { // 只要不是跟机构就显示
             this.tabShow = true;
+            this.router.navigate(['org/emp', this.id]); // 跳转路由
         } else {
             this.tabShow = false;
         }
@@ -146,22 +166,30 @@ export class OrgComponent implements OnInit {
         console.log($event);
     }
 
-    // 新建组织机构
+    // 新增跟组织机构
+    addrootOrg() {
+        this.isroot = true;
+        this.isEdit = false;
+        this.orgItem = new OrgModule(); // 清空
+        this.modalVisible = true;
+    }
+    // 新建子组织机构
     addchildOrg() {
+        this.orgItem = new OrgModule(); // 清空
         this.modalVisible = true;
         this.isEdit = false;
+        this.isroot = false;
     }
 
 
     save() {
         const jsonOption = this.orgItem;
         if (!this.isEdit) {
-            if (!this.isChild) { // 调用跟新增还是子新增
+            if (this.isroot) { // 新增跟机构
                 this.utilityService.postData(appConfig.testUrl  + appConfig.API.addRoot, jsonOption)
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-                            console.log(val)
                             this.nznot.create('success', val.msg , val.msg);
                         },
                     );
@@ -171,25 +199,97 @@ export class OrgComponent implements OnInit {
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
-                            console.log(val)
                             this.nznot.create('success', val.msg , val.msg);
                         },
                     );
             }
         } else {
-            console.log('调用修改接口');
+            this.degreeOrg(jsonOption)
+            this.typeOrg(jsonOption)
+            this.arearOrg(jsonOption)
+            this.isleaf(jsonOption)
+            this.orgStatus(jsonOption)
+            this.utilityService.putData(appConfig.testUrl  + appConfig.API.omg, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                    },
+                );
         }
+        this.initData()
         this.modalVisible = false;
     }
 
 
+    // 枚举值转换
+    // 机构等级转换
+    degreeOrg(event) {
+        if (event.orgDegree === '总行') {
+            event.orgDegree = 'BS';
+        } else if (event.orgDegree === '分行') {
+            event.orgDegree = 'YF';
+        } else if (event.orgDegree === '海外') {
+            event.orgDegree = 'HW';
+        } else if (event.orgDegree === '区域分行') {
+            event.orgDegree = 'QY';
+        } else if (event.orgType === '网点') {
+            event.orgDegree = 'CN';
+        }
+    }
+    // 机构类型转换
+    typeOrg(event) {
+        if (event.orgType === '总公司') {
+            event.orgType = '10';
+        } else if (event.orgType === '总部部门') {
+            event.orgType = '11';
+        } else if (event.orgType === '分公司') {
+            event.orgType = '20';
+        } else if (event.orgType === '分公司部门') {
+            event.orgType = '21';
+        } else if (event.orgType === '营业网点') {
+            event.orgType = '90';
+        }
+    }
+    //  地区
+    arearOrg(event) {
+        if (event.area === '北京') {
+            event.area = '010';
+        } else if (event.area === '上海') {
+            event.area = '021';
+        }
+    }
+    // 是否
+    isleaf(event) {
+        if (event.isleaf === '是') {
+            event.isleaf = 'Y';
+        } else if (event.area === '否') {
+            event.isleaf = 'N';
+        }
+    }
+    // 机构状态
+    orgStatus(event) {
+        if (event.orgStatus === '正常') {
+            event.orgStatus = 'running';
+        } else if (event.orgStatus === '注销') {
+            event.orgStatus = 'cancel';
+        } else if (event.orgStatus === '停用') {
+            event.orgStatus = 'stop';
+        }
+    }
+
+
+
     // 修改组织机构
     editOrg() {
-        console.log(event);
         this.isEdit = true; // 是修改
         this.modalVisible = true;
+        this.degreeOrg(this.orgData)
+        this.typeOrg(this.orgData)
+        this.arearOrg(this.orgData)
         this.orgItem = this.orgData; // 渲染数据
     }
+
 
     // 删除组织机构
     delectOrg() {
@@ -199,7 +299,13 @@ export class OrgComponent implements OnInit {
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.omg + '/' +  this.orgData.guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.initData(); // 重新查询树
+                        });
             },
             onCancel: () => {
                 console.log('失败');
