@@ -6,23 +6,21 @@
 
 <div class="ui-g">
     <div class="ui-g-6">
-        <p-card>
+        <p-card [style]="{width: '100%'}">
             <form nz-form  [nzLayout]="'inline'">
                 <div nz-row [nzType]="'flex'" [nzGutter]="24">
                     <div nz-col [nzSpan]="8" class="mb-md">
                         <div nz-form-item class="d-flex">
                             <div nz-form-label><label >应用名称</label></div>
                             <div nz-form-control class="flex-1">
-                                <nz-select  [(ngModel)]="acmenuModule.appData"  name="应用名称" [nzSize]="'large'"
-                                           [nzPlaceHolder]="'应用名称'" nzId="应用名称" (ngModelChange)="appCodeChange($event)">
-                                    <nz-option  *ngFor="let i of appData; let idx = index" [nzLabel]="i.appName" [nzValue]="i.appCode"></nz-option>
+                                <nz-select style="width:100%"  [(ngModel)]="acmenuModule.appData"  name="应用名称" [nzSize]="'large'"
+                                           [nzPlaceHolder]="'应用名称'" nzId="应用名称" (ngModelChange)="appCodeChange(acmenuModule.appData)">
+                                    <nz-option     *ngFor="let i of appData; let idx = index" [nzLabel]="i.appName" [nzValue]="i.appCode"></nz-option>
                                 </nz-select>
                             </div>
                         </div>
                     </div>
-                    <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
 
-                    </div>
                 </div>
             </form>
         </p-card>
@@ -32,13 +30,135 @@
                       (serchValue)="searchVal($event)"  (develop)="Unfold($event)"></app-tree>
         </p-card>
     </div>
-
+<!--左侧展示详细信息-->
     <div class="ui-g-6" >
-        <p-card  [style]="{width: '100%'}" *ngIf="treeshow">
+        <p-card  [style]="{width: '100%'}" *ngIf="inforShow">
+            <div nz-form-item class="d-flex">
+                <div nz-col [nzSpan]="18">
+                    菜单名称：{{acMenuInfor.menuName}}
+                </div>
+             </div>
+            <div nz-form-item class="d-flex">
+                <div nz-col [nzSpan]="18">
+                    菜单代码：{{acMenuInfor.menuCode}}
+                </div>
+            </div>
+            <div nz-form-item class="d-flex">
+                <div nz-col [nzSpan]="18">
+                    UI入口：{{acMenuInfor.uiEntry}}
+                </div>
+            </div>
+            <div nz-form-item class="d-flex">
+                <div nz-col [nzSpan]="18">
+                    功能ID：{{acMenuInfor.guidFunc}}
+                </div>
+            </div>
+            <div nz-form-item class="d-flex">
+                <div nz-col [nzSpan]="18">
+                    应用ID：{{acMenuInfor.guidApp}}
+                </div>
+            </div>
+
         </p-card>
     </div>
 </div>
+<!--弹窗页面-->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="tanchuangTitle"  [nzConfirmLoading]="loading" [nzContent]="dictModal"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #dictModal>
+        <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+            <div nz-col [nzSpan]="12"  class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="guidApp">应用ID</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="addMenuData.guidApp"  name="guidApp" [nzSize]="'large'" [nzPlaceHolder]="'guidApp'" nzId="guidApp" [nzDisabled]= true ></nz-input>
+                    </div>
+                </div>
+            </div>
 
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="isLeaf">是否是叶子菜单</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="addMenuData.isLeaf"  name="isLeaf" [nzSize]="'large'" [nzPlaceHolder]="'是否是叶子菜单'" nzId="isLeaf"
+                                   (ngModelChange)="isleafchange($event)" [nzDisabled]= "proLeafDisable">
+                            <nz-option  *ngFor="let i of Leafs; let app = index" [nzLabel]="i.text" [nzValue]="i.value" ></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md" *ngIf="guidFuncshow">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="guidFunc">功能ID</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%"    [(ngModel)]="addMenuData.guidFunc"  name="guidFunc" [nzSize]="'large'" [nzPlaceHolder]="'功能ID'" nzId="guidFunc">
+                            <nz-option  *ngFor="let i of guidFuncList; let app = index" [nzLabel]="i.key +'-'+ i.value" [nzValue]="i.value" ></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="menuName">菜单名称</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="addMenuData.menuName"  name="menuName" [nzSize]="'large'" [nzPlaceHolder]="'菜单名称'" nzId="menuName" [nzDisabled]= "proDisable"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="menuLabel">菜单中文显示</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="addMenuData.menuLabel" name="menuLabel" [nzSize]="'large'" [nzPlaceHolder]="'菜单中文显示'" nzId="menuLabel" [nzDisabled]= "proDisable"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md" *ngIf="guidParentsshow">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="guidParents">父菜单</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="addMenuData.guidParents"  name="guidParents" [nzSize]="'large'" [nzPlaceHolder]="'父菜单'" nzId="guidParents" [nzDisabled]= "proParentDisable">
+                            <nz-option  *ngFor="let i of guidParents; let app = index" [nzLabel]="i.label +'-'+ i.guid" [nzValue]="i.guid" ></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="menuCode">菜单代码</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="addMenuData.menuCode" name="menuCode" [nzSize]="'large'" [nzPlaceHolder]="'菜单代码'" nzId="menuCode" [nzDisabled]= "proDisable"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="imagePath">菜单图标</label></div>
+                    <nz-select style="width: 100%;" [(ngModel)]="addMenuData.imagePath" nzAllowClear>
+                        <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option.label">
+                            <ng-template #nzOptionTemplate><i class="anticon" [ngClass]="'anticon-'+option.label"></i> {{option.label}}</ng-template>
+                        </nz-option>
+                    </nz-select>
+                </div>
+            </div>
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="uiEntry">url入口</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-input [(ngModel)]="addMenuData.uiEntry" name="uiEntry" [nzSize]="'large'" [nzPlaceHolder]="'url入口'" nzId="uiEntry" [nzDisabled]= "proDisable"></nz-input>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ng-template>
+</nz-modal>
 
 
 

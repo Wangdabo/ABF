@@ -252,5 +252,7 @@ export class AcMenuModule {
     public menuSeq: string;
     // 页面打开方式
     public openMode: string;
+    // guid
+    public guid: string;
 }
 

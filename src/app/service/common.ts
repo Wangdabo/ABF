@@ -72,6 +72,11 @@ export let appConfig = {
         // 菜单管理
         acMenuList: '/acMenus/queryPageAllList', // 查询所有
         acMenuListByAppcode: '/acMenus/queryAcMenuLists/', // 根据应用ID 查询菜单
+        acMenuAddChild: '/acMenus/addSubAcmenu/', // 增加子菜单
+        acMenuQueryByFather: '/acMenus/querySubAcMenuLists/', // 根据上一级查找下一级菜单
+        acMenuDeletByid: '/acMenus/deleteAcMenu/', // 根据ID删除菜单
+        acMenuUpdate: '/acMenus/updateAcMenu/', // 修改菜单
+        acMenuMove: '/acMenus/queryMoveMenuLists/', // 菜单移动
     },
     // 枚举值
     Enumeration: {
