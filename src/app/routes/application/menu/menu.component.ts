@@ -49,6 +49,8 @@ export class MenuComponent implements OnInit {
     appcode: string; // 存储页面上应用ID 用来刷新页面
     originPonit: string; // 树拖拽时候的被拖拽菜单guid
     destinaPoint: string; // 树拖拽时候目标菜单的guid
+    moveDate: any; // 移动菜单时候需要传的参数
+    playOrder: any; // 菜单展示的顺序
     Leafs = [
         {'text': '是' , 'value': 'Y'},
         {'text': '否' , 'value': 'N'}
@@ -83,11 +85,14 @@ export class MenuComponent implements OnInit {
                 size: 100,
             }
         };
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.appList, this.page)
-            .map(res => res.json())
+
+        // this.utilityService.postData(appConfig.testUrl + appConfig.API.appList, this.page)
+        //     .map(res => res.json())
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.appListAll)
             .subscribe(
                 (val) => {
-                    this.appData = val.result.records;
+                    // console.log(val.result);
+                    this.appData = val.result;
                 }
             );
         // console.log(this.appData);
@@ -134,11 +139,11 @@ export class MenuComponent implements OnInit {
             this.inforShow = false;
         }else {
             this.acMenuInfor = event.node;
-            console.log(event.node);
+            // console.log(event.node);
             this.inforShow = true;
         }
         this.disableFlag = true;
-        console.log(event.node.guid);
+        // console.log(event.node.guid);
     }
 
     isleafchange (event) {
@@ -179,7 +184,7 @@ export class MenuComponent implements OnInit {
         this.addMenuData.isLeaf = this.select.node.isleaf;
         this.proParentDisable = false;
         this.proDisable = true ;
-        console.log(this.select.node);
+        // console.log(this.select.node);
         this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.acMenuDeletByid + this.select.node.guid)
             .map(res => res.json())
             .subscribe(
@@ -191,19 +196,19 @@ export class MenuComponent implements OnInit {
     addMenu() {
         // 如果已经是叶子菜单了 就不允许增加子菜单
         if (this.select.node.isleaf === 'Y') {
-            console.log('叶子菜单不允许增加子菜单');
+            // console.log('叶子菜单不允许增加子菜单');
             return;
         }
         // 增加菜单前 查询所有的功能
-        // this.utilityService.postData(appConfig.testUrl  + appConfig.API.funcList , '/1001019481017692162' )
-        //     .subscribe(
-        //         (val) => {
-        //             console.log(val.result);
-        //             this.guidFuncList = [{},{}];
-        //         },
-        //     );
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.funcListAll )
+            .subscribe(
+                (val) => {
+                    // console.log(val.result);
+                    this.guidFuncList = val.result;
+                },
+            );
         this.addMenuData = new AcMenuModule();
-        this.guidFuncList = [{'key': '功能1' , 'value': 'gongneng1'} , {'key': '功能2' , 'value': 'gongneng2' }];
+        // this.guidFuncList = [{'key': '功能1' , 'value': 'gongneng1'} , {'key': '功能2' , 'value': 'gongneng2' }];
         this.tanchuangTitle = '增加子菜单';
         this.modalVisible = true;
         this.proLeafDisable = false;
@@ -242,14 +247,14 @@ export class MenuComponent implements OnInit {
         this.addMenuData.uiEntry = this.select.node.uiEntry;
         this.proParentDisable = false;
         this.proDisable = false ;
-        console.log(this.select.node.imagePath);
+        // console.log(this.select.node.imagePath);
     }
 
     // 弹窗页面的确认方法
     save () {
         this.modalVisible = false;
         if (this.tanchuangTitle === '修改菜单') {
-            console.log(this.addMenuData);
+            // console.log(this.addMenuData);
             this.utilityService.putData(appConfig.testUrl  + appConfig.API.acMenuUpdate , this.addMenuData)
                 .map(res => res.json())
                 .subscribe(
@@ -258,7 +263,7 @@ export class MenuComponent implements OnInit {
                 );
         }
         if (this.tanchuangTitle === '增加子菜单') {
-            console.log(this.addMenuData);
+            // console.log(this.addMenuData);
             this.utilityService.postData(appConfig.testUrl  + appConfig.API.acMenuAddChild, this.addMenuData)
                 .map(res => res.json())
                 .subscribe(
@@ -289,11 +294,17 @@ export class MenuComponent implements OnInit {
         console.log($event.dropNode.guid) ; // 拖拽的数据目标地的guid
         this.originPonit = $event.dragNode.guid;
         this.destinaPoint = $event.dropNode.guid;
-        // 如果拖拽的目标菜单是叶子菜单，拖拽目标设为它的父菜单
+        // 如果拖拽的目的地菜单是叶子菜单，拖拽目标目的地设为它的父菜单
         if ($event.dropNode.isleaf === 'Y') {
             this.destinaPoint = $event.dropNode.guidParents;
         }
-        this.utilityService.getData(appConfig.testUrl  + appConfig.API.acMenuMove + this.destinaPoint + '/' + this.originPonit  )
+        this.playOrder = $event.dropNode.displayOrder;
+        this.moveDate = {
+            'targetGuid': this.destinaPoint,
+            'moveGuid': this.originPonit,
+            'order': this.playOrder
+        };
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.acMenuMove , this.moveDate )
             .map(res => res.json())
             .subscribe(
                 (val) => {
@@ -307,7 +318,7 @@ export class MenuComponent implements OnInit {
 
     // 点击左侧文件夹标时候触发
     Unfold(event ) {
-        console.log(event.node.guid);
+        // console.log(event.node.guid);
         // 根据上一级guid查询 下一级菜单数据
         this.utilityService.getData(appConfig.testUrl  + appConfig.API.acMenuQueryByFather + event.node.guid)
             .subscribe(
