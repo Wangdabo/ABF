@@ -38,6 +38,7 @@ export class OrgComponent implements OnInit {
     orgType: any;
     treeResult: string; // 接受请求id值
     isroot = true; // 是否是子节点调用
+    dataOrg: any; // 节点信息
 
     ngOnInit() {
         this.initData();
@@ -70,12 +71,12 @@ export class OrgComponent implements OnInit {
             .subscribe(
                 (val) => {
                     this.treeResult = event.node.guid; // 赋值, 用来判断是否请求过
+                    console.log(val.result)
                     for (let i = 0 ; i < val.result.children.length; i++) {
                         if (val.result.children[i].isleaf === '是') { // 代表是最底层，没有下级了
-                            val.result.children[i].label = val.result.children[i].orgName;
                             val.result.children[i].collapsedIcon = 'fa-folder';
                         } else {
-                            val.result.children[i].label = val.result.children[i].orgName;
+                            // val.result.children[i].label = val.result.children[i].orgName;
                             val.result.children[i].expandedIcon = 'fa fa-institution';
                             val.result.children[i].collapsedIcon = 'fa fa-institution';
                             val.result.children[i].children =  [{}];
@@ -130,6 +131,7 @@ export class OrgComponent implements OnInit {
             this.tabShow = true;
             this.router.navigate(['org/emp', this.id]); // 跳转路由
         } else {
+            this.router.navigate(['org']);
             this.tabShow = false;
         }
     }
@@ -137,28 +139,6 @@ export class OrgComponent implements OnInit {
     // 拖拽方法
     dropEvent($event) {
         console.log($event) ; // 拿到tree拖拽来的数据
-        this.treedata = [
-            {
-                'label': '测试数据1111',
-                'data': 'Documents Folder',
-                'expandedIcon': 'fa-folder-open',
-                'collapsedIcon': 'fa-folder',
-                'children': [{
-                    'label': '工作',
-                    'data': 'Work Folder',
-                    'expandedIcon': 'fa-folder-open',
-                    'collapsedIcon': 'fa-folder',
-                    'children': [{'label': '睡觉', 'icon': 'fa-file-word-o', 'data': 'Expenses Document'}, {'label': '唱歌', 'icon': 'fa-file-word-o', 'data': 'Resume Document'}]
-                },
-                    {
-                        'label': '下班',
-                        'data': 'Home Folder',
-                        'expandedIcon': 'fa-folder-open',
-                        'collapsedIcon': 'fa-folder',
-                        'children': [{'label': '回家', 'icon': 'fa-file-word-o', 'data': 'Invoices for this month'}]
-                    }]
-            }
-        ];
     }
 
     // 树节点搜索框的内容
@@ -179,46 +159,6 @@ export class OrgComponent implements OnInit {
         this.modalVisible = true;
         this.isEdit = false;
         this.isroot = false;
-    }
-
-
-    save() {
-        const jsonOption = this.orgItem;
-        if (!this.isEdit) {
-            if (this.isroot) { // 新增跟机构
-                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addRoot, jsonOption)
-                    .map(res => res.json())
-                    .subscribe(
-                        (val) => {
-                            this.nznot.create('success', val.msg , val.msg);
-                        },
-                    );
-            } else {
-                jsonOption.guidParents = this.orgData.guid; // 绑定父机构的guid
-                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addChild, jsonOption)
-                    .map(res => res.json())
-                    .subscribe(
-                        (val) => {
-                            this.nznot.create('success', val.msg , val.msg);
-                        },
-                    );
-            }
-        } else {
-            this.degreeOrg(jsonOption)
-            this.typeOrg(jsonOption)
-            this.arearOrg(jsonOption)
-            this.isleaf(jsonOption)
-            this.orgStatus(jsonOption)
-            this.utilityService.putData(appConfig.testUrl  + appConfig.API.omg, jsonOption)
-                .map(res => res.json())
-                .subscribe(
-                    (val) => {
-                        this.nznot.create('success', val.msg , val.msg);
-                    },
-                );
-        }
-        this.initData()
-        this.modalVisible = false;
     }
 
 
@@ -263,7 +203,7 @@ export class OrgComponent implements OnInit {
     isleaf(event) {
         if (event.isleaf === '是') {
             event.isleaf = 'Y';
-        } else if (event.area === '否') {
+        } else if (event.isleaf === '否') {
             event.isleaf = 'N';
         }
     }
@@ -278,16 +218,63 @@ export class OrgComponent implements OnInit {
         }
     }
 
+    // 保存接口
+    save() {
+        const jsonOption = this.orgItem;
+        if (!this.isEdit) {
+            if (this.isroot) { // 新增跟机构
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addRoot, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            } else {
+                jsonOption.guidParents = this.orgData.guid; // 绑定父机构的guid
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.addChild, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            }
+        } else {
+            this.degreeOrg(jsonOption)
+            this.typeOrg(jsonOption)
+            this.arearOrg(jsonOption)
+            this.isleaf(jsonOption)
+            this.orgStatus(jsonOption)
+            console.log(jsonOption)
+            this.utilityService.putData(appConfig.testUrl  + appConfig.API.omg, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                    },
+                );
+        }
+        this.initData()
+        this.modalVisible = false;
+    }
 
 
     // 修改组织机构
     editOrg() {
         this.isEdit = true; // 是修改
         this.modalVisible = true;
-        this.degreeOrg(this.orgData)
-        this.typeOrg(this.orgData)
-        this.arearOrg(this.orgData)
-        this.orgItem = this.orgData; // 渲染数据
+        // 查询修改的数据信息
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.omg + '/' +  this.orgData.guid)
+            .subscribe(
+                (val) => {
+                    this.dataOrg = val.result;
+                    this.degreeOrg(val.result)
+                    this.typeOrg(val.result)
+                    this.arearOrg(val.result)
+                    this.orgItem = val.result; // 渲染数据
+                });
+
     }
 
 

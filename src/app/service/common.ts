@@ -36,6 +36,8 @@ export let appConfig = {
         openApp: '/acApp/openApp', // 开启应用 传对应guid
         stopApp: '/acApp/stopApp', // 关闭应用 传对应guid
         appDed: '/acApp', // 查询/修改/删除 应用详情 传对应guid
+        queryAll: '/acApp/queryAll', // 查询所有应用
+        batchQuery: '/acApp/batchQuery' , // 查询对应应用信息
 
         // 功能管理
         funcList: '/acFunc/list', // 查询功能列表
@@ -55,6 +57,8 @@ export let appConfig = {
         acOperatorsList: '/acOperators/list', // 查询操作员列表
         acOperatorsAdd: '/acOperators', // 增删改操作员列表
         acOperatorsDel: '/acOperators', // 增删改操作员列表
+        queryAllOperator: '/acOperators/queryAllOperator', // 查询所有操作员不分页
+
 
         // 序号资源
         seqResource: '/sysSeqno/list', // 查询序号资源数据
@@ -93,18 +97,32 @@ export let appConfig = {
         onJob: '/omEmployee/onJob', // 入职
         outJob: '/omEmployee/outJob', // 离职
         queryorgList: '/omEmployee/queryEmpByOrg', // 根据组织机构查询员工
-
+        queryByOrgPosition: '/omEmployee/queryByOrgPosition',  // 查询岗位下分配的员工
+        listsByOrg: '/omEmployee/listsByOrg', // 根据机构guid查询所有员工
 
         // 岗位管理
         postChild: '/omPosition/addChild', // 新增子岗位
         postRoot: '/omPosition/addRoot', // 新增父岗位
         postList: '/omPosition/list', // 查询所有岗位
+        postorgEmp: '/omPosition/listsByOrgId', // 查询同属机构所有岗位
         posttreeList: '/omPosition/treeByOrgId', // 查询组织机构下岗位
         allpostList: '/omPosition/allPositionList', // 查询所有岗位
         postDel: '/omPosition', // 删除岗位、修改岗位
         running: '/omPosition/runningStatus', // 启用岗位
         cancel: '/omPosition/cancelStatus', // 注销岗位
         setDate: '/omPosition/setDate', // 设置岗位有效时间
+        empAdd: '/omEmpPosition/add', // 给岗位添加员工
+        postDelemp: '/omEmpPosition', // 给岗位添加员工
+        addByList: '/omPositionApp/addByList', // 给岗位添加应用
+        appDelpost: '/omPositionApp', // 给岗位删除应用
+
+        // 工作组接口
+        groupChild: '/omGroups/child', // 新增子工作组
+        groupRoot: '/omGroups/root', // 新增跟工作组
+        empGroup: '/omGroups/empGroup', // 工作组添加员工
+        empNotin: '/omGroups/empNotin', // 加载不在此工作组的人员列表(同属同一机构)
+        omGroups: '/omGroups', // 修改、删除工作组
+
 
     },
 
@@ -206,10 +224,7 @@ export let appConfig = {
             { value: '正常', key: 'running' },
             { value: '注销', key: 'cancel' },
         ]
-
-
-
-
+        
     }
 }
 

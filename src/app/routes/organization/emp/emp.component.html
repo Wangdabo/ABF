@@ -166,7 +166,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">手机号码</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-input [(ngModel)]="empAdd.mobileNo" name="mobileNo" [nzSize]="'large'" [nzPlaceHolder]="'手机号码'" nzId="mobileNo"></nz-input>
+                            <nz-input [(ngModel)]="empAdd.mobileno" name="mobileno" [nzSize]="'large'" [nzPlaceHolder]="'手机号码'" nzId="mobileno"></nz-input>
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">家庭邮编</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-input [(ngModel)]="empAdd.hzipCode" name="hzipCode" [nzSize]="'large'" [nzPlaceHolder]="'家庭邮编'" nzId="hzipCode"></nz-input>
+                            <nz-input [(ngModel)]="empAdd.hzipcode" name="hzipcode" [nzSize]="'large'" [nzPlaceHolder]="'家庭邮编'" nzId="hzipcode"></nz-input>
                         </div>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">入职日期</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-datepicker [(ngModel)]="empAdd.entryDate"    name="entryDate" [nzSize]="'large'" [nzPlaceHolder]="'入职日期'" nzId="entryDate" class="d-block"></nz-datepicker>
+                            <nz-datepicker [(ngModel)]="empAdd.indate" [nzFormat]="'YYYY-MM-DD'"    name="entryDate" [nzSize]="'large'" [nzPlaceHolder]="'入职日期'" nzId="entryDate" class="d-block"></nz-datepicker>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                         <div nz-form-item class="d-flex">
                             <div nz-form-label><label for="radioValue">选择操作员:</label></div>
                             <div nz-form-control class="flex-1">
-                                <nz-radio-group [(ngModel)]="empAdd.radioValue">
+                                <nz-radio-group [(ngModel)]="empAdd.radioValue" (ngModelChange)="checkSelect(empAdd.radioValue)">
                               <span  *ngFor="let i of radioValue;">
                                     <label  nz-radio (click)="select(i)"   [nzValue]='i.key'>
                                         <span>{{i.text}}</span>
@@ -248,7 +248,7 @@
                         <div nz-form-label><label>操作员</label></div>
                         <div nz-form-control class="flex-1">
                             <nz-select style="width:100%" [(ngModel)]="empAdd.userId"  name="userId" [nzSize]="'large'" [nzPlaceHolder]="'操作员'" nzId="userId">
-                                <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                                <nz-option  *ngFor="let i of operData;" [nzLabel]="i.userId" [nzValue]="i.userId"></nz-option>
                             </nz-select>
                         </div>
                     </div>
@@ -267,7 +267,7 @@
                     <div nz-form-item class="d-flex">
                         <div nz-form-label class="alignment"><label for="no">离职日期</label></div>
                         <div nz-form-control class="flex-1">
-                            <nz-datepicker [(ngModel)]="empAdd.departure"    name="departure" [nzSize]="'large'" [nzPlaceHolder]="'离职日期'" nzId="departure" class="d-block"></nz-datepicker>
+                            <nz-datepicker [(ngModel)]="empAdd.outdate"    name="departure" [nzSize]="'large'" [nzPlaceHolder]="'离职日期'" nzId="departure" class="d-block"></nz-datepicker>
                         </div>
                     </div>
                 </div>

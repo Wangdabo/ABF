@@ -1,8 +1,10 @@
 export class EmpModule {
     // 当前页数
-    public pi: 1;
+    public pi = 1;
     // 每业个数
-    public size: 10;
+    public size = 10;
+    // 员工id
+    public  guid: string;
     // 员工姓名
     public empName: string;
     // 员工全名
@@ -29,9 +31,9 @@ export class EmpModule {
     public guidOrg: string;
 
     // 入职日期
-    public  entryDate: null;
+    public  indate: any;
     // 离职日期
-    public  departure: null;
+    public  outdate: any;
 
     // 其他信息
     // 证件类型

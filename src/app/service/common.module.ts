@@ -186,6 +186,12 @@ export class GroupModule {
     public  startDate: boolean;
     // 工作组有效截止日期
     public  endDate: boolean;
+    // 父工作组guid
+    public  guidParents: boolean;
+    // 测试gropuOrg代码 后台会改回guidOrg
+    public  groupOrg: string;
+    // guidName 后台会改回guidName
+    public  guidName: string;
 }
 
 // 组织机构模块

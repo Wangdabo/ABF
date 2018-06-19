@@ -1,0 +1,86 @@
+<nz-card nzTitle="工作組详情" [nzBordered]="false">
+    <div  nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment" style="margin-top: 7px;margin-right: 10px;"><label for="no">工作组类型</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [nzDisabled]="isEdit" [(ngModel)]="workItem.groupType"  name="groupType" [nzSize]="'large'" [nzPlaceHolder]="'工作组类型'" nzId="groupType">
+                        <nz-option  *ngFor="let i of groupType;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment" style="margin-top: 7px;margin-right: 10px;"><label for="no">工作组状态</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select [nzDisabled]="isEdit"  style="width:100%" [(ngModel)]="workItem.groupStatus"  name="groupStatus" [nzSize]="'large'" [nzPlaceHolder]="'工作组状态'" nzId="groupStatus">
+                        <nz-option    *ngFor="let i of groupStatus;" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment" style="margin-top: 7px;margin-right: 10px;"><label for="no">工作组名称</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="workItem.groupName" [nzDisabled]="isEdit" name="groupName" [nzSize]="'large'" [nzPlaceHolder]="'工作组名称'" nzId="groupName"></nz-input>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label style="margin-top: 7px;margin-right: 10px;"><label>所属机构</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [(ngModel)]="workItem.guidOrg" [nzDisabled]="isEdit"  name="guidOrg" [nzSize]="'large'" [nzPlaceHolder]="'所属机构'" nzId="guidOrg">
+                        <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment" style="margin-top: 7px;margin-right: 10px;"><label for="no">工作组代码</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="workItem.groupCode" [nzDisabled]="isEdit" name="groupCode" [nzSize]="'large'" [nzPlaceHolder]="'工作组代码'" nzId="groupCode"></nz-input>
+                </div>
+            </div>
+        </div>
+        <!--<div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment"><label for="no">生效日期</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-datepicker [(ngModel)]="workItem.startDate" name="startDate" [nzSize]="'large'" [nzPlaceHolder]="'生效日期'" nzId="startDate" class="d-block"></nz-datepicker>
+                </div>
+            </div>
+        </div>
+
+        <div nz-col [nzSpan]="12" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment"><label for="no">失效日期</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-datepicker [(ngModel)]="workItem.endDate" name="endDate" [nzSize]="'large'" [nzPlaceHolder]="'失效日期'" nzId="endDate" class="d-block"></nz-datepicker>
+                </div>
+            </div>
+        </div>-->
+        <div nz-col [nzSpan]="24" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label class="alignment" style="margin-top: 7px;margin-right: 10px;">
+                    <label for="no">工作组描述</label>
+                </div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="workItem.groupDesc"  [nzDisabled]="isEdit"  nzAutosize=true nzType="textarea" name="groupDesc" [nzSize]="'large'" [nzPlaceHolder]="'工作组描述'"
+                              nzId="groupDesc"></nz-input>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="12"  [nzOffset]="20"  class="mb-md">
+             <button style="margin-left: 2%;"  *ngIf="!groupData" (click)="openGroup()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">启用</button>
+                <button style="margin-left: 2%;"  *ngIf="groupData" (click)="cancelGroup()" nz-button type="submit" [nzType]="'danger'" [nzLoading]="loading" [nzSize]="'large'">注销</button>
+                <button style="margin-left: 2%;" *ngIf='isEdit'  (click)="groupEdit()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">修改</button>
+                <button style="margin-left: 2%;" *ngIf='!isEdit' (click)="groupSave()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">确定</button>
+
+        </div>
+    </div>
+</nz-card>

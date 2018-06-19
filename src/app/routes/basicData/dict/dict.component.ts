@@ -488,7 +488,6 @@ export class DictComponent implements OnInit {
     exitdictItem() {
         this.isEdit  = true; // 修改
         this.dictItemAdd = this.treeSelectData;
-        console.log(this.treeSelectData)
         this.dictionaryItems = true; // 打开弹出框
     }
 
@@ -516,17 +515,10 @@ export class DictComponent implements OnInit {
 
     // 字典项保存
     itemSava() {
-        const jsonOption = {
-            guidDict: this.treeSelectData.guid,
-            itemDesc: this.dictItemAdd.itemDesc,
-            itemName: this.dictItemAdd.itemName,
-            itemType: this.dictItemAdd.itemType,
-            itemValue: this.dictItemAdd.itemValue,
-            sendValue: this.dictItemAdd.sendValue,
-            seqNo: this.dictItemAdd.seqno,
-        };
-        console.log(jsonOption);
         if (!this.isEdit) { // 新增字典项
+            const jsonOption = this.dictItemAdd;
+            jsonOption.guidDict = this.treeSelectData.guid;
+            console.log(jsonOption)
             this.utilityService.postData(appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
                 .map(res => res.json())
                 .subscribe(
@@ -537,6 +529,16 @@ export class DictComponent implements OnInit {
                     },
                 );
         } else { // 修改业务字典项接口
+            const jsonOption = {
+                guid: this.treeSelectData.guid,
+                guidDict: this.treeSelectData.guidDict,
+                itemDesc: this.dictItemAdd.itemDesc,
+                itemName: this.dictItemAdd.itemName,
+                itemType: this.dictItemAdd.itemType,
+                itemValue: this.dictItemAdd.itemValue,
+                sendValue: this.dictItemAdd.sendValue,
+                seqNo: this.dictItemAdd.seqno,
+            };
             this.utilityService.putData( appConfig.testUrl  + appConfig.API.sysDictItems, jsonOption)
                 .map(res => res.json())
                 .subscribe(
