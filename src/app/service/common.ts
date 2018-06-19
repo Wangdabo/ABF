@@ -38,6 +38,7 @@ export let appConfig = {
         appDed: '/acApp', // 查询/修改/删除 应用详情 传对应guid
         queryAll: '/acApp/queryAll', // 查询所有应用
         batchQuery: '/acApp/batchQuery' , // 查询对应应用信息
+        appListAll: '/acApp/queryAll', // 不分页查找所有应用
 
         // 功能管理
         funcList: '/acFunc/list', // 查询功能列表
@@ -45,6 +46,7 @@ export let appConfig = {
         funcDel: '/acFunc/' , // 删除功能接口(deleat), 修改功能接口(put), 查看功能详情(get)
         openFun: '/acFunc/oepnFunc', // 启用功能
         closeFun: '/acFunc/closeunc', // 启用功能
+        funcListAll: '/acFunc/queryAll', // 不分页查找所有功能
 
         // 行为管理
         acFuncAttr: '/acFuncAttr', // 新增功能接口
@@ -81,7 +83,7 @@ export let appConfig = {
         acMenuQueryByFather: '/acMenus/querySubAcMenuLists/', // 根据上一级查找下一级菜单
         acMenuDeletByid: '/acMenus/deleteAcMenu/', // 根据ID删除菜单
         acMenuUpdate: '/acMenus/updateAcMenu/', // 修改菜单
-        acMenuMove: '/acMenus/queryMoveMenuLists/', // 菜单移动
+        acMenuMove: '/acMenus/queryMoveMenuLists', // 菜单移动
 
         // 组织机构
         omgTree: '/omOrg/tree', // 查询组织机构树
@@ -224,7 +226,7 @@ export let appConfig = {
             { value: '正常', key: 'running' },
             { value: '注销', key: 'cancel' },
         ]
-        
+
     }
 }
 

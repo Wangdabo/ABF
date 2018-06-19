@@ -93,7 +93,7 @@
                     <div nz-form-label><label for="guidFunc">功能ID</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%"    [(ngModel)]="addMenuData.guidFunc"  name="guidFunc" [nzSize]="'large'" [nzPlaceHolder]="'功能ID'" nzId="guidFunc">
-                            <nz-option  *ngFor="let i of guidFuncList; let app = index" [nzLabel]="i.key +'-'+ i.value" [nzValue]="i.value" ></nz-option>
+                            <nz-option  *ngFor="let i of guidFuncList; let app = index" [nzLabel]="i.funcName +'-'+ i.guid" [nzValue]="i.guid" ></nz-option>
                         </nz-select>
                     </div>
                 </div>
