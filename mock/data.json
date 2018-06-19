@@ -5,20 +5,31 @@
       "data": "Documents Folder",
       "expandedIcon": "fa-folder-open",
       "collapsedIcon": "fa-folder",
+      "guid": "null",
       "isLeaf": false,
       "children": [
         {
-          "label": "平台组",
+          "label": "跟工作组",
           "data": "Work Folder",
           "expandedIcon": "fa-folder-open",
           "collapsedIcon": "fa-folder",
           "isLeaf": false,
+          "guid": "1007176245806391297" ,
+          "groupCode": "GROUP0100000008",
+          "groupName": "跟工作组一",
+          "groupType": "normal",
+          "groupStatus": "running",
           "children": [
             {
-              "label": "平台1组",
+              "label": "子工作组名称",
               "icon": "fa-file-word-o",
               "data": "Expenses Document",
-              "isLeaf": true
+              "isLeaf": true,
+              "guid": "1007179295669379073" ,
+              "groupCode": "GROUP0100000009",
+               "groupName": "子工作组名称",
+               "groupType": "normal",
+              "groupStatus": "running"
             },
             {
               "label": "平台2组",

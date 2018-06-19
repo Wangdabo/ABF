@@ -5,6 +5,7 @@ import { PostModule} from '../../../service/post';
 import {appConfig} from '../../../service/common';
 import {UtilityService} from '../../../service/utils.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {EmpModule} from '../../../service/emp';
 
 @Component({
   selector: 'app-post',
@@ -46,17 +47,20 @@ export class PostComponent implements OnInit {
 
     loading = false;
     total: number;
+    postGuid: string;
 
     // 岗位员工
     modalVisible = false;
     empdistribution = false;
+    modelSelect: boolean; // 弹出框内容选择
+
     isEdit = false; // 默认是新增 不是修改
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
         {value: '岗位名称' , key: 'positionName', isclick: false},
-        {value: '上级岗位' , key: 'guidParents', isclick: false},
+        {value: '上级岗位' , key: 'parentName', isclick: false},
         {value: '岗位状态' , key: 'positionStatus', isclick: false},
-        {value: '在岗员工数' , key: 'onlineEmp', isclick: true},
+        {value: '在岗员工数' , key: 'employeeCount', isclick: true},
         {value: '岗位有效日期' , key: 'startDate', isclick: false},
         {value: '岗位失效日期' , key: 'endDate', isclick: false},
     ];
@@ -79,7 +83,6 @@ export class PostComponent implements OnInit {
         // 枚举值转换
         this.postStatus = appConfig.Enumeration.postStatus;
         this.positionType = appConfig.Enumeration.postType;
-
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
 
@@ -90,11 +93,12 @@ export class PostComponent implements OnInit {
                 size: this.post.size,
             }
         };
-        // 查询所有岗位，先用list接口
-        this.utilityService.getData(appConfig.testUrl + appConfig.API.allpostList)
+        // 查询机构下所有岗位，先用list接口
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.postorgEmp + '/' + this.orgGuid)
             .subscribe(
                 (val) => {
                     this.Parentsguid = val.result;
+                    console.log(this.Parentsguid)
                     sessionStorage.setItem('post', JSON.stringify(val.result));
                 });
 
@@ -103,6 +107,7 @@ export class PostComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val)
                     // 没有在岗员工，模拟一下
                     for ( let i = 0; i < val.result.records.length; i++) {
                         if ( val.result.records[i].positionStatus === '正常') {
@@ -110,7 +115,6 @@ export class PostComponent implements OnInit {
                         } else {
                             val.result.records[i].buttonData = ['启用'];
                         }
-                        val.result.records[i].onlineEmp = 5;
                     }
                     this.data = val.result.records;
                     this.total = val.result.total;
@@ -144,14 +148,13 @@ export class PostComponent implements OnInit {
     addHandler(event) {
         this.ifshow = false; // 默认是基础信息
         this.postAdd = new PostModule(); // 重新清空赋值
-        this.Parentsguid = [];
         if (event === '这里是新增的方法') {
             this.postAdd.positionType = '01';
             this.postAdd.positionStatus = 'running';
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.isEdit = false;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
-
+            this.Parentsguid = [];
             // 前端移除当前岗位，获取当前岗位之外的所有岗位
             let copys = JSON.parse(sessionStorage.getItem('post'));
             this.Parentsguid = copys;
@@ -183,7 +186,13 @@ export class PostComponent implements OnInit {
             }
 
             if (event.names === '应用权限') {
-               console.log('应用权限');
+                this.showAdd = true; // 没有新增
+                this.postName = event.postName;
+                this.postGuid = event.guid;
+                this.empdistribution = true; // 弹出在岗员工数代码
+               this.modelSelect = false; // 打开弹出框
+                this.getPostApp(event); // 查询所有的应用
+
             }
 
             if (event.names === '启用') {
@@ -259,8 +268,12 @@ export class PostComponent implements OnInit {
 
     // 处理行为代码，跳转、弹出框、其他交互
     isActive(event) {
-        console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
-        this.empdistribution = true;
+        this.empdistribution = true; // 弹出在岗员工数代码
+        this.modelSelect = true;
+
+        this.postGuid = event.guid;
+        this.getEmpData(event.guid);
+        this.getEmpList(event.guid);
     }
 
 
@@ -287,6 +300,7 @@ export class PostComponent implements OnInit {
                         (val) => {
                             console.log(val)
                             this.nznot.create('success', val.msg , val.msg);
+                            this.getData();
                         },
                     );
             } else { // 调用父岗位接口
@@ -295,17 +309,18 @@ export class PostComponent implements OnInit {
                     .subscribe(
                         (val) => {
                             this.nznot.create('success', val.msg , val.msg);
+                            this.getData();
                         },
                     );
             }
 
-            this.getData();
+
         } else {
             this.utilityService.putData(appConfig.testUrl  + appConfig.API.postDel, jsonOption)
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
-                        console.log(val)
+                        this.getData();
                         this.nznot.create('success', val.msg , val.msg);
                     },
                 );
@@ -313,6 +328,270 @@ export class PostComponent implements OnInit {
         this.modalVisible = false;
     }
 
+
+    // 在岗员工数代码部分
+    empDataheader = [  // 配置表头内容
+        {value: '员工姓名' , key: 'empName', isclick: false},
+        {value: '操作员', key: 'guidOperator',  isclick:  false},
+        {value: '员工状态' , key: 'empstatus', isclick: false},
+        {value: '电话号码' , key: 'mobileno', isclick: false},
+        {value: '入职日期' , key: 'inDate', isclick: false},
+    ];
+
+
+    EmpData = {
+        morebutton: true,
+        buttons: [
+            {key: 'Onboarding' , value: '入职'},
+            {key: 'Departure' , value: '离职'},
+            {key: 'Overview' , value: '查看概况'},
+            {key: 'operator' , value: '操作员修改'},
+        ]
+    };
+
+    empTotal: number; // 总页数
+    empData: any; // 总数据
+    emp: EmpModule = new EmpModule();
+    showAdd: boolean; // 是否显示新增按钮
+    searchOptions: any;
+    selectedOption: any;
+
+    // 初始化信息
+    getEmpData(guid) {
+        this.showAdd = true; // 没有新增
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.listsByOrg + '/' +  this.orgGuid)
+            .subscribe(
+                (val) => {
+                    console.log(val)
+                    this.searchOptions = val.result; // 查询所有的员工，后期更改，应该查询不在岗位内的员工，接口没有好
+                    // 没有在岗员工，模拟一下
+                });
+    }
+
+    getEmpList(guid) {
+        this.page = {
+            condition: {
+                guidOrg: this.orgGuid,
+                guidPosition: guid,
+            },
+            page: {
+                current: this.emp.pi,
+                size: this.emp.size,
+            }
+        };
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.queryByOrgPosition,  this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    // 没有在岗员工，模拟一下
+                    for ( let i = 0; i < val.result.records.length; i++) {
+                        val.result.records[i].buttonData = ['删除'];
+                    }
+                    this.empData = val.result.records;
+                    this.empTotal = val.result.total;
+                });
+    }
+    // 新增方法
+    addEmp(e) {
+        console.log(e);
+    }
+    // 顶部按钮事件
+    buttonEmp(e) {
+        console.log(e);
+    }
+
+    empsave(e) {
+        this.empdistribution = false; // 弹出在岗员工数代码
+    }
+
+    empEvent(e) {
+        console.log(e)
+        if (e.names) {
+            if (e.names === '删除') {
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.postDelemp + '/' + e.guid)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getEmpList(this.postGuid); // 重新查询列表内容
+                        });
+            }
+        }
+    }
+
+    // 翻页事件
+    empHandler(e) {
+
+    }
+    // 删除事件
+    deleatEmp(e) {
+
+    }
+
+    // 选中事件
+    selectedemp() {
+
+    }
+
+
+
+    // 给岗位添加员工
+    addEmpClick() {
+        console.log(this.selectedOption)
+        console.log(this.selectedOption.length)
+        if (this.selectedOption) {
+            const josnObj = {
+                guidEmp: this.selectedOption,
+                guidPosition: this.postGuid,
+                ismain: 'N'
+            }
+            this.utilityService.postData(appConfig.testUrl + appConfig.API.empAdd,  josnObj)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        console.log(val);
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getEmpList(this.postGuid); // 重新查询列表内容
+                    });
+        } else {
+            this.nznot.create('error', '请最起码选择一个员工进行添加' , '请最起码选择一个员工进行添加');
+        }
+
+
+    }
+
+    // 岗位应用权限内容
+    searchOptionse; // 选择显示的内容
+    selectedMultipleOption; // 多选的内容
+    appclick = false; // 应用列表默认不显示
+    array = []; // 定义数组 用来清空
+    Apptotal: number; // 应用翻页
+    postName: string; // 岗位名称
+    appData: any[] = []; // 表格数据
+    AppheaderData = [  // 配置表头内容
+        { value: '应用名称', key: 'appName', isclick: false },
+        { value: '应用类型', key: 'appType', isclick: false },
+        { value: '应用开通时间', key: 'openDate', isclick: false },
+
+    ];
+
+    // 查询所有应用（已经分配之外的除外）
+    getPostApp(event) {
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.queryAll)
+            .subscribe(
+                (val) => {
+                    console.log(val);
+                    this.searchOptions = val.result;
+                    console.log(this.searchOptions);
+                }
+            );
+    }
+
+    // 查询岗位下已经有的应用信息
+    getPostApplist(event) {
+        // 模拟一下
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.batchQuery, event)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    console.log(val)
+                    for (let i = 0; i < val.result.length; i++ ) {
+                        val.result[i].buttonData = ['删除'];
+                    }
+                    this.appData = val.result;
+                    this.Apptotal = 1;
+                }
+            );
+    }
+
+
+    // 给岗位新增员工
+    postappAdd(event) {
+        console.log(event)
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.addByList,  event)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.nznot.create('success', val.msg , val.msg);
+                });
+    }
+
+
+    appClick() {
+        console.log(this.selectedMultipleOption); // 传入后台，渲染
+        const jsonObj = {
+            guidList : this.selectedMultipleOption,
+        };
+        const addApp = {
+            guidPosition: this.postGuid,
+            appList  : this.selectedMultipleOption,
+        }
+        console.log(addApp);
+        // 调用新增接口方法
+        this.postappAdd(addApp)
+
+        // 查询所有应用
+        this.getPostApplist(jsonObj);
+        this.appclick = true;
+    }
+
+
+    // 应用列表方法
+    // 列表组件传过来的内容
+    addappHandler(event) {
+        this.array = [];
+        for ( let i = 0; i < this.appData.length; i++ ) {
+            if (this.appData[i].id === event.id) {
+                let indexs = this.data[i]
+                this.appData.splice(indexs, 1);
+            }
+        }
+
+        // 删除对应的对象  id是值要删除的那个对象
+        let indexs = this.selectedMultipleOption.findIndex(item => item.value === event.id ); // 根据条件删除数组中的指定对象,这个根据删除的id 来删除select数组对应的对象
+        this.selectedMultipleOption.splice(indexs, 1);
+
+        for ( var i = 0; i < this.selectedMultipleOption.length; i++) {
+            this.array.push(this.selectedMultipleOption[i]);
+        }
+
+        setTimeout(_ => {
+            this.selectedMultipleOption = this.array; // 重新赋值
+        }, 1000);
+
+    }
+
+
+    // 列表传入的翻页数据
+    monitorappHandler(event) {
+        console.log(event.id);
+    }
+
+
+    // 列表按钮方法
+    buttonappDataHandler(event) {
+        console.log(event); // 根据event.value来判断不同的请求，来获取结果和方法或者进行路由的跳转
+    }
+
+    selectedappRow(event) { // 选中方法，折叠层按钮显示方法
+    }
+
+    // 删除按钮
+    appDel(event) {
+        console.log(event);
+        // 传第三表的id  event.id 即可
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.id)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.nznot.create('success', val.msg , val.msg);
+                });
+
+    }
+
+    appsave() {
+        this.empdistribution = false;
+    }
 
 
 }

@@ -1,6 +1,7 @@
 <pro-header style="position:relative">
     <ng-template #tab  >
-        <nz-tabset *ngIf="tabShow" style="position:relative;left: 82%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
+        <nz-tabset *ngIf="tabShow" style="position:relative;left: 76%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['group', id]">工作组详情</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['emp', id]">员工</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['post', id]">岗位</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">应用权限</a></ng-template></nz-tab>
@@ -75,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div nz-col [nzSpan]="12" class="mb-md">
+            <!--<div nz-col [nzSpan]="12" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment"><label for="no">生效日期</label></div>
                     <div nz-form-control class="flex-1">
@@ -91,10 +92,7 @@
                         <nz-datepicker [(ngModel)]="workItem.endDate" name="endDate" [nzSize]="'large'" [nzPlaceHolder]="'失效日期'" nzId="endDate" class="d-block"></nz-datepicker>
                     </div>
                 </div>
-            </div>
-
-
-
+            </div>-->
             <div nz-col [nzSpan]="24" class="mb-md">
                 <div nz-form-item class="d-flex">
                     <div nz-form-label class="alignment">

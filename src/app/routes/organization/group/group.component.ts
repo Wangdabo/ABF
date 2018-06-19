@@ -5,7 +5,7 @@ import {UtilityService} from '../../../service/utils.service';
 import { Router} from '@angular/router';
 import {appConfig} from '../../../service/common';
 import {GroupModule} from '../../../service/common.module';
-import {NzModalService} from 'ng-zorro-antd';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-group',
@@ -25,6 +25,8 @@ export class GroupComponent implements OnInit {
     groupStatus: any;
     isEdit = false; // 默认是新增
     groupData: any; // 树节点上的数据保存
+    isRoot = false; // 是否是跟工作组
+    groupDetail: any; // 工作組的詳情
 
     // 模拟隶属机构
     guidOrg = [
@@ -39,6 +41,7 @@ export class GroupComponent implements OnInit {
         private router: Router,
         private utilityService: UtilityService,
         private modal: NzModalService,
+        private nznot: NzNotificationService
     ) { }
 
     ngOnInit() {
@@ -48,14 +51,22 @@ export class GroupComponent implements OnInit {
         this.groupStatus = appConfig.Enumeration.groupStatus;
     }
 
-    getData() {
-        // 传入右击菜单数组,根据需求定
-        this.treemenus = [
-            {label: '新建子功能组', icon: 'fa fa-plus', command: (event) => this.addchildGroup()},
-            {label: '修改功能组', icon: 'fa fa-edit', command: (event) => this.editGroup()},
-            {label: '删除功能组', icon: 'fa fa-times', command: (event) => this.delectGroup()},
-        ];
 
+    initData() {
+        this.treedata = [ // 默认根节点
+            {
+                'label': '工作组',
+                'data': 'Documents Folder',
+                'guid': 'null',
+                'expandedIcon': 'fa fa-institution',
+                'collapsedIcon': 'fa fa-institution',
+                'children': [{}]
+            }
+        ];
+    }
+
+
+    getData() {
         // 从服务器获取树列表
         this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
             .subscribe(
@@ -67,21 +78,39 @@ export class GroupComponent implements OnInit {
         this.searchTitle = '请输入工作组代码/名称';
     }
 
+
     // 树的方法
     // 右击菜单传递值
     RightSelect(event) {
-        this.groupData = event.node; // 绑定数据
         console.log(event); // 绑定数据内容，用来修改
+        if (event.node.guid === 'null') {
+            this.treemenus = [
+                {label: '新增跟工作组', icon: 'fa fa-plus', command: (event) => this.addRootGroup()},
+                {label: '删除功能组', icon: 'fa fa-times', command: (event) => this.delectGroup()},
+            ];
+
+        } else {
+            this.treemenus = [
+                {label: '新增子工作组', icon: 'fa fa-plus', command: (event) => this.addchildGroup()},
+                {label: '修改功能组', icon: 'fa fa-edit', command: (event) => this.editGroup()},
+                {label: '删除功能组', icon: 'fa fa-times', command: (event) => this.delectGroup()}];
+            this.groupData = event.node; // 绑定数据
+        }
+
+
     }
 
     // 左击树菜单节点信息
     TreeSelect(event) {
-        console.log(event);
-        this.id = 'POST0003';
-        this.router.navigate(['workGroup/emp', this.id]); // 跳转路由
-        if (event.node.parent) {
+        console.log(event.node.groupCode);
+        // this.id = event.node.groupCode;
+        this.id = event.node.guid; // 先传guid 后期接口改成code 在传code
+
+        if  (event.node.guid !== 'null') { // 只要不是跟机构就显示
             this.tabShow = true;
+            this.router.navigate(['workGroup/group', this.id]); // 跳转路由
         } else {
+            this.router.navigate(['workGroup']);
             this.tabShow = false;
         }
     }
@@ -118,35 +147,20 @@ export class GroupComponent implements OnInit {
         console.log($event);
     }
 
+    // 新增跟工作组
+    addRootGroup() {
+        this.modalVisible = true;
+        this.isEdit = false;
+        this.isRoot = true; // 调用新增工作组
+        this.workItem.groupStatus = 'running'; // 弹出框默认选中
+    }
     // 新增子工作组
     addchildGroup() {
         this.modalVisible = true;
         this.isEdit = false;
+        this.isRoot = false;
        this.workItem.groupStatus = 'running'; // 弹出框默认选中
 
-    }
-
-    save() {
-        if (!this.isEdit) {
-            console.log('调用新增接口');
-        } else {
-            console.log('调用修改接口');
-        }
-        this.modalVisible = false;
-    }
-    delectGroup() {
-        this.modal.open({
-            title: '是否删除',
-            content: '您确认要删除该工作组吗? 删除该工作组下所有子工作组都会被一并删除',
-            okText: '确定',
-            cancelText: '取消',
-            onOk: () => {
-
-            },
-            onCancel: () => {
-                console.log('失败');
-            }
-        });
     }
 
     // 修改接口
@@ -154,6 +168,74 @@ export class GroupComponent implements OnInit {
         console.log(event);
         this.isEdit = true; // 是修改
         this.modalVisible = true;
-        this.workItem = this.groupData; // 渲染数据
+        // 接口改变至之后 用code 而不是guid
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.guid)
+            .subscribe(
+                (val) => {
+                    this.groupDetail = val.result; // 绑定工作组的详情
+                    this.workItem = val.result; // 渲染数据
+                },
+            );
     }
+
+
+    save() {
+        const jsonOption = this.workItem;
+        jsonOption.groupOrg = 'ORG北京总行00007'; // 写死机构
+        jsonOption.guidName = this.workItem.groupName; // 写死机构
+        if (!this.isEdit) {
+            if (this.isRoot) { // 调用新增跟工作组接口
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.groupRoot, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            } else {
+                jsonOption.guidParents = this.groupData.guid;
+                this.utilityService.postData(appConfig.testUrl  + appConfig.API.groupChild, jsonOption)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            }
+        } else {
+            this.utilityService.putData(appConfig.testUrl  + appConfig.API.omGroups, jsonOption)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                    },
+                );
+        }
+        this.modalVisible = false;
+    }
+
+    delectGroup() {
+        this.modal.open({
+            title: '是否删除',
+            content: '您确认要删除该工作组吗? 删除该工作组下所有子工作组都会被一并删除',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.groupCode)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            console.log(val)
+                            this.nznot.create('success', val.msg , val.msg);
+                        },
+                    );
+            },
+            onCancel: () => {
+                console.log('失败');
+            }
+        });
+    }
+
+
+
 }

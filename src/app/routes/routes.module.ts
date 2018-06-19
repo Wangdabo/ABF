@@ -59,6 +59,7 @@ import { FuncperComponent } from './authority/role/funcper/funcper.component';
 import { EntityauthComponent } from './authority/role/entityauth/entityauth.component';
 import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
 import { DataRangeComponent } from './authority/role/data-range/data-range.component';
+import { GroupdetailComponent } from './organization/groupdetail/groupdetail.component';
 
 
 
@@ -101,6 +102,7 @@ import { UtilityService } from '../service/utils.service';
         EntityauthComponent,
         FieldperComponent,
         DataRangeComponent,
+        GroupdetailComponent,
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件

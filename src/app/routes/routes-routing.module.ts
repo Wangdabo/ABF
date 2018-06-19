@@ -55,6 +55,7 @@ import {AuthorityComponent} from './organization/authority/authority.component';
 import { EntityauthComponent } from './authority/role/entityauth/entityauth.component';
 import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
 import { DataRangeComponent } from './authority/role/data-range/data-range.component';
+import {GroupdetailComponent} from './organization/groupdetail/groupdetail.component';
 
 
 const routes: Routes = [
@@ -84,6 +85,7 @@ const routes: Routes = [
                 ]},
             // 工作组
             { path: 'workGroup', component: GroupComponent, children: [
+                    {path: 'group/:id', component: GroupdetailComponent, data: { i18n: 'group' , title: '工作组' } },
                     {path: 'emp/:id', component: EmpComponent, data: { i18n: 'emp' , title: '工作组' } },
                     {path: 'post/:id', component: PostComponent, data: { i18n: 'post' , title: '工作组' } },
                     {path: 'authority/:id', component: AuthorityComponent, data: { i18n: 'post' , title: '工作组' } },

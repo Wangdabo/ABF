@@ -3,9 +3,9 @@ import _date = moment.unitOfTime._date;
 
 export class PostModule {
     // 当前页数
-    public pi: 1;
+    public pi = 1;
     // 每业个数
-    public size: 10;
+    public size = 10;
 
     // 岗位代码
     public positionCode: string;
