@@ -45,6 +45,7 @@ export class EmpComponent implements OnInit {
     // 证件类型
     paperType: any;
     loading = false;
+    obtitle: string; // 窗口状态
 
     type = [
         { text: '正常', value: false, key: 'normal' },
@@ -74,7 +75,7 @@ export class EmpComponent implements OnInit {
         {value: '基本岗位' , key: 'positionName', isclick: false},
         {value: '员工状态' , key: 'empstatus', isclick: false},
         {value: '电话号码' , key: 'mobileno', isclick: false},
-        {value: '入职日期' , key: 'inDate', isclick: false},
+        {value: '入职日期' , key: 'indate', isclick: false},
     ];
 
 
@@ -124,7 +125,7 @@ export class EmpComponent implements OnInit {
                         if ( val.result.records[i].empstatus === '在招') {
                             val.result.records[i].buttonData = ['入职'];
                         } else if (val.result.records[i].empstatus === '在职') {
-                            val.result.records[i].buttonData = ['离职'];
+                            val.result.records[i].buttonData = ['离职', ' ', ' ', '修改入职'];
                         }
                     }
                     // 测试主管，后期删掉
@@ -244,14 +245,22 @@ export class EmpComponent implements OnInit {
     buttonEvent(e) {
         if (e.names) {
             if (e.names === '入职') {
+                this.empAdd = new EmpModule();
                 this.onboarding = true; // 打开入职弹出框
                 this.empGuid = e.guid;
                 this.empAdd.radioValue = 'creat'; // 默认是新建
+                this.obtitle = '员工入职';
 
             } else if (e.names === '离职') {
+                this.empAdd = new EmpModule();
                 this.departure = true; // 打开入职弹出框
                 this.empGuid = e.guid;
-
+            }   else if (e.names === '修改入职') {
+                console.log(e);
+                this.empAdd = new EmpModule();
+                    this.onboarding = true; // 打开弹出框
+                    this.empGuid = e.guid;
+                    this.obtitle = '修改入职';
             }
         }
     }
@@ -343,53 +352,105 @@ export class EmpComponent implements OnInit {
 
     // 入职弹出框保存按钮
     onboardingsave() {
-        const jsonObj = this.empAdd;
-        if (jsonObj.userId) {
-            jsonObj.userId  = PinYinUtil.chineseTopinYin(jsonObj.userId).toLowerCase();
-        }
-        if (jsonObj.indate) {
-            jsonObj.indate = moment(jsonObj.indate).format('YYYY-MM-DD');
-        }
-        jsonObj.guid = this.empGuid;
-        if (this.empAdd.radioValue === 'creat') {
-            // 先调用洗澡操作员接口
-            this.utilityService.postData(appConfig.testUrl + appConfig.API.acOperatorsAdd, jsonObj)
-                .map(res => res.json())
-                .subscribe(
-                    (val) => {
-                        if (val.code  === '200') {
-                            // 调用入职接口
-                            this.utilityService.putData(appConfig.testUrl  + appConfig.API.onJob, jsonObj)
-                                .map(res => res.json())
-                                .subscribe(
-                                    (src) => {
-                                        console.log(src)
-                                        this.nznot.create('success', src.msg , src.msg);
-                                        this.onboarding = false; // 关闭入职弹出框
-                                        this.getData();
-                                    },
-                                );
-                        } else {
-                            this.nznot.create('error', val.msg , val.msg);
-                        }
+        if (this.obtitle === '员工入职') {
+            const jsonObj = this.empAdd;
+            if (jsonObj.userId) {
+                jsonObj.userId  = PinYinUtil.chineseTopinYin(jsonObj.userId).toLowerCase();
+            }
+            if (jsonObj.indate) {
+                jsonObj.indate = moment(jsonObj.indate).format('YYYY-MM-DD');
+            }
+            jsonObj.guid = this.empGuid;
+            if (this.empAdd.radioValue === 'creat') {
+                // 先调用洗澡操作员接口
+                this.utilityService.postData(appConfig.testUrl + appConfig.API.acOperatorsAdd, jsonObj)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            if (val.code  === '200') {
+                                // 调用入职接口
+                                this.utilityService.putData(appConfig.testUrl  + appConfig.API.onJob, jsonObj)
+                                    .map(res => res.json())
+                                    .subscribe(
+                                        (src) => {
+                                            console.log(src)
+                                            this.nznot.create('success', src.msg , src.msg);
+                                            this.onboarding = false; // 关闭入职弹出框
+                                            this.getData();
+                                        },
+                                    );
+                            } else {
+                                this.nznot.create('error', val.msg , val.msg);
+                            }
 
-                        this.getData();
-                    },
+                            this.getData();
+                        },
 
-                );
-
+                    );
+            } else
+                {
+                this.utilityService.putData(appConfig.testUrl  + appConfig.API.onJob, jsonObj)
+                    .map(res => res.json())
+                    .subscribe(
+                        (src) => {
+                            console.log(src)
+                            this.nznot.create('success', src.msg , src.msg);
+                            this.onboarding = false; // 关闭入职弹出框
+                            this.getData();
+                        },
+                    );
+            }
         } else {
-            this.utilityService.putData(appConfig.testUrl  + appConfig.API.onJob, jsonObj)
-                .map(res => res.json())
-                .subscribe(
-                    (src) => {
-                        console.log(src)
-                        this.nznot.create('success', src.msg , src.msg);
-                        this.onboarding = false; // 关闭入职弹出框
-                        this.getData();
-                    },
-                );
+            const jsonObj = this.empAdd;
+            if (jsonObj.userId) {
+                jsonObj.userId  = PinYinUtil.chineseTopinYin(jsonObj.userId).toLowerCase();
+            }
+            if (jsonObj.indate) {
+                jsonObj.indate = moment(jsonObj.indate).format('YYYY-MM-DD');
+            }
+            jsonObj.guid = this.empGuid;
+            if (this.empAdd.radioValue === 'creat') {
+                // 先调用洗澡操作员接口
+                this.utilityService.postData(appConfig.testUrl + appConfig.API.acOperatorsAdd, jsonObj)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            if (val.code  === '200') {
+                                // 调用入职接口
+                                this.utilityService.putData(appConfig.testUrl  + appConfig.API.changeOnJob, jsonObj)
+                                    .map(res => res.json())
+                                    .subscribe(
+                                        (src) => {
+                                            console.log(src)
+                                            this.nznot.create('success', src.msg , src.msg);
+                                            this.onboarding = false; // 关闭入职弹出框
+                                            this.getData();
+                                        },
+                                    );
+                            } else {
+                                this.nznot.create('error', val.msg , val.msg);
+                            }
+
+                            this.getData();
+                        },
+
+                    );
+            } else {
+                this.utilityService.putData(appConfig.testUrl  + appConfig.API.changeOnJob, jsonObj)
+                    .map(res => res.json())
+                    .subscribe(
+                        (src) => {
+                            console.log(src)
+                            this.nznot.create('success', src.msg , src.msg);
+                            this.onboarding = false; // 关闭入职弹出框
+                            this.getData();
+                        },
+                    );
+            }
+
+
         }
+
     }
 
     // 点击离职方法

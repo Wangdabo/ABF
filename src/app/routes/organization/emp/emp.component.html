@@ -209,7 +209,7 @@
 
 
     <!--入职弹出框信息-->
-    <nz-modal [nzVisible]="onboarding"  [nzWidth]="1024" [nzTitle]="'员工入职'"  [nzConfirmLoading]="loading" [nzContent]="empOnboarding"
+    <nz-modal [nzVisible]="onboarding"  [nzWidth]="1024" [nzTitle]="obtitle"  [nzConfirmLoading]="loading" [nzContent]="empOnboarding"
               (nzOnCancel)="onboarding=false" (nzOnOk)="onboardingsave()">
         <ng-template #empOnboarding>
             <div nz-row [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">

@@ -60,6 +60,8 @@ import { EntityauthComponent } from './authority/role/entityauth/entityauth.comp
 import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
 import { DataRangeComponent } from './authority/role/data-range/data-range.component';
 import { GroupdetailComponent } from './organization/groupdetail/groupdetail.component';
+import { GroupEmpComponent } from './organization/group/group-emp/group-emp.component';
+import { GroupPostComponent } from './organization/group/group-post/group-post.component';
 
 
 
@@ -103,6 +105,8 @@ import { UtilityService } from '../service/utils.service';
         FieldperComponent,
         DataRangeComponent,
         GroupdetailComponent,
+        GroupEmpComponent,
+        GroupPostComponent,
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件

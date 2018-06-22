@@ -27,15 +27,7 @@ export class GroupdetailComponent implements OnInit {
     groupStatus: any;
     isEdit: boolean;
     groupData: boolean; // 工作组状态
-
-    guidOrg = [
-        {value: '北京总行', key: '1006423149442502658'},
-        {value: '机构A-3-2', key: 'org1102'},
-        {value: '机构A-3-3', key: 'org1103'},
-        {value: '机构A-3-4', key: 'org1104'},
-        {value: '机构A-3-5', key: 'org1105'}
-    ]
-
+    guidOrg: any; // 所有机构
 
     // 枚举值转换
     typeGroup(event) {
@@ -50,21 +42,34 @@ export class GroupdetailComponent implements OnInit {
 
 
     typeStatus(event) {
-        if (event.groupType === '正常') {
-            event.groupType = 'running';
-        } else if (event.groupType === '注销') {
-            event.groupType = 'cancel';
+        if (event.groupStatus === '正常') {
+            event.groupStatus = 'running';
+        } else if (event.groupStatus === '注销') {
+            event.groupStatus = 'cancel';
         }
     }
 
 
     ngOnInit() {
         this.guidGroup = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+
         // 枚举值转换
         this.groupType = appConfig.Enumeration.groupType;
         this.groupStatus = appConfig.Enumeration.groupStatus;
         this.isEdit = true;
+        this.getInit();
 
+        // 查询所有机构
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.orgQueryAll)
+            .subscribe(
+                (val) => {
+                    this.guidOrg = val.result;
+                });
+
+    }
+
+
+    getInit() {
         this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.guidGroup)
             .subscribe(
                 (val) => {
@@ -73,16 +78,13 @@ export class GroupdetailComponent implements OnInit {
                     } else {
                         this.groupData = false;
                     }
-                    // if (val.result)
                     // 枚举值转换
                     this.typeGroup(val.result)
                     this.typeStatus(val.result)
                     this.workItem = val.result; // 渲染数据
                 },
             );
-
     }
-
 
 
     groupEdit() {
@@ -90,6 +92,17 @@ export class GroupdetailComponent implements OnInit {
     }
 
     groupSave() {
+        const jsonOption =  this.workItem;
+        console.log(jsonOption);
+        this.utilityService.putData(appConfig.testUrl  + appConfig.API.omGroups, jsonOption)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.nznot.create('success', val.msg , val.msg);
+                },
+            );
+
+
         this.isEdit = true;
     }
 
@@ -97,9 +110,41 @@ export class GroupdetailComponent implements OnInit {
     // 启动岗位
     openGroup() {
 
+        this.modal.open({
+            title: '是否启用下级工作组',
+            content: '确定则该工作组下所有工作组都会被启用，取消则只启用当前工作组',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => {
+                this.utilityService.putData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.guidGroup  + '/reenable' + '/' + true)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getInit();
+                        });
+            },
+            onCancel: () => {
+                this.utilityService.putData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.guidGroup  + '/reenable' + '/' + false)
+                    .map(res => res.json())
+                    .subscribe(
+                        (val) => {
+                            this.nznot.create('success', val.msg , val.msg);
+                            this.getInit();
+                        });
+            }
+        });
+
     }
     // 注销岗位
     cancelGroup() {
-
+        this.utilityService.putData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.guidGroup  + '/enable')
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    console.log(val)
+                    this.nznot.create('success', val.msg , val.msg);
+                    this.getInit();
+                });
     }
 }

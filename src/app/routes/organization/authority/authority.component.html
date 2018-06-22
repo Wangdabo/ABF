@@ -4,7 +4,7 @@
     </div>
         <div [nzOffset]="2" nz-col [nzSpan]="12" class="mb-md">
             <div  nz-form-item class="d-flex">
-                <div nz-form-label><label>应用系统</label></div>
+                <div nz-form-label><label>应用系统:</label></div>
                 <div nz-form-control class="flex-1">
                     <nz-select style="width: 400px;"
                                [nzMode]="'multiple'"
@@ -14,8 +14,8 @@
                                nzShowSearch>
                         <nz-option
                             *ngFor="let option of searchOptions"
-                            [nzLabel]="option.label"
-                            [nzValue]="option.value"
+                            [nzLabel]="option.appName"
+                            [nzValue]="option.guid"
                             [nzDisabled]="option.disabled">
                         </nz-option>
                     </nz-select>
@@ -26,7 +26,7 @@
 </div>
 
 <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-<app-list *ngIf="appclick" [showAdd]="showAdd" [configTitle]="configTitle"
+<app-list  [showAdd]="showAdd" [configTitle]="configTitle"
           (addCreat)="addHandler($event)"
           (buttonData)="buttonDataHandler($event)"
           (pageNumber)="monitorHandler($event)"

@@ -64,13 +64,11 @@ export class OrgComponent implements OnInit {
         ];
     }
     getData(event) {
-        console.log(event.node)
         // 从服务器获取树列表
         this.utilityService.postData(appConfig.testUrl  + appConfig.API.omgTree + '/' + event.node.guid, {})
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    this.treeResult = event.node.guid; // 赋值, 用来判断是否请求过
                     console.log(val.result)
                     for (let i = 0 ; i < val.result.children.length; i++) {
                         if (val.result.children[i].isleaf === '是') { // 代表是最底层，没有下级了
@@ -93,15 +91,6 @@ export class OrgComponent implements OnInit {
     // 展开节点事件
     Unfold(event) {
         this.getData(event);
-       /* if (event.node.guid === this.treeResult) {
-            this.istrue = false;
-        } else {
-            this.istrue = true;
-        }
-        console.log(this.istrue)
-        if (this.istrue) { // 为true的时候 说明不存在，没有请求过 才去请求
-
-        }*/
     }
 
 

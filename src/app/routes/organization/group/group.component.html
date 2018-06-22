@@ -2,8 +2,8 @@
     <ng-template #tab  >
         <nz-tabset *ngIf="tabShow" style="position:relative;left: 76%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['group', id]">工作组详情</a></ng-template></nz-tab>
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['emp', id]">员工</a></ng-template></nz-tab>
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['post', id]">岗位</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupEmp', id]">员工</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupPost', id]">岗位</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">应用权限</a></ng-template></nz-tab>
         </nz-tabset>
     </ng-template>
@@ -12,7 +12,7 @@
 <div class="ui-g">
     <div class="ui-g-3">
         <p-card  [style]="{width: '100%'}">
-            <app-tree [initDate] = "treedata" [searchTitle] = "searchTitle"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)"></app-tree>
+            <app-tree [initDate] = "treedata" (develop)="Unfold($event)" [searchTitle] = "searchTitle"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)"></app-tree>
         </p-card>
     </div>
     <div class="ui-g-9">
@@ -63,9 +63,9 @@
                     <div nz-form-label><label>所属机构:</label></div>
                     <div nz-form-control class="flex-1">
                         <nz-select style="width:100%" [(ngModel)]="workItem.guidOrg"  name="guidOrg" [nzSize]="'large'" [nzPlaceHolder]="'所属机构'" nzId="guidOrg">
-                            <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                            <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.orgName" [nzValue]="i.guid"></nz-option>
                         </nz-select>
-                    </div>
+                    </div>g
                 </div>
             </div>
             <div nz-col [nzSpan]="12" class="mb-md">

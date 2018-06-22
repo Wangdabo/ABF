@@ -34,7 +34,7 @@
                 <div nz-form-label style="margin-top: 7px;margin-right: 10px;"><label>所属机构</label></div>
                 <div nz-form-control class="flex-1">
                     <nz-select style="width:100%" [(ngModel)]="workItem.guidOrg" [nzDisabled]="isEdit"  name="guidOrg" [nzSize]="'large'" [nzPlaceHolder]="'所属机构'" nzId="guidOrg">
-                        <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                        <nz-option  *ngFor="let i of guidOrg;" [nzLabel]="i.orgName" [nzValue]="i.guid"></nz-option>
                     </nz-select>
                 </div>
             </div>
