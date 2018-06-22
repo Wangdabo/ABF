@@ -410,7 +410,7 @@ export class PostComponent implements OnInit {
         console.log(e)
         if (e.names) {
             if (e.names === '删除') {
-                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.postDelemp + '/' + e.guid)
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.postDelemp + '/' + e.guid + '/' + this.postGuid)
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
@@ -451,8 +451,8 @@ export class PostComponent implements OnInit {
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
-                        console.log(val);
                         this.nznot.create('success', val.msg , val.msg);
+
                         this.getEmpList(this.postGuid); // 重新查询列表内容
                     });
         } else {
@@ -509,7 +509,7 @@ export class PostComponent implements OnInit {
                         val.result.records[i].buttonData = ['删除'];
                     }
                     this.appData = val.result.records;
-                    this.Apptotal = 1;
+                    this.Apptotal = val.result.total;
                 }
             );
     }
@@ -555,7 +555,15 @@ export class PostComponent implements OnInit {
 
     // 列表传入的翻页数据
     monitorappHandler(event) {
-        console.log(event.id);
+        console.log(event)
+        this.pages.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.pages.size, //  每页个数
+            }
+        };
+        this.getPostApplist();
     }
 
 
@@ -570,8 +578,13 @@ export class PostComponent implements OnInit {
 
     // 删除按钮
     appDel(event) {
+        const jsonObj = {
+            guidApp: event.guid,
+            guidPosition: this.postGuid,
+        }
+        console.log(jsonObj)
         // 传第三表的id  event.id 即可
-        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.guid)
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.guid + '/' + this.postGuid )
             .map(res => res.json())
             .subscribe(
                 (val) => {

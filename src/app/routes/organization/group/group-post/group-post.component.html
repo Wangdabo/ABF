@@ -181,7 +181,7 @@
                 </div>
             </div>
             <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-            <app-list *ngIf="appclick" [showAdd]="showAdd" [configTitle]="configTitle"
+            <app-list  [showAdd]="showAdd" [configTitle]="configTitle"
                       (addCreat)="addappHandler($event)"
                       (buttonData)="buttonappDataHandler($event)"
                       (pageNumber)="monitorappHandler($event)"

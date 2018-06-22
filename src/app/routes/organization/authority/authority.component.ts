@@ -129,7 +129,15 @@ export class AuthorityComponent implements OnInit {
 
     // 列表传入的翻页数据
     monitorHandler(event) {
-       console.log(event.id);
+        console.log(event)
+        this.pages.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.pages.size, //  每页个数
+            }
+        };
+        this.querygroupApp();
     }
 
 

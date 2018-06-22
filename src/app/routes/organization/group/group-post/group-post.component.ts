@@ -208,6 +208,7 @@ export class GroupPostComponent implements OnInit {
                 this.modelSelect = false; // 打开弹出框
                 this.empdistribution = true; // 弹出在岗员工数代码
                 this.getPostApp(); // 查询所有的应用
+                this.getPostApplist(); // 查询已分配的权限
 
             }
 
@@ -473,7 +474,6 @@ export class GroupPostComponent implements OnInit {
     // 岗位应用权限内容
     searchOptionse; // 选择显示的内容
     selectedMultipleOption; // 多选的内容
-    appclick = false; // 应用列表默认不显示
     array = []; // 定义数组 用来清空
     Apptotal: number; // 应用翻页
     postName: string; // 岗位名称
@@ -515,7 +515,7 @@ export class GroupPostComponent implements OnInit {
                         val.result.records[i].buttonData = ['删除'];
                     }
                     this.appData = val.result.records;
-                    this.Apptotal = 1;
+                    this.Apptotal = val.result.total;
                 }
             );
     }
@@ -556,7 +556,6 @@ export class GroupPostComponent implements OnInit {
         // 查询所有应用
         this.getPostApp();
         this.getPostApplist();
-        this.appclick = true;
     }
 
 
@@ -569,7 +568,15 @@ export class GroupPostComponent implements OnInit {
 
     // 列表传入的翻页数据
     monitorappHandler(event) {
-        console.log(event.id);
+        console.log(event)
+        this.pages.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.pages.size, //  每页个数
+            }
+        };
+        this.getPostApplist();
     }
 
 
@@ -584,9 +591,8 @@ export class GroupPostComponent implements OnInit {
 
     // 删除按钮
     appDel(event) {
-        console.log(event);
         // 传第三表的id  event.id 即可
-        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.id)
+        this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.guid + '/' + this.postGuid )
             .map(res => res.json())
             .subscribe(
                 (val) => {

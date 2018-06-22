@@ -117,9 +117,9 @@ export let appConfig = {
         cancel: '/omPosition/cancelStatus', // 注销岗位
         setDate: '/omPosition/setDate', // 设置岗位有效时间
         empAdd: '/omEmpPosition', // 给岗位添加员工
-        postDelemp: '/omEmpPosition', // 给岗位添加员工
+        postDelemp: '/omEmpPosition/delete', // 给岗位删除员工
         addByList: '/omPositionApp/addByList', // 给岗位添加应用
-        appDelpost: '/omPositionApp', // 给岗位删除应用
+        appDelpost: '/omPositionApp/delete', // 给岗位删除应用
         listByPosition: '/omPositionApp/listByPosition',  // 根据岗位查询所有应用
         appNoth: '/omPositionApp/appNotInPosition', // 查询不在岗位下所有应用
 
@@ -132,7 +132,6 @@ export let appConfig = {
         groupApp: '/omGroups/app', // 给工作组添加应用
         groupPosition: '/omGroups/position', // 给工作组添加岗位
     },
-
 
 
     // 枚举值
