@@ -3,7 +3,7 @@
     <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
         <div nz-col [nzSpan]="8" class="mb-md">
             <div nz-form-item class="d-flex">
-                <div nz-form-label><label>岗位名称11</label></div>
+                <div nz-form-label><label>岗位名称</label></div>
                 <div nz-form-control class="flex-1">
                     <nz-input [(ngModel)]="post.positionName" name="positionName" [nzSize]="'large'" [nzPlaceHolder]="'岗位名称'" nzId="positionName"></nz-input>
                 </div>
@@ -121,36 +121,37 @@
 <nz-modal [nzVisible]="empdistribution"  [nzWidth]="1024" [nzTitle]="'在岗员工数'"  [nzConfirmLoading]="loading" [nzContent]="modalempdistribution"
           (nzOnCancel)="empdistribution=false" (nzOnOk)="empsave()">
     <ng-template #modalempdistribution>
-       <div *ngIf='modelSelect'>
-           <div style="margin-top: 10px" nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
-               <div  [nzOffset]="7"  nz-col [nzSpan]="12" class="mb-md">
-                   <div  nz-form-item class="d-flex">
-                       <div nz-form-label><label>选择员工</label></div>
-                       <div nz-form-control class="flex-1">
-                           <nz-select
-                               style="width: 200px;"
-                               nzAllowClear
-                               [nzPlaceHolder]="'Select a person'"
-                               [(ngModel)]="selectedOption"
-                               nzShowSearch>
-                               <nz-option
-                                   *ngFor="let option of searchOptions"
-                                   [nzLabel]="option.empName"
-                                   [nzValue]="option.guid"
-                                   [nzDisabled]="option.disabled">
-                               </nz-option>
-                           </nz-select>
-                           <button style="margin-left: 1%;" (click)="addEmpClick()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">添加员工</button>
-                       </div>
+        <div *ngIf='modelSelect'>
+            <div style="margin-top: 10px" nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+                <div  [nzOffset]="7"  nz-col [nzSpan]="12" class="mb-md">
+                    <div  nz-form-item class="d-flex">
+                        <div nz-form-label><label>选择员工</label></div>
+                        <div nz-form-control class="flex-1">
+                            <nz-select
+                                style="width: 200px;"
+                                nzAllowClear
+                                [nzPlaceHolder]="'Select a person'"
+                                [(ngModel)]="selectedOption"
+                                nzShowSearch>
+                                <nz-option
+                                    *ngFor="let option of searchOptions"
+                                    [nzLabel]="option.empName"
+                                    [nzValue]="option.guid"
+                                    [nzDisabled]="option.disabled">
+                                </nz-option>
+                            </nz-select>
+                            <button style="margin-left: 1%;" (click)="addEmpClick()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">添加员工</button>
+                        </div>
 
-                   </div>
+                    </div>
 
-               </div>
-           </div>
-           <app-list  [initDate]="empData" [showAdd]="showAdd" (addCreat)="addEmp($event)" (buttonData)="buttonEmp($event)" (pageNumber)="empHandler($event)"
-                      (deleatData)="deleatEmp($event)"  (buttonEvent)="empEvent($event)" (selectedRow)="selectedemp($event)" [headerDate]="empDataheader"
-                      [moreData]="EmpData" [total]="empTotal"></app-list>
-       </div>
+                </div>
+            </div>
+            <app-list  [initDate]="empData" [showAdd]="showAdd" (addCreat)="addEmp($event)" (buttonData)="buttonEmp($event)" (pageNumber)="empHandler($event)"
+                       (deleatData)="deleatEmp($event)"  (buttonEvent)="empEvent($event)" (selectedRow)="selectedemp($event)" [headerDate]="empDataheader"
+                       [moreData]="EmpData" [total]="empTotal"></app-list>
+        </div>
+
 
         <div *ngIf='!modelSelect'>
             <div style="margin-top: 10px" nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
@@ -191,10 +192,10 @@
                       [total]="Apptotal"
                       [headerDate] = "AppheaderData"
                       [moreData] = "moreData"></app-list>
-            </div>
+        </div>
 
-        </ng-template>
-    </nz-modal>
+    </ng-template>
+</nz-modal>
 
 
 

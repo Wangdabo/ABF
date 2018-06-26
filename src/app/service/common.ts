@@ -93,6 +93,7 @@ export let appConfig = {
         runningStatus: '/omOrg/runningStatus', // 运行状态
         addChild: '/omOrg/addChild', //  添加子节点
         addRoot: '/omOrg/addRoot', //  添加父节点
+        orgQueryAll: '/omOrg/queryAll', // 查询所有机构
 
         // 机构员工管理
         emporgAdd: '/omEmployee', // 新增,修改员工,删除员工
@@ -101,6 +102,8 @@ export let appConfig = {
         queryorgList: '/omEmployee/queryEmpByOrg', // 根据组织机构查询员工
         queryByOrgPosition: '/omEmployee/queryByOrgPosition',  // 查询岗位下分配的员工
         listsByOrg: '/omEmployee/listsByOrg', // 根据机构guid查询所有员工
+        changeOnJob: '/omEmployee/changeOnJob', // 修改员工入职
+
 
         // 岗位管理
         postChild: '/omPosition/addChild', // 新增子岗位
@@ -113,21 +116,22 @@ export let appConfig = {
         running: '/omPosition/runningStatus', // 启用岗位
         cancel: '/omPosition/cancelStatus', // 注销岗位
         setDate: '/omPosition/setDate', // 设置岗位有效时间
-        empAdd: '/omEmpPosition/add', // 给岗位添加员工
-        postDelemp: '/omEmpPosition', // 给岗位添加员工
+        empAdd: '/omEmpPosition', // 给岗位添加员工
+        postDelemp: '/omEmpPosition/delete', // 给岗位删除员工
         addByList: '/omPositionApp/addByList', // 给岗位添加应用
-        appDelpost: '/omPositionApp', // 给岗位删除应用
+        appDelpost: '/omPositionApp/delete', // 给岗位删除应用
+        listByPosition: '/omPositionApp/listByPosition',  // 根据岗位查询所有应用
+        appNoth: '/omPositionApp/appNotInPosition', // 查询不在岗位下所有应用
 
         // 工作组接口
         groupChild: '/omGroups/child', // 新增子工作组
         groupRoot: '/omGroups/root', // 新增跟工作组
         empGroup: '/omGroups/empGroup', // 工作组添加员工
-        empNotin: '/omGroups/empNotin', // 加载不在此工作组的人员列表(同属同一机构)
+        empNotin: '/omGroups/empNotin', // 加载omGroups不在此工作组的人员列表(同属同一机构)
         omGroups: '/omGroups', // 修改、删除工作组
-
-
+        groupApp: '/omGroups/app', // 给工作组添加应用
+        groupPosition: '/omGroups/position', // 给工作组添加岗位
     },
-
 
 
     // 枚举值

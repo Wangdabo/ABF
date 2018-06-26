@@ -56,6 +56,8 @@ import { EntityauthComponent } from './authority/role/entityauth/entityauth.comp
 import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
 import { DataRangeComponent } from './authority/role/data-range/data-range.component';
 import {GroupdetailComponent} from './organization/groupdetail/groupdetail.component';
+import {GroupEmpComponent} from './organization/group/group-emp/group-emp.component';
+import {GroupPostComponent} from './organization/group/group-post/group-post.component';
 
 
 const routes: Routes = [
@@ -86,8 +88,8 @@ const routes: Routes = [
             // 工作组
             { path: 'workGroup', component: GroupComponent, children: [
                     {path: 'group/:id', component: GroupdetailComponent, data: { i18n: 'group' , title: '工作组' } },
-                    {path: 'emp/:id', component: EmpComponent, data: { i18n: 'emp' , title: '工作组' } },
-                    {path: 'post/:id', component: PostComponent, data: { i18n: 'post' , title: '工作组' } },
+                    {path: 'groupEmp/:id', component: GroupEmpComponent, data: { i18n: 'groupEmp' , title: '工作组' } },
+                    {path: 'groupPost/:id', component: GroupPostComponent, data: { i18n: 'groupPost' , title: '工作组' } },
                     {path: 'authority/:id', component: AuthorityComponent, data: { i18n: 'post' , title: '工作组' } },
                 ]},
             // 基本数据

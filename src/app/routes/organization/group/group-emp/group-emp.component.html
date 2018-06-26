@@ -1,0 +1,153 @@
+<!--  form表单搜索 -->
+<!--<form nz-form (ngSubmit)="search()" [nzLayout]="'inline'">
+
+    <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>员工姓名</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="emp.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'员工姓名'" nzId="name"></nz-input>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>员工编号</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-input [(ngModel)]="emp.numbering" name="numbering" [nzSize]="'large'" [nzPlaceHolder]="'角色编号'" nzId="numbering"></nz-input>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>性别</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [(ngModel)]="emp.gender"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'性别'" nzId="gender">
+                        <nz-option  *ngFor="let i of gender;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>基本岗位</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [(ngModel)]="emp.emppost" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'基本岗位'" nzId="emppost">
+                        <nz-option  *ngFor="let i of emppost;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>直接主管</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [(ngModel)]="emp.supervisor" name="emprank"  [nzSize]="'large'" [nzPlaceHolder]="'直接主管'" nzId="supervisor">
+                        <nz-option  *ngFor="let i of supervisor;" [nzLabel]="i.empName" [nzValue]="i.guid"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+            <div nz-form-item class="d-flex">
+                <div nz-form-label><label>员工状态</label></div>
+                <div nz-form-control class="flex-1">
+                    <nz-select style="width:100%" [(ngModel)]="emp.empType"  name="gender" [nzSize]="'large'" [nzPlaceHolder]="'员工状态'" nzId="gender">
+                        <nz-option  *ngFor="let i of empType;" [nzLabel]="i.value" [nzValue]="i.key"></nz-option>
+                    </nz-select>
+                </div>
+            </div>
+        </div>
+        <div nz-col [nzSpan]="expandForm ? 24 : 8" class="mb-md" [class.text-right]="expandForm">
+            <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">查询</button>
+            <button nz-button type="reset" (click)="getData()" [nzSize]="'large'" class="mx-sm">重置</button>
+            <a (click)="expandForm=!expandForm">
+                {{expandForm ? '收起' : '展开'}}
+                <i class="anticon" [class.anticon-down]="!expandForm" [class.anticon-up]="expandForm"></i>
+            </a>
+        </div>
+    </div>
+</form>-->
+
+<!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
+<app-list (addCreat)="addHandler($event)"
+          [total]="total"
+          (buttonData)="buttonDataHandler($event)"
+          (buttonEvent) = "buttonEvent($event)"
+          (pageNumber)="monitorHandler($event)"
+          (deleatData)="deleatData($event)"
+          (selectedRow)="selectedRow($event)"
+          (isActive)="isActive($event)"
+          [initDate] = "data"
+          [headerDate] = "headerData"
+          [moreData] = "moreData"
+          [configTitle]="configTitle"
+></app-list>
+<!--引入列表组件-->
+
+<!--新增员工弹出框信息-->
+<nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024" [nzTitle]="'工作组添加员工'"  [nzConfirmLoading]="loading" [nzContent]="modalContent"
+          (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
+    <ng-template #modalContent>
+        <div style="margin-top: 10px" nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+            <div nz-col [nzSpan]="12" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div style="margin-right: 1%;" nz-form-label><label for="itemType">添加类型:</label></div>
+                    <div  nz-form-control class="flex-1">
+                        <nz-radio-group [(ngModel)]="empAddType" (ngModelChange)="checkSelect(empAddType)">
+                              <span  *ngFor="let i of itemType;">
+                                    <label  nz-radio   [nzValue]='i.key'>
+                                        <span>{{i.value}}</span>
+                                    </label>
+                                </span>
+                        </nz-radio-group>
+                    </div>
+                </div>
+            </div>
+
+            <div [nzOffset]="4" nz-col [nzSpan]="16" class="mb-md" style="margin-top:10px; ">
+                <div  *ngIf="empAddType==='orgEmp'" nz-form-item class="d-flex">
+                    <div nz-form-label><label>添加机构员工:</label></div>
+                    <div style="margin-left: 1%;margin-top:-1%" nz-form-control class="flex-1">
+                        <nz-select
+                            style="width: 400px;"
+                            nzAllowClear
+                            [nzPlaceHolder]="'Select a person'"
+                            [(ngModel)]="selectedOption"
+                            nzShowSearch>
+                            <nz-option
+                                *ngFor="let option of searchOptions"
+                                [nzLabel]="option.empName"
+                                [nzValue]="option.guid"
+                                [nzDisabled]="option.disabled">
+                            </nz-option>
+                        </nz-select>
+                        <button style="margin-left: 1%;" (click)="appClick()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">确定</button>
+                    </div>
+                </div>
+
+                <div  *ngIf="empAddType==='orginfoEmp'"  nz-form-item class="d-flex">
+                    <div nz-form-label><label>邀请机构员工:</label></div>
+                    <div style="margin-left: 1%;margin-top:-1%" nz-form-control class="flex-1">
+                        <nz-select
+                            style="width: 400px;"
+                            nzAllowClear
+                            [nzPlaceHolder]="'Select a person'"
+                            [(ngModel)]="selectedOption"
+                            nzShowSearch>
+                            <nz-option
+                                *ngFor="let option of searchOptions"
+                                [nzLabel]="option.empName"
+                                [nzValue]="option.guid"
+                                [nzDisabled]="option.disabled">
+                            </nz-option>
+                        </nz-select>
+                        <button style="margin-left: 1%;" (click)="invite()" nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'">邀请</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+

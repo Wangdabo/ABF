@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {ActivatedRoute, Router} from '@angular/router';
+import {appConfig} from '../../../service/common';
+import {UtilityService} from '../../../service/utils.service';
+import {PageModule} from '../../../service/common.module';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+
+
 @Component({
   selector: 'app-authority',
   templateUrl: './authority.component.html',
 })
+
 export class AuthorityComponent implements OnInit {
 
     searchOptions; // 选择显示的内容
     selectedMultipleOption; // 多选的内容
-    orgGuid: string;
-    appclick = false;
+    groupGuid: string;
     showAdd: boolean;
     configTitle: string;
     total: number;
     array = []; // 定义数组 用来清空
-
+    page: any;
+    pages: PageModule = new PageModule();
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -29,73 +36,109 @@ export class AuthorityComponent implements OnInit {
         buttons: [
             { key: 'Overview', value: '查看概况' }
         ]
-    }
-
+    };
 
 
     constructor(
         private http: _HttpClient,
         private activatedRoute: ActivatedRoute, // 注入路由，接收到参数
+        private utilityService: UtilityService,
+        private nznot: NzNotificationService
     ) { }
 
     ngOnInit() {
-        this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+        this.groupGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         this.showAdd = true;
         this.configTitle = '删除'
-        this.selectedMultipleOption = [ 'tom', 'jack', 'lucy' ];
-        this.searchOptions = [
-                { value: 'jack', label: 'DD应用' },
-                { value: 'lucy', label: 'A应用' },
-                { value: 'tom', label: 'B应用' }
-        ];
+        this.queryNoApp();
+        this.querygroupApp();
+
     }
+    // 查询不在工作组内的其他应用
+    queryNoApp() {
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupGuid + '/availableApp')
+            .subscribe(
+                (val) => {
+                    this.searchOptions = val.result;
+                    console.log(this.searchOptions);
+                });
+    }
+
+
+    // 查询工作组下的应用
+    querygroupApp() {
+        this.page = {
+            page: {
+                current: this.pages.pi,
+                size: this.pages.size,
+            }
+        };
+
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupGuid + '/app', this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    console.log(val)
+                    this.data = val.result.records;
+                    this.total = val.result.total;
+                });
+
+
+    }
+
+
+
 
     appClick() {
         console.log(this.selectedMultipleOption); // 传入后台，渲染
-        this.appclick = true;
-        // 调接口，第一个给工作组绑定应用的接口，第二个查询应用的接口
-        this.getData('ces');
+        const jsonObj = {
+            groupCode: this.groupGuid,
+            appGuidList: this.selectedMultipleOption,
+        }
+
+        this.utilityService.postData(appConfig.testUrl  + appConfig.API.groupApp, jsonObj)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.nznot.create('success', val.msg , val.msg);
+                    this.selectedMultipleOption = [];
+                    this.queryNoApp()
+                    this.querygroupApp();
+                });
     }
-    getData(id) {
-        this.data = [
-            {id: 'tom',  'appName': 'B应用', 'appType': '远程', 'openDate': '2018/6/7 14:45:20'},
-            {id: 'lucy', 'appName': 'A应用', 'appType': '本次', 'openDate': '2018/6/7 14:45:20'},
-            {id: 'jack', 'appName': 'DD应用', 'appType': '本次', 'openDate': '2018/6/7 14:45:20'},
-        ];
-        this.total = 2;
-    }
+
+
+
+
+
 
     // 列表组件传过来的内容
     addHandler(event) {
-        this.array = [];
-        for ( let i = 0; i < this.data.length; i++ ) {
-            if (this.data[i].id === event.id) {
-                let indexs = this.data[i]
-                this.data.splice(indexs, 1);
-            }
-        }
-
-
-        // 删除对应的对象  id是值要删除的那个对象
-        let indexs = this.selectedMultipleOption.findIndex(item => item.value === event.id ); // 根据条件删除数组中的指定对象,这个根据删除的id 来删除select数组对应的对象
-        this.selectedMultipleOption.splice(indexs, 1);
-
-        for ( var i = 0; i < this.selectedMultipleOption.length; i++) {
-            this.array.push(this.selectedMultipleOption[i]);
-        }
-
-        setTimeout(_ => {
-            this.selectedMultipleOption = this.array; // 重新赋值
-        }, 1000);
+        console.log(event)
+        // 删除应用
+        this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupGuid + '/app/' + event.guid )
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
+                    this.nznot.create('success', val.msg , val.msg);
+                    this.querygroupApp();
+                });
 
     }
 
 
     // 列表传入的翻页数据
     monitorHandler(event) {
-       console.log(event.id);
+        console.log(event)
+        this.pages.pi = event;
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.pages.size, //  每页个数
+            }
+        };
+        this.querygroupApp();
     }
-
 
 
     // 列表按钮方法

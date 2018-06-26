@@ -27,15 +27,8 @@ export class GroupComponent implements OnInit {
     groupData: any; // 树节点上的数据保存
     isRoot = false; // 是否是跟工作组
     groupDetail: any; // 工作組的詳情
+    guidOrg: any; // 查询所有机构
 
-    // 模拟隶属机构
-    guidOrg = [
-        {value: '机构A-3-1', key: 'org1101'},
-        {value: '机构A-3-2', key: 'org1102'},
-        {value: '机构A-3-3', key: 'org1103'},
-        {value: '机构A-3-4', key: 'org1104'},
-        {value: '机构A-3-5', key: 'org1105'}
-    ]
     constructor(
         private http: _HttpClient,
         private router: Router,
@@ -45,10 +38,11 @@ export class GroupComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.getData();
+        this.initData();
         // 枚举值转换
         this.groupType = appConfig.Enumeration.groupType;
         this.groupStatus = appConfig.Enumeration.groupStatus;
+        this.searchTitle = '请输入工作组代码/名称';
     }
 
 
@@ -63,19 +57,41 @@ export class GroupComponent implements OnInit {
                 'children': [{}]
             }
         ];
+
+        // 查询所有机构
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.orgQueryAll)
+            .subscribe(
+                (val) => {
+                    this.guidOrg = val.result;
+                });
+
     }
 
 
-    getData() {
+    getData(event) {
+        console.log(event)
         // 从服务器获取树列表
-        this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.treeData)
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' +  event.guid + '/tree')
             .subscribe(
                 (val) => {
-                    console.log(val)
-                    this.treedata = val; // 绑定树节点
-                });
+                    for (let i = 0 ; i < val.result.children.length; i++) {
+                        if (val.result.children[i].isleaf === '是') { // 代表是最底层，没有下级了
+                            val.result.children[i].collapsedIcon = 'fa-folder';
+                        } else {
+                            // val.result.children[i].label = val.result.children[i].orgName;
+                            val.result.children[i].expandedIcon = 'fa fa-institution';
+                            val.result.children[i].collapsedIcon = 'fa fa-institution';
+                            val.result.children[i].children =  [{}];
+                        }
 
-        this.searchTitle = '请输入工作组代码/名称';
+                    }
+                    event.children = val.result.children;
+                });
+    }
+
+    // 下拉刷新
+    Unfold(event) {
+        this.getData(event.node);
     }
 
 
@@ -102,10 +118,8 @@ export class GroupComponent implements OnInit {
 
     // 左击树菜单节点信息
     TreeSelect(event) {
-        console.log(event.node.groupCode);
-        // this.id = event.node.groupCode;
-        this.id = event.node.guid; // 先传guid 后期接口改成code 在传code
-
+        console.log(event.node.code);
+        this.id = event.node.code; // 先传guid 后期接口改成code 在传code
         if  (event.node.guid !== 'null') { // 只要不是跟机构就显示
             this.tabShow = true;
             this.router.navigate(['workGroup/group', this.id]); // 跳转路由
@@ -149,6 +163,7 @@ export class GroupComponent implements OnInit {
 
     // 新增跟工作组
     addRootGroup() {
+        this.workItem = new GroupModule();
         this.modalVisible = true;
         this.isEdit = false;
         this.isRoot = true; // 调用新增工作组
@@ -156,6 +171,7 @@ export class GroupComponent implements OnInit {
     }
     // 新增子工作组
     addchildGroup() {
+        this.workItem = new GroupModule();
         this.modalVisible = true;
         this.isEdit = false;
         this.isRoot = false;
@@ -163,15 +179,35 @@ export class GroupComponent implements OnInit {
 
     }
 
+    // 枚举值转换
+    statusgroup(event) {
+        if (event.groupStatus === '正常') {
+            event.groupStatus = 'running';
+        } else if (event.groupStatus === '注销') {
+            event.groupStatus = 'cancel';
+        }
+    }
+
+    grouptype(event) {
+        if (event.groupType === '普通工作组') {
+            event.groupType = 'normal';
+        } else if (event.groupType === '项目型') {
+            event.groupType = 'project';
+        } else if (event.groupType === '事务型') {
+            event.groupType = 'affair';
+        }
+    }
     // 修改接口
     editGroup() {
-        console.log(event);
         this.isEdit = true; // 是修改
         this.modalVisible = true;
         // 接口改变至之后 用code 而不是guid
-        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.guid)
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.code)
             .subscribe(
                 (val) => {
+
+                    this.grouptype(val.result);
+                    this.statusgroup(val.result);
                     this.groupDetail = val.result; // 绑定工作组的详情
                     this.workItem = val.result; // 渲染数据
                 },
@@ -181,8 +217,8 @@ export class GroupComponent implements OnInit {
 
     save() {
         const jsonOption = this.workItem;
-        jsonOption.groupOrg = 'ORG北京总行00007'; // 写死机构
-        jsonOption.guidName = this.workItem.groupName; // 写死机构
+        // jsonOption.groupOrg = 'ORG北京总行00007'; // 写死机构
+        // jsonOption.guidName = this.workItem.groupName; // 写死机构
         if (!this.isEdit) {
             if (this.isRoot) { // 调用新增跟工作组接口
                 this.utilityService.postData(appConfig.testUrl  + appConfig.API.groupRoot, jsonOption)
@@ -190,6 +226,7 @@ export class GroupComponent implements OnInit {
                     .subscribe(
                         (val) => {
                             this.nznot.create('success', val.msg , val.msg);
+                            this.getData(this.groupData);
                         },
                     );
             } else {
@@ -199,6 +236,7 @@ export class GroupComponent implements OnInit {
                     .subscribe(
                         (val) => {
                             this.nznot.create('success', val.msg , val.msg);
+                            this.getData(this.groupData);
                         },
                     );
             }
@@ -208,6 +246,8 @@ export class GroupComponent implements OnInit {
                 .subscribe(
                     (val) => {
                         this.nznot.create('success', val.msg , val.msg);
+                        this.getData(this.groupData.parent);
+
                     },
                 );
         }
@@ -215,18 +255,21 @@ export class GroupComponent implements OnInit {
     }
 
     delectGroup() {
+        console.log(this.groupData)
         this.modal.open({
             title: '是否删除',
             content: '您确认要删除该工作组吗? 删除该工作组下所有子工作组都会被一并删除',
             okText: '确定',
             cancelText: '取消',
             onOk: () => {
-                this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.groupCode)
+                this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.omGroups + '/' + this.groupData.code)
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
                             console.log(val)
+                            this.getData(this.groupData.parent);
                             this.nznot.create('success', val.msg , val.msg);
+
                         },
                     );
             },

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {ActivatedRoute, Router} from '@angular/router';
-import { PostModule} from '../../../service/post';
-import {appConfig} from '../../../service/common';
-import {UtilityService} from '../../../service/utils.service';
+import { PostModule} from '../../../../service/post';
+import {appConfig} from '../../../../service/common';
+import {UtilityService} from '../../../../service/utils.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
-import {EmpModule} from '../../../service/emp';
-import {PageModule} from '../../../service/common.module';
+import {EmpModule} from '../../../../service/emp';
+import {PageModule} from '../../../../service/common.module';
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
+  selector: 'app-group-post',
+  templateUrl: './group-post.component.html',
 })
-export class PostComponent implements OnInit {
+export class GroupPostComponent implements OnInit {
 
     constructor(
         private http: _HttpClient,
@@ -49,7 +49,8 @@ export class PostComponent implements OnInit {
     loading = false;
     total: number;
     postGuid: string;
-    pages: PageModule = new PageModule(); // 分页内容
+    orgGuid: string;
+
     // 岗位员工
     modalVisible = false;
     empdistribution = false;
@@ -76,15 +77,16 @@ export class PostComponent implements OnInit {
 
     copy: any;
 
-    orgGuid: string;
+    groupCode: string;
     Parentsguid: any;
 
     ngOnInit() {
-        this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
+        this.groupCode = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         // 枚举值转换
         this.postStatus = appConfig.Enumeration.postStatus;
         this.positionType = appConfig.Enumeration.postType;
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.queryGroup(this.groupCode);
     }
 
     getData() { // 初始化请求后台数据
@@ -94,21 +96,22 @@ export class PostComponent implements OnInit {
                 size: this.post.size,
             }
         };
-        // 查询机构下所有岗位，先用list接口
-        this.utilityService.getData(appConfig.testUrl + appConfig.API.postorgEmp + '/' + this.orgGuid)
-            .subscribe(
-                (val) => {
-                    this.Parentsguid = val.result;
-                    console.log(this.Parentsguid)
-                    sessionStorage.setItem('post', JSON.stringify(val.result));
-                });
 
-        // 查询组织机构下所有岗位
-        this.utilityService.postData(appConfig.testUrl + appConfig.API.posttreeList + '/' + this.orgGuid ,  this.page)
-            .map(res => res.json())
+        // 查询工作组下所有岗位，先用list接口 // 改成get 后期
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.omGroups + '/' + this.groupCode + '/positionNotPage')
             .subscribe(
                 (val) => {
                     console.log(val)
+                    this.Parentsguid = val.result;
+                    sessionStorage.setItem('post', JSON.stringify(val.result));
+                });
+
+
+        // 查询工作组下所有岗位
+        this.utilityService.postData(appConfig.testUrl + appConfig.API.omGroups + '/' + this.groupCode + '/positionIn',  this.page)
+            .map(res => res.json())
+            .subscribe(
+                (val) => {
                     // 没有在岗员工，模拟一下
                     for ( let i = 0; i < val.result.records.length; i++) {
                         if ( val.result.records[i].positionStatus === '正常') {
@@ -121,6 +124,16 @@ export class PostComponent implements OnInit {
                     this.total = val.result.total;
                 });
 
+    }
+
+
+    queryGroup(groupCode) {
+        this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' + groupCode )
+            .subscribe(
+                (val) => {
+                    this.orgGuid = val.result.guid;
+                },
+            );
     }
 
 
@@ -150,14 +163,16 @@ export class PostComponent implements OnInit {
         this.ifshow = false; // 默认是基础信息
         this.postAdd = new PostModule(); // 重新清空赋值
         if (event === '这里是新增的方法') {
-            this.postAdd.positionType = '01';
+            this.postAdd.positionType = '02';
             this.postAdd.positionStatus = 'running';
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.isEdit = false;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
+            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.Parentsguid = [];
             // 前端移除当前岗位，获取当前岗位之外的所有岗位
             let copys = JSON.parse(sessionStorage.getItem('post'));
+            console.log(copys)
             this.Parentsguid = copys;
             // 枚举值改变
             let indexs = this.Parentsguid.findIndex(item => item.guid === event.guid ); // 根据条件删除数组中的指定对象,这个根据删除的id 来删除select数组对应的对象
@@ -166,7 +181,7 @@ export class PostComponent implements OnInit {
             this.Statuspost(event)
             this.postType(event)
             this.postAdd = event;
-            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+
             this.isEdit = true;
         }
     }
@@ -192,8 +207,9 @@ export class PostComponent implements OnInit {
                 this.postGuid = event.guid;
                 this.modelSelect = false; // 打开弹出框
                 this.empdistribution = true; // 弹出在岗员工数代码
-                this.getPostApp(); // 查询不在岗位下的应用
-                this.getPostApplist(); // 查询岗位下应用
+                this.getPostApp(); // 查询所有的应用
+                this.getPostApplist(); // 查询已分配的权限
+
             }
 
             if (event.names === '启用') {
@@ -291,31 +307,22 @@ export class PostComponent implements OnInit {
     save() {
         const jsonOption = this.postAdd;
         jsonOption.guidOrg = this.orgGuid;
+        jsonOption.groupCode = this.groupCode;
         jsonOption.isLeaf = 'Y' ;
         jsonOption.subCount = 0 ;
         if (!this.isEdit) { // 新增数据
-            if (jsonOption.guidParents) { // 如果存在调用子岗位接口
-                this.utilityService.postData(appConfig.testUrl  + appConfig.API.postChild, jsonOption)
-                    .map(res => res.json())
-                    .subscribe(
-                        (val) => {
-                            console.log(val)
-                            this.nznot.create('success', val.msg , val.msg);
-                            this.getData();
-                        },
-                    );
-            } else { // 调用父岗位接口
-                this.utilityService.postData(appConfig.testUrl  + appConfig.API.postRoot, jsonOption)
-                    .map(res => res.json())
-                    .subscribe(
-                        (val) => {
-                            this.nznot.create('success', val.msg , val.msg);
-                            this.getData();
-                        },
-                    );
+            const jsonAjax = {
+                groupCode: this.groupCode,
+                omPositionRequest: jsonOption
             }
-
-
+            this.utilityService.postData(appConfig.testUrl  + appConfig.API.groupPosition, jsonAjax)
+                .map(res => res.json())
+                .subscribe(
+                    (val) => {
+                        this.nznot.create('success', val.msg , val.msg);
+                        this.getData();
+                    },
+                );
         } else {
             this.utilityService.putData(appConfig.testUrl  + appConfig.API.postDel, jsonOption)
                 .map(res => res.json())
@@ -360,7 +367,7 @@ export class PostComponent implements OnInit {
     // 初始化信息
     getEmpData(guid) {
         this.showAdd = true; // 没有新增
-        this.utilityService.getData(appConfig.testUrl + appConfig.API.listsByOrg + '/' +  this.orgGuid)
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.listsByOrg + '/' +  this.groupCode)
             .subscribe(
                 (val) => {
                     console.log(val)
@@ -372,7 +379,7 @@ export class PostComponent implements OnInit {
     getEmpList(guid) {
         this.page = {
             condition: {
-                guidOrg: this.orgGuid,
+                guidOrg: this.groupCode,
                 guidPosition: guid,
             },
             page: {
@@ -384,13 +391,13 @@ export class PostComponent implements OnInit {
             .map(res => res.json())
             .subscribe(
                 (val) => {
-                    console.log(val.result.records)
+                    console.log(val)
                     // 没有在岗员工，模拟一下
-                    for ( let i = 0; i < val.result.records.length; i++) {
-                        val.result.records[i].buttonData = ['删除'];
+                    for ( let i = 0; i < val.result.length; i++) {
+                        val.result[i].buttonData = ['删除'];
                     }
-                    this.empData = val.result.records;
-                    this.empTotal = val.result.total;
+                    this.empData = val.result;
+                    console.log(this.empData);
                 });
     }
     // 新增方法
@@ -410,7 +417,7 @@ export class PostComponent implements OnInit {
         console.log(e)
         if (e.names) {
             if (e.names === '删除') {
-                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.postDelemp + '/' + e.guid + '/' + this.postGuid)
+                this.utilityService.deleatData(appConfig.testUrl + appConfig.API.postDelemp + '/' + e.guid)
                     .map(res => res.json())
                     .subscribe(
                         (val) => {
@@ -438,6 +445,8 @@ export class PostComponent implements OnInit {
 
 
     // 给岗位添加员工
+
+    pages: PageModule = new PageModule
     addEmpClick() {
         console.log(this.selectedOption)
         console.log(this.selectedOption.length)
@@ -451,8 +460,8 @@ export class PostComponent implements OnInit {
                 .map(res => res.json())
                 .subscribe(
                     (val) => {
+                        console.log(val);
                         this.nznot.create('success', val.msg , val.msg);
-
                         this.getEmpList(this.postGuid); // 重新查询列表内容
                     });
         } else {
@@ -465,8 +474,6 @@ export class PostComponent implements OnInit {
     // 岗位应用权限内容
     searchOptionse; // 选择显示的内容
     selectedMultipleOption; // 多选的内容
-
-
     array = []; // 定义数组 用来清空
     Apptotal: number; // 应用翻页
     postName: string; // 岗位名称
@@ -477,7 +484,6 @@ export class PostComponent implements OnInit {
         { value: '应用开通时间', key: 'openDate', isclick: false },
 
     ];
-
 
     // 查询所有应用（已经分配之外的除外）
     getPostApp() {
@@ -515,18 +521,21 @@ export class PostComponent implements OnInit {
     }
 
 
-    // 给岗位新增员工
+
+
+    // 给岗位新增应用
     postappAdd(event) {
         console.log(event)
         this.utilityService.postData(appConfig.testUrl + appConfig.API.addByList,  event)
             .map(res => res.json())
             .subscribe(
                 (val) => {
+                    console.log(val)
                     this.nznot.create('success', val.msg , val.msg);
                     this.selectedMultipleOption = [];
                     // 重新查询岗位信息
-                    this.getPostApp(); // 重新查询
                     this.getPostApplist();
+                    this.getPostApp(); // 重新查询
                 });
     }
 
@@ -540,16 +549,20 @@ export class PostComponent implements OnInit {
             guidPosition: this.postGuid,
             appList  : this.selectedMultipleOption,
         }
+        console.log(addApp);
         // 调用新增接口方法
-        this.postappAdd(addApp);
+        this.postappAdd(addApp)
 
+        // 查询所有应用
+        this.getPostApp();
+        this.getPostApplist();
     }
 
 
     // 应用列表方法
     // 列表组件传过来的内容
     addappHandler(event) {
-        console.log(event);
+
     }
 
 
@@ -578,18 +591,13 @@ export class PostComponent implements OnInit {
 
     // 删除按钮
     appDel(event) {
-        const jsonObj = {
-            guidApp: event.guid,
-            guidPosition: this.postGuid,
-        }
-        console.log(jsonObj)
         // 传第三表的id  event.id 即可
         this.utilityService.deleatData(appConfig.testUrl + appConfig.API.appDelpost + '/' + event.guid + '/' + this.postGuid )
             .map(res => res.json())
             .subscribe(
                 (val) => {
                     this.nznot.create('success', val.msg , val.msg);
-                   this.getPostApp()
+                    this.getPostApp();
                     this.getPostApplist();
                 });
 
@@ -598,6 +606,5 @@ export class PostComponent implements OnInit {
     appsave() {
         this.empdistribution = false;
     }
-
 
 }

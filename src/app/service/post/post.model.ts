@@ -13,6 +13,9 @@ export class PostModule {
     // 岗位名称
     public positionName: string;
 
+    // 工作组code
+    public groupCode: string;
+
     // 岗位类型
     public positionType: any;
 
