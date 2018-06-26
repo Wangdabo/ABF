@@ -143,7 +143,7 @@ export class MenuComponent implements OnInit {
             this.inforShow = true;
         }
         this.disableFlag = true;
-        // console.log(event.node.guid);
+        // console.log(event);
     }
 
     isleafchange (event) {
@@ -184,7 +184,8 @@ export class MenuComponent implements OnInit {
         this.addMenuData.isLeaf = this.select.node.isleaf;
         this.proParentDisable = false;
         this.proDisable = true ;
-        // console.log(this.select.node);
+        console.log(this.select.node);
+        // this.appCodeChange(this.appcode );
         this.utilityService.deleatData(appConfig.testUrl  + appConfig.API.acMenuDeletByid + this.select.node.guid)
             .map(res => res.json())
             .subscribe(
@@ -212,6 +213,7 @@ export class MenuComponent implements OnInit {
         this.tanchuangTitle = '增加子菜单';
         this.modalVisible = true;
         this.proLeafDisable = false;
+        this.proDisable = false;
         this.guidParents[0].label = this.select.node.menuName;
         this.guidParents[0].guid = this.select.node.guid;
         this.addMenuData.guidParents = this.select.node.guid;
@@ -310,6 +312,7 @@ export class MenuComponent implements OnInit {
                 (val) => {
                 },
             );
+        this.appCodeChange(this.appcode );
     }
 
     searchVal($event) {
