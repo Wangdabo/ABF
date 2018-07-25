@@ -17,5 +17,9 @@ export class OperatrModule {
     public  authMode: null;
     // 锁定次数限制
     public lockLimit: number;
+    // 当前错误次数
+    public errCount: number;
+    // 最近登陆时间
+    public lastLogin: any;
 
 }

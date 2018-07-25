@@ -12,15 +12,17 @@ import { DashboardV1Component } from './index/v1/v1.component';
 // 应用功能管理
 
 import { ApplicationComponent } from './application/application/application.component';
-import { OperatorsComponent } from './authority/operators/operators.component';
 import { FunctionComponent} from './application/function/function.component';
 
 // 权限管理
-
 import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
 import { RoleMemberComponent } from './authority/role/role-member/role-member.component';
 import { FuncperComponent } from './authority/role/funcper/funcper.component';
+// 操作员管理
+import { OperatorsComponent } from './authority/operators/operators.component';
+import { OperatoroleComponent } from './authority/operators/operatorole/operatorole.component';
+import { RoleFuncComponent } from './authority/operators/role-func/role-func.component';
 
 // 组织机构管理
 import { OrgComponent } from './organization/org/org.component';
@@ -58,7 +60,7 @@ import { DataRangeComponent } from './authority/role/data-range/data-range.compo
 import {GroupdetailComponent} from './organization/groupdetail/groupdetail.component';
 import {GroupEmpComponent} from './organization/group/group-emp/group-emp.component';
 import {GroupPostComponent} from './organization/group/group-post/group-post.component';
-
+import { OperatorInfoComponent } from './authority/operators/operator-info/operator-info.component';
 
 const routes: Routes = [
     {
@@ -79,7 +81,13 @@ const routes: Routes = [
             { path: 'menu', component: MenuComponent },
             { path: 'APPlication', component: ApplicationComponent },
             { path: 'function', component: FunctionComponent, data: { i18n: 'function' , title: '应用功能' } },
-            { path: 'operator', component: OperatorsComponent },
+            // 操作员路由
+            { path: 'operator', component: OperatorsComponent},
+            // 操作员详情路由
+            { path: 'operatorInfo', component: OperatorInfoComponent, data: { i18n: 'operatorInfo' , title: '操作员详情' },  children: [
+                {path: 'operatorrole/:id', component: OperatoroleComponent, data: { i18n: 'operatorrole' , title: '操作员管理' } },
+                {path: 'operatfunc/:id', component: RoleFuncComponent, data: { i18n: 'operatfunc' , title: '操作员管理' } },
+            ]},
             // 组织机构
             { path: 'org', component: OrgComponent, children: [
                     {path: 'emp/:id', component: EmpComponent, data: { i18n: 'emp' , title: '组织机构' } },
