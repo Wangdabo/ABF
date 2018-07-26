@@ -27,9 +27,21 @@ export class OperatorInfoComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.operatorId = queryParams.operatorId;
+            this.getOperatorInfo(this.operatorId); // 调用方法
         });
 
+    }
 
+
+    // 根据id查询操作员详情--- 接口有问题
+    getOperatorInfo(id) {
+        this.utilityService.getData(appConfig.testUrl + appConfig.API.acOperatorsAdd + '/' + id)
+            .subscribe(
+                (val) => {
+                    console.log(val);
+                    // this.operator = val;
+                }
+            );
     }
 
 }

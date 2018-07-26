@@ -14,6 +14,17 @@
 </div>
 
 <!-- 操作员详情界面 -->
+<nz-card>
+    321321
+    <ng-template #tab >
+        <nz-tabset   [nzSize]="'default'" [nzSelectedIndex]="0">
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['group', id]">32131</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupEmp', id]">213123</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupPost', id]">岗12313231位</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">312</a></ng-template></nz-tab>
+        </nz-tabset>
+    </ng-template>
+</nz-card>
 <div class="ui-g">
     <div class="ui-g-4">
         <nz-card nzTitle="操作员详情" [nzBordered]="false">
@@ -72,7 +83,7 @@
         </nz-card>
     </div>
     <div class="ui-g-8">
-        <nz-card nzTitle="功能列表" [nzBordered]="false">
+        <nz-card nzTitle="内容详情" [nzBordered]="false">
 
         </nz-card>
     </div>
