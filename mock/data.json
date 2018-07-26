@@ -3,16 +3,16 @@
     {
       "label": "TIS项目开发组",
       "data": "Documents Folder",
-      "expandedIcon": "fa-folder-open",
-      "collapsedIcon": "fa-folder",
+      "expandedIcon": "",
+      "collapsedIcon": "",
       "guid": "null",
       "isLeaf": false,
       "children": [
         {
           "label": "跟工作组",
           "data": "Work Folder",
-          "expandedIcon": "fa-folder-open",
-          "collapsedIcon": "fa-folder",
+          "expandedIcon": "",
+          "collapsedIcon": "",
           "isLeaf": false,
           "guid": "1007176245806391297" ,
           "groupCode": "GROUP0100000008",
@@ -42,8 +42,8 @@
         {
           "label": "RCT组",
           "data": "Home Folder",
-          "expandedIcon": "fa-folder-open",
-          "collapsedIcon": "fa-folder",
+          "expandedIcon": "",
+          "collapsedIcon": "",
           "isLeaf": false,
           "children": [
             {
@@ -57,8 +57,8 @@
         {
               "label": "应用组",
               "data": "Work Folder",
-              "expandedIcon": "fa-folder-open",
-              "collapsedIcon": "fa-folder",
+              "expandedIcon": "",
+              "collapsedIcon": "",
               "isLeaf": false,
               "children": [
                   {
@@ -78,8 +78,8 @@
         {
               "label": "1618组开发组",
               "data": "Home Folder",
-              "expandedIcon": "fa-folder-open",
-              "collapsedIcon": "fa-folder",
+              "expandedIcon": "",
+              "collapsedIcon": "",
               "isLeaf": false,
               "children": [
                   {
@@ -93,8 +93,8 @@
         {
               "label": "PAD开发组",
               "data": "Home Folder",
-              "expandedIcon": "fa-folder-open",
-              "collapsedIcon": "fa-folder",
+              "expandedIcon": "",
+              "collapsedIcon": "",
               "isLeaf": false
           }
       ]
@@ -134,29 +134,29 @@
         {
             "label": "企业名称",
             "data": "Documents Folder",
-            "expandedIcon": "fa-folder-open",
-            "collapsedIcon": "fa-folder",
+            "expandedIcon": "",
+            "collapsedIcon": "",
             "isLeaf": false,
             "children": [
                 {
                     "label": "机构A-1",
                     "data": "Work Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false
                 },
                 {
                     "label": "机构A-2",
                     "data": "Work Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false
                 },
                 {
                     "label": "机构A-3",
                     "data": "Work Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -176,8 +176,8 @@
                 {
                     "label": "A层菜单1",
                     "data": "Home Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -191,8 +191,8 @@
                 {
                     "label": "A层菜单2",
                     "data": "Home Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -210,15 +210,15 @@
         {
             "label": "默认角色分组",
             "data": "Documents Folder",
-            "expandedIcon": "fa-folder-open",
-            "collapsedIcon": "fa-folder",
+            "expandedIcon": "",
+            "collapsedIcon": "",
             "isLeaf": false,
             "children": [
                 {
                     "label": "角色A1",
                     "data": "Work Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -238,8 +238,8 @@
                 {
                     "label": "角色A2",
                     "data": "Home Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -253,8 +253,8 @@
                 {
                     "label": "角色A3",
                     "data": "Work Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -274,8 +274,8 @@
                 {
                     "label": "角色A4",
                     "data": "Home Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false,
                     "children": [
                         {
@@ -289,11 +289,97 @@
                 {
                     "label": "角色A5",
                     "data": "Home Folder",
-                    "expandedIcon": "fa-folder-open",
-                    "collapsedIcon": "fa-folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
                     "isLeaf": false
                 }
             ]
         }
+    ], 
+    "jurisdictionTree": [
+        {
+            "label": "应用名称",
+            "data": "Documents Folder",
+            "expandedIcon": "",
+            "collapsedIcon": "",
+            "isLeaf": false,
+            "children": [
+                {
+                    "label": "功能名称",
+                    "data": "Work Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "组织架构",
+                    "data": "Home Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "角色",
+                    "data": "Work Folder",
+                    "expandedIcon": "  ",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "操作员",
+                    "data": "Home Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": [{}]
+                }
+              
+            ]
+        },  {
+            "label": "应用管理",
+            "data": "Documents Folder",
+            "expandedIcon": "",
+            "collapsedIcon": "",
+            "isLeaf": false,
+            "children": [
+                {
+                    "label": "功能名称",
+                    "data": "Work Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "组织架构",
+                    "data": "Home Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "角色",
+                    "data": "Work Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": []
+                },
+                {
+                    "label": "操作员",
+                    "data": "Home Folder",
+                    "expandedIcon": "",
+                    "collapsedIcon": "",
+                    "isLeaf": false,
+                    "children": [{}]
+                }
+              
+            ]
+        }
     ]
+  
 }

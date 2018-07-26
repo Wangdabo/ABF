@@ -24,10 +24,11 @@ import 'rxjs/add/observable/forkJoin';
 export class TreeDemoComponent implements OnInit, OnChanges {
 
     files: TreeNode[];
-    selectedFiles: TreeNode[];
+  selectedFiles: TreeNode[];
     items: MenuItem[];
     title: string;
     searsh: string; // 搜索框内容
+    
     @Input() // 输入属性,接受父组件传入的树数据
     initDate: any[];
 
@@ -37,11 +38,13 @@ export class TreeDemoComponent implements OnInit, OnChanges {
 
     @Input() // 输入属性,接受父组件传入的树搜索框内容文字
     searchTitle: string;
-
+    @Input() // 输入属性,接受父组件传入的右击菜单数据
+    selectionType: any;
 
     @Input() // 输入属性,接受父组件传入的树搜索框内容文字
     nodrop: boolean;
-
+  
+     
 
 
     @Output()
@@ -71,6 +74,7 @@ export class TreeDemoComponent implements OnInit, OnChanges {
         this.getData(); // 初始化树数据
         this.searchaValue(); // 搜索值
         console.log(this.nodrop);
+        // this.selectionType = 'single'
 
     }
 
