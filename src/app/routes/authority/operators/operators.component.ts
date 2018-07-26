@@ -230,7 +230,7 @@ export class OperatorsComponent implements OnInit {
         let datainfo = _.cloneDeep(event);
         this.operStatue(datainfo)
         let status = {
-            guid: datainfo.guid,
+            guid: datainfo.userId,
             operatorStatus: datainfo.operatorStatus
         };
           if (event.names) {
