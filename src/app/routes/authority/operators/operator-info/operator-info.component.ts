@@ -38,8 +38,7 @@ export class OperatorInfoComponent implements OnInit {
         this.utilityService.getData(appConfig.testUrl + appConfig.API.acOperatorsAdd + '/' + id)
             .subscribe(
                 (val) => {
-                    console.log(val);
-                    // this.operator = val;
+                    this.operator = val.result;
                 }
             );
     }

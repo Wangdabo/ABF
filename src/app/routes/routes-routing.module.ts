@@ -70,7 +70,7 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard', redirectTo: 'dashboard/v1', pathMatch: 'full' },
             { path: 'dashboard/v1', component: DashboardV1Component },
-            // 应用
+            // 角色
             { path: 'role', component: RoleComponent, children: [
                     {path: 'rolemenber/:id', component: RoleMemberComponent, data: { i18n: 'rolemenber' , title: '角色管理' } },
                     {path: 'funcper/:id', component: FuncperComponent, data: { i18n: 'funcper' , title: '角色管理' } },

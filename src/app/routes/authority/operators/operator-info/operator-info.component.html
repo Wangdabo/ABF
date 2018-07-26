@@ -1,5 +1,6 @@
 <!--引入面包屑组件-->
-<div class="content__title">
+
+<pro-header style="position:relative">
     <nz-breadcrumb [nzSeparator]="'>'">
         <nz-breadcrumb-item>
             首页
@@ -11,20 +12,19 @@
             <a href="javascript:;">{{operator.operatorName}}详情</a>
         </nz-breadcrumb-item>
     </nz-breadcrumb>
-</div>
-
-<!-- 操作员详情界面 -->
-<nz-card>
-    321321
     <ng-template #tab >
-        <nz-tabset   [nzSize]="'default'" [nzSelectedIndex]="0">
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['group', id]">32131</a></ng-template></nz-tab>
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupEmp', id]">213123</a></ng-template></nz-tab>
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupPost', id]">岗12313231位</a></ng-template></nz-tab>
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">312</a></ng-template></nz-tab>
+        <nz-tabset  style="position:relative;left: 58%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['operatorrole', id]">角色</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['operatfunc', id]">功能</a></ng-template></nz-tab>
+            <!--下面还没有内容-->
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">身份</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupPost', id]">个性化配置</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">快捷菜单</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">重组菜单</a></ng-template></nz-tab>
         </nz-tabset>
     </ng-template>
-</nz-card>
+</pro-header>
+<!-- 操作员详情界面 -->
 <div class="ui-g">
     <div class="ui-g-4">
         <nz-card nzTitle="操作员详情" [nzBordered]="false">
@@ -83,8 +83,8 @@
         </nz-card>
     </div>
     <div class="ui-g-8">
-        <nz-card nzTitle="内容详情" [nzBordered]="false">
-
-        </nz-card>
+        <p-card>
+            <router-outlet></router-outlet>
+        </p-card>
     </div>
 </div>

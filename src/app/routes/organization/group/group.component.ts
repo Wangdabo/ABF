@@ -69,7 +69,6 @@ export class GroupComponent implements OnInit {
 
 
     getData(event) {
-        console.log(event)
         // 从服务器获取树列表
         this.utilityService.getData(appConfig.testUrl  + appConfig.API.omGroups + '/' +  event.guid + '/tree')
             .subscribe(

@@ -220,7 +220,7 @@ export class OperatorsComponent implements OnInit {
         // 跳转到操作员360导航
         this.router.navigate(['operatorInfo'],
             { queryParams:
-                    { operatorId: event.guid
+                    { operatorId: event.userId
                     }
             });
     }
@@ -230,7 +230,7 @@ export class OperatorsComponent implements OnInit {
         let datainfo = _.cloneDeep(event);
         this.operStatue(datainfo)
         let status = {
-            guid: datainfo.userId,
+            guid: datainfo.guid,
             operatorStatus: datainfo.operatorStatus
         };
           if (event.names) {
