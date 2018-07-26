@@ -37,7 +37,9 @@
 </div>
 
 <!-- 如果是异步的列表，必须使用nzAjaxData的-->
-<nz-table #nzTable [nzAjaxData]="initDate" [nzTotal]="total" [nzPageSize]="q.ps" [nzLoading]="loading"
+<nz-table #nzTable [nzAjaxData]="initDate" [nzTotal]="total"
+          [nzPageSize]="q.ps"
+          [nzLoading]="loading"
           (nzPageIndexChange)="pageChange($event)"
           [nzPageIndex]='q.pi'>
     <thead nz-thead>
@@ -73,7 +75,7 @@
             <a *ngIf="!showAdd" style="color:#108ee9;" (click)="add(i)">修改</a>&nbsp;
             <!--查看日志详情页面-->
             <a *ngIf="showAdd" style="color:#108ee9;" (click)="add(i)">{{configTitle}}</a>&nbsp;
-            <a *ngFor="let c of i.buttonData" style="color:#108ee9;" (click)="buttonClick(i, c)">{{c}}&nbsp;</a>&nbsp;
+            <a *ngFor="let c of i.buttonData" style="color:#108ee9;" (click)="buttonClick(i, c)">{{c}}&nbsp;&nbsp;</a>&nbsp;
         </td>
     </tr>
     </tbody>

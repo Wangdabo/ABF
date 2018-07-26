@@ -5,7 +5,7 @@ import { UtilityService } from '../../../service/utils.service';
 import { OperatrModule } from '../../../service/operators';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {appConfig} from '../../../service/common';
-
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-operators',
@@ -29,7 +29,7 @@ export class OperatorsComponent implements OnInit {
     total: number; // 数据总数
     modalVisible = false;
     data: any[] = []; // 表格数据
-
+    configTitle: string; // 模态框标题
 
     status = [
         { text: '正常', value: false, type: 'login' },
@@ -51,27 +51,21 @@ export class OperatorsComponent implements OnInit {
 
 
     headerData = [  // 配置表头内容
-        {value: '登陆用户名', key: 'userId', isclick: false},
-        {value: '操作员姓名' , key: 'operatorName',isclick: false},
-        {value: '操作员状态', key: 'operatorStatus',isclick: false},
-        {value: '认证模式' , key: 'authMode',isclick: false},
-        {value: '锁定次数限制', key: 'lockLimit',isclick: false},
-        {value: '密码失效日期', key: 'invalDate',isclick: false},
+        {value: '操作员姓名' , key: 'operatorName', isclick: false},
+        {value: '登陆用户名', key: 'userId', isclick: true},
+        {value: '操作员状态', key: 'operatorStatus', isclick: false},
+        {value: '认证模式' , key: 'authMode', isclick: false},
+        {value: '锁定次数限制', key: 'lockLimit', isclick: false},
+        {value: '密码错误次数', key: 'errCount', isclick: false},
     ];
 
 
-    moreData = { morebutton: true,
-                 buttons: [
-                     {key: 'Onboarding' , value: '入职'},
-                     {key: 'Departure' , value: '离职'},
-                     {key: 'Review' , value: '审核'},
-                 ]
+    moreData = { morebutton: false
                 }
 
     constructor(
         private http: _HttpClient,
         private router: Router,
-        public activatedRoute: ActivatedRoute,
         private utilityService: UtilityService,
         private modal: NzModalService,
         private nznot: NzNotificationService
@@ -83,10 +77,10 @@ export class OperatorsComponent implements OnInit {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
 
-
+    // 初始化数据
     getData() { // 初始化请求后台数据
-        // 查询功能列表信息
         this.page = {
+            condition: this.operator,
             page: {
                 current: this.operator.pi,
                 size: this.operator.size,
@@ -98,10 +92,23 @@ export class OperatorsComponent implements OnInit {
                 (val) => {
                     this.data = val.result.records;
                     this.total = val.result.total;
+                    for (let i = 0; i < this.data.length; i ++ ) {
+                        if (this.data[i].operatorStatus === '锁定') {
+                            this.data[i].buttonData = ['解锁' , '注销', '重置密码'];
+                        } else if (this.data[i].operatorStatus === '退出') {
+                            this.data[i].buttonData = ['注销', '重置密码'];
+                        } else if (this.data[i].operatorStatus === '注销') {
+                            this.data[i].buttonData = ['启用' , '重置密码'];
+                        } else if (this.data[i].operatorStatus === '停用') {
+                            this.data[i].buttonData = ['启用', '删除', '重置密码'];
+                        } else {
+                            this.data[i].buttonData = ['重置密码'];
+                        }
+                    }
+
                 }
             );
     }
-
 
 
     // 枚举值转换
@@ -149,12 +156,13 @@ export class OperatorsComponent implements OnInit {
             this.operatorAdd.operatorStatus = 'stop';
             this.operatorAdd.lockLimit = 5;
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+            this.configTitle = '新建操作员';
             this.isEdit = true;
         } else { // 代表修改，把修改的内容传递进去，重新渲染
             this.operStatue(event);
             this.operauthMode(event); // 枚举值转换
-
             this.operatorAdd = event;
+            this.configTitle = '修改操作员';
             this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
             this.isEdit = false;
         }
@@ -163,6 +171,15 @@ export class OperatorsComponent implements OnInit {
     // 列表传入的翻页数据
     monitorHandler(event) {
         this.operator.pi = event;
+
+        this.page = {
+            page: {
+                current: event, // 页码
+                size: this.operator.size, //  每页个数
+            }
+        };
+
+        this.getData();
     }
 
 
@@ -200,16 +217,56 @@ export class OperatorsComponent implements OnInit {
 
     // 处理行为代码，跳转、弹出框、其他交互
     isActive(event) {
-        console.log(event); // 拿到数据进行判断，是跳转路由还是弹出框弹出
-        // 路由跳转
-        this.router.navigate(['APPlication'],{ queryParams: { name: event } });
+        // 跳转到操作员360导航
+        this.router.navigate(['operatorInfo'],
+            { queryParams:
+                    { operatorId: event.userId
+                    }
+            });
     }
 
+
+    buttonEvent(event) {
+        let datainfo = _.cloneDeep(event);
+        this.operStatue(datainfo)
+        let status = {
+            guid: datainfo.guid,
+            operatorStatus: datainfo.operatorStatus
+        };
+          if (event.names) {
+              if (event.names !== '删除' && event.names !== '重置密码') {
+                  this.utilityService.putData(appConfig.testUrl + appConfig.API.changeStatus, status)
+                      .map(res => res.json())
+                      .subscribe(
+                          (val) => {
+                              console.log(val);
+
+                          }
+                      );
+              } else {
+                  if (event.names === '删除') {
+                      this.utilityService.deleatData(appConfig.testUrl + appConfig.API.acOperatorsDel + '/' + event.guid)
+                          .map(res => res.json())
+                          .subscribe(
+                              (src) => {
+                                  // 修改成功只和的处理逻辑
+                                  this.nznot.create('success', src.msg , src.msg);
+                                  if ( !(( this.total - 1) % 10)) {
+                                      // if ( !(( this.total - this.acfundata.length) % 10)) { // 支持批量删除的方法
+                                      this.operator.pi -- ;
+                                  }
+                                  this.getData();
+                              });
+                  }
+              }
+
+              }
+    }
 
 
     // 搜索框
     search() {
-        console.log(this.operator);
+        this.getData();
         // 把搜索值传给后台，后台数据重新传给子组件
     }
 
@@ -217,6 +274,7 @@ export class OperatorsComponent implements OnInit {
     // 重置搜索框
     reset() {
         this.operator = new OperatrModule();
+        this.getData();
     }
 
     // 弹出框保存组件
@@ -243,5 +301,11 @@ export class OperatorsComponent implements OnInit {
                 );
         }
         this.modalVisible = false;
+    }
+
+
+    cencel() {
+        this.modalVisible = false;
+        this.getData();
     }
 }

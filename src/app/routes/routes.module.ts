@@ -22,11 +22,17 @@ import { Exception500Component } from './exception/500.component';
 // 应用管理
 import { ApplicationComponent } from './application/application/application.component';
 import { FunctionComponent } from './application/function/function.component';
-import { OperatorsComponent } from './authority/operators/operators.component';
+
 
 // 权限管理
 import { RoleComponent } from './authority/role/role.component';
 import { MenuComponent } from './application/menu/menu.component';
+// 操作员角色界面
+import { OperatorsComponent } from './authority/operators/operators.component';
+import { OperatoroleComponent } from './authority/operators/operatorole/operatorole.component';
+import { RoleFuncComponent } from './authority/operators/role-func/role-func.component';
+import { OperatorInfoComponent } from './authority/operators/operator-info/operator-info.component';
+
 
 // 组织机构
 import { OrgComponent } from './organization/org/org.component';
@@ -65,6 +71,7 @@ import { GroupPostComponent } from './organization/group/group-post/group-post.c
 
 
 
+
 // 服务
 import { UtilityService } from '../service/utils.service';
 
@@ -86,7 +93,6 @@ import { UtilityService } from '../service/utils.service';
         OrgComponent,
         EmpComponent,
         PostComponent,
-        OperatorsComponent,
         RoleComponent,
         MenuComponent,
         DictComponent,
@@ -95,7 +101,7 @@ import { UtilityService } from '../service/utils.service';
         SeqresourceComponent,
         TimelineComponent,
         LogsComponent,
-        // 封装组件
+        // 工作组
         GroupComponent,
         AuthorityComponent,
         LogDataComponent,
@@ -107,6 +113,12 @@ import { UtilityService } from '../service/utils.service';
         GroupdetailComponent,
         GroupEmpComponent,
         GroupPostComponent,
+        // 操作员
+        OperatorsComponent,
+        OperatorInfoComponent,
+        OperatoroleComponent,
+        RoleFuncComponent,
+        // 组件封装
         ListComponent,
         TreeDemoComponent,
         // 代码生成组件

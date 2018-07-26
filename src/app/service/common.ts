@@ -61,6 +61,7 @@ export let appConfig = {
         acOperatorsAdd: '/acOperators', // 增删改操作员列表
         acOperatorsDel: '/acOperators', // 增删改操作员列表
         queryAllOperator: '/acOperators/queryAllOperator', // 查询所有操作员不分页
+        changeStatus: '/acOperators/changeStatus', // 改变操作员状态
 
 
         // 序号资源

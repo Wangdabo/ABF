@@ -1,0 +1,90 @@
+<!--引入面包屑组件-->
+
+<pro-header style="position:relative">
+    <nz-breadcrumb [nzSeparator]="'>'">
+        <nz-breadcrumb-item>
+            首页
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a href="javascript:;">操作员管理</a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a href="javascript:;">{{operator.operatorName}}详情</a>
+        </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <ng-template #tab >
+        <nz-tabset  style="position:relative;left: 58%;"  [nzSize]="'default'" [nzSelectedIndex]="0">
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['operatorrole', id]">角色</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['operatfunc', id]">功能</a></ng-template></nz-tab>
+            <!--下面还没有内容-->
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">身份</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['groupPost', id]">个性化配置</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">快捷菜单</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['authority', id]">重组菜单</a></ng-template></nz-tab>
+        </nz-tabset>
+    </ng-template>
+</pro-header>
+<!-- 操作员详情界面 -->
+<div class="ui-g">
+    <div class="ui-g-4">
+        <nz-card nzTitle="操作员详情" [nzBordered]="false">
+            <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">操作员名称:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.operatorName}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">登陆用户名:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.userId}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">操作员状态:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.operatorStatus}}</div>
+                    </div>
+                </div>
+
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div   class="ad-desc-list__term ng-star-inserted">认证模式:</div>
+                        <div  class="ad-desc-list__detail ng-star-inserted">{{ operator.authMode}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">锁定次数限制:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.lockLimit}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="12" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">当前错误次数:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.errCount}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="24" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">过期时间:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.invalDate}}</div>
+                    </div>
+                </div>
+                <div nz-col [nzSpan]="24" class="mb-md">
+                    <div nz-form-item class="d-flex" style="font-size: 18px;">
+                        <div class="ad-desc-list__term ng-star-inserted">最近登陆时间:</div>
+                        <div class="ad-desc-list__detail ng-star-inserted">{{operator.lastLogin}}</div>
+                    </div>
+                </div>
+
+            </div>
+        </nz-card>
+    </div>
+    <div class="ui-g-8">
+        <p-card>
+            <router-outlet></router-outlet>
+        </p-card>
+    </div>
+</div>
