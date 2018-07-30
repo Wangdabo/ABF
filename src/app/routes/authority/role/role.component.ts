@@ -96,15 +96,36 @@ export class RoleComponent implements OnInit {
     //     console.log(event); // 绑定数据内容，用来修改
     // }
 
-
+     memberdata = [
+            {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },
+            {'id': 2, 'roleName': '赵春海', 'roleCode': 'role002', 'roleType': '应用级', 'application': '柜面系统' },
+            {'id': 3, 'roleName': '王星名', 'roleCode': 'role003', 'roleType': '系统级', 'application': 'ABF' },
+            {'id': 4, 'roleName': '李毅', 'roleCode': 'role004', 'roleType': '应用级', 'application': '柜面系统' },
+            {'id': 5, 'roleName': '庄壮成', 'roleCode': 'role005', 'roleType': '系统级', 'application': 'ABF' },
+            {'id': 6, 'roleName': '李俊华', 'roleCode': 'role006', 'roleType': '应用级', 'application': '柜面系统' },
+            {'id': 7, 'roleName': '张三', 'roleCode': 'role007', 'roleType': '应用级', 'application': 'ABF' },
+            {'id': 8, 'roleName': '李四', 'roleCode': 'role008', 'roleType': '应用级', 'application': 'ABF' },
+            {'id': 9, 'roleName': '王五', 'roleCode': 'role008', 'roleType': '系统级', 'application': '柜面系统' },
+        ];
     // 左击树菜单节点信息
     TreeSelect(event) {
-        console.log(event);
+        // console.log(this.memberdata.length);
         // alert('3')
         this.id = 'role001';
-        this.router.navigate(['role/rolemenber', this.id]); // 跳转路由
+     
+    //     let obj = JSON.parse(this.memberdata);
+    //    console.log(obj);
+    //    return;
+     this.router.navigate(['role/rolemember'],{ queryParams:{ datamember:this.memberdata,id:this.id}}); 
+    
         if (event.node.parent) {
-            this.tabShow = true;
+        //  if(this.memberdata.length == 0){
+        //    this.router.navigate(['role/datanull'],{ queryParams:{ buttonText:'添加角色成员',buttonTitle:'还没有任何角色成员',id:this.id}}); // 跳转路由
+     
+        //   }else{
+        //         this.router.navigate(['role/rolemember'],{ queryParams:{ memberdata:this.memberdata,id:this.id}}); 
+        // }
+         this.tabShow = true;
         } else {
             this.tabShow = false;
         }

@@ -57,6 +57,7 @@ import {AuthorityComponent} from './organization/authority/authority.component';
 import { EntityauthComponent } from './authority/role/entityauth/entityauth.component';
 import { FieldperComponent } from './authority/role/fieldper/fieldper.component';
 import { DataRangeComponent } from './authority/role/data-range/data-range.component';
+import { DataNullComponent } from './authority/role/data-null/data-null.component';
 import {GroupdetailComponent} from './organization/groupdetail/groupdetail.component';
 import {GroupEmpComponent} from './organization/group/group-emp/group-emp.component';
 import {GroupPostComponent} from './organization/group/group-post/group-post.component';
@@ -72,11 +73,12 @@ const routes: Routes = [
             { path: 'dashboard/v1', component: DashboardV1Component },
             // 角色
             { path: 'role', component: RoleComponent, children: [
-                    {path: 'rolemenber/:id', component: RoleMemberComponent, data: { i18n: 'rolemenber' , title: '角色管理' } },
+                    {path: 'rolemember', component: RoleMemberComponent, data: { i18n: 'rolemember' , title: '角色管理' } },
                     {path: 'funcper/:id', component: FuncperComponent, data: { i18n: 'funcper' , title: '角色管理' } },
                     {path: 'entity/:id', component: EntityauthComponent, data: { i18n: 'entity' , title: '角色管理' } },
                     {path: 'field/:id', component: FieldperComponent, data: { i18n: 'field' , title: '角色管理' } },
-                    {path: 'datarang/:id', component: DataRangeComponent, data: { i18n: 'datarang' , title: '角色管理' } },
+                    {path: 'datarang', component: DataRangeComponent, data: { i18n: 'datarang' , title: '角色管理' ,datamember:[]} },
+                     {path: 'datanull', component: DataNullComponent, data: { i18n: 'datanull' , title: '角色管理' } },
                 ]},
             { path: 'menu', component: MenuComponent },
             { path: 'APPlication', component: ApplicationComponent },

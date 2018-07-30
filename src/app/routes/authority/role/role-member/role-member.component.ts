@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input} from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import {RoleModule} from '../../../../service/role/role.model';
 import {UtilityService} from '../../../../service/utils.service';
@@ -10,6 +10,10 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './role-member.component.html',
 })
 export class RoleMemberComponent implements OnInit {
+
+   
+    // @Input() // 输入属性,接受父组件传入的树数据
+    // data: any[];
 
     constructor(
         private http: _HttpClient,
@@ -57,30 +61,22 @@ export class RoleMemberComponent implements OnInit {
     test: string;
 
 
-
+memberdata=[]
 
 
     ngOnInit() {
-        this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
-
-        this.roleGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
-        console.log(this.roleGuid);
-
+       
+           this.activatedRoute.queryParams.subscribe(queryParams => { 
+         
+       
+     });
+     console.log(this.memberdata)
+ 
     }
 
 
     getData() { // 初始化请求后台数据
-        this.data = [
-            {'id': 1, 'roleName': '汪波', 'roleCode': 'role001', 'roleType': '系统级', 'application': 'ABF' },
-            {'id': 2, 'roleName': '赵春海', 'roleCode': 'role002', 'roleType': '应用级', 'application': '柜面系统' },
-            {'id': 3, 'roleName': '王星名', 'roleCode': 'role003', 'roleType': '系统级', 'application': 'ABF' },
-            {'id': 4, 'roleName': '李毅', 'roleCode': 'role004', 'roleType': '应用级', 'application': '柜面系统' },
-            {'id': 5, 'roleName': '庄壮成', 'roleCode': 'role005', 'roleType': '系统级', 'application': 'ABF' },
-            {'id': 6, 'roleName': '李俊华', 'roleCode': 'role006', 'roleType': '应用级', 'application': '柜面系统' },
-            {'id': 7, 'roleName': '张三', 'roleCode': 'role007', 'roleType': '应用级', 'application': 'ABF' },
-            {'id': 8, 'roleName': '李四', 'roleCode': 'role008', 'roleType': '应用级', 'application': 'ABF' },
-            {'id': 9, 'roleName': '王五', 'roleCode': 'role008', 'roleType': '系统级', 'application': '柜面系统' },
-        ];
+      
     }
 
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
