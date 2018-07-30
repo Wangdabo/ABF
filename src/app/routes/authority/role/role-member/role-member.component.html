@@ -2,28 +2,25 @@
         <div nz-row  [nzType]="'flex'" [nzJustify]="'start'" [nzGutter]="24">
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="name">角色姓名</label></div>
+                    <div nz-form-label><label for="name">操作员姓名</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="role.name" name="name" [nzSize]="'large'" [nzPlaceHolder]="'角色姓名'" nzId="name"></nz-input>
+                        <nz-input [(ngModel)]="operators.operatorName" name="operatorName" [nzSize]="'large'" [nzPlaceHolder]="'操作员姓名'" nzId="operatorName"></nz-input>
                     </div>
                 </div>
             </div>
-
             <div nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="name">角色编号</label></div>
+                    <div nz-form-label><label for="name">登陆用户名</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-input [(ngModel)]="role.numbering" name="numbering" [nzSize]="'large'" [nzPlaceHolder]="'角色编号'" nzId="numbering"></nz-input>
+                        <nz-input [(ngModel)]="operators.userId" name="userId" [nzSize]="'large'" [nzPlaceHolder]="'登陆用户名'" nzId="userId"></nz-input>
                     </div>
                 </div>
             </div>
-
-
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="status">角色状态</label></div>
+                    <div nz-form-label><label for="status">操作员状态</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="role.type" name="status" name="password" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="type">
+                        <nz-select style="width:100%" [(ngModel)]="operators.operatorStatus" name="status" name="operatorStatus" [nzSize]="'large'" [nzPlaceHolder]="'操作员状态'" nzId="operatorStatus">
                             <nz-option  *ngFor="let i of type; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
                         </nz-select>
                     </div>
@@ -31,9 +28,19 @@
             </div>
             <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
                 <div nz-form-item class="d-flex">
-                    <div nz-form-label><label for="updatedAt">隶属应用</label></div>
+                    <div nz-form-label><label for="status">员工状态</label></div>
                     <div nz-form-control class="flex-1">
-                        <nz-select style="width:100%" [(ngModel)]="role.affiliation" name="affiliation" name="password" [nzSize]="'large'" [nzPlaceHolder]="'隶属应用'" nzId="affiliation">
+                        <nz-select style="width:100%" [(ngModel)]="operators.empStatus" name="status" name="empStatus" [nzSize]="'large'" [nzPlaceHolder]="'员工状态'" nzId="empStatus">
+                            <nz-option  *ngFor="let i of type; let idx = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="expandForm" nz-col [nzSpan]="8" class="mb-md">
+                <div nz-form-item class="d-flex">
+                    <div nz-form-label><label for="updatedAt">隶属机构</label></div>
+                    <div nz-form-control class="flex-1">
+                        <nz-select style="width:100%" [(ngModel)]="operators.guidOrg" name="guidOrg" [nzSize]="'large'" [nzPlaceHolder]="'隶属机构'" nzId="guidOrg">
                             <nz-option  *ngFor="let i of affiliation; let app = index" [nzLabel]="i.text" [nzValue]="i.key"></nz-option>
                         </nz-select>
                     </div>
@@ -50,13 +57,26 @@
         </div>
     </form>
     <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-    <app-list (addCreat)="addHandler($event)"  (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" (selectedRow)="selectedRow($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"></app-list>
+    <app-list (addCreat)="addHandler($event)"
+              (buttonData)="buttonDataHandler($event)"
+              (pageNumber)="monitorHandler($event)"
+              (deleatData)="deleatData($event)"
+              (isActive)="isActive($event)"
+              (selectedRow)="selectedRow($event)"
+              [initDate] = "data"
+              [headerDate] = "headerData"
+              [moreData] = "moreData"
+              [showAdd] = "showAdd"
+              [configTitle]="configTitle"
+              [total]="total"></app-list>
+
 
 <!--引入列表组件-->
 
 
 
-<!--弹出框信息-->
+<!--弹出框信息  穿梭框-->
+<!--
 <nz-modal [nzVisible]="modalVisible"  [nzWidth]="1024"   [nzTitle]="'新建角色'" [nzConfirmLoading]="loading" [nzContent]="modalContent"
           (nzOnCancel)="modalVisible=false" (nzOnOk)="save()">
     <ng-template #modalContent>
@@ -110,4 +130,5 @@
 
     </ng-template>
 </nz-modal>
+-->
 
