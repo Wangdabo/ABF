@@ -1,4 +1,31 @@
-<div class="content__title">
-    <h1>Page Name</h1>
+
+<p style="margin-bottom: 18px;
+        border-bottom: 1px solid gainsboro;
+        height: 32px;">操作员 [ operators：操作员] 的功能权限</p>
+<div class="ui-g">
+    <!--<div class="ui-g-3">-->
+    <p-card  [style]="{width: '100%',border:'0px'}">
+        <app-tree [initDate] = "treedata" (develop)="Unfold($event)" [selectionType]='selectionType' [searchTitle] = "searchTitle"  [itemsData]="treemenus"  (Select)="TreeSelect($event)"   (MenuSelect)="RightSelect($event)"   (dropEvent)="dropEvent($event)" (serchValue)="searchVal($event)">
+        </app-tree>
+    </p-card>
+    <!--</div>-->
+    <!--<div class="ui-g-9">-->
+    <p-card  *ngIf="tabShow" [style]="{border: '0px'}">
+        <div class="ui-g" style='width:100%'>
+            <h3 style='width:100%;margin:1rem 0;font-weight:bold' >功能：GROUP（工作组）</h3>
+            <p>功能描述，一段假想的简介，这是一段比较长的简介...</p>
+        </div>
+
+        <div class="ui-g"  style='width:100%'>
+
+            <label style="width:100%;margin:1rem 0" nz-checkbox [(ngModel)]="checked" (ngModelChange)="_console($event)">
+                <span >操作行为</span>
+            </label>
+            <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="_log(checkOptionsOne)"></nz-checkbox-group>
+
+        </div>
+    </p-card>
+    <!--</div>-->
 </div>
-<pro-header [title]="'Page Name'"></pro-header>
+
+

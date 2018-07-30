@@ -23,24 +23,30 @@ export class OperatorInfoComponent implements OnInit {
 
     operatorId: string; // 接受传过来的id
     operator: OperatrModule = new OperatrModule();
-
+    id: string; // 传递的值
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.operatorId = queryParams.operatorId;
-            this.getOperatorInfo(this.operatorId); // 调用方法
         });
+
+        this.id = this.operatorId;
+        this.router.navigate(['operatorInfo/operatorrole', this.id]); // 跳转路由
+        this.getOperatorInfo(this.operatorId); // 调用方法
 
     }
 
 
-    // 根据id查询操作员详情--- 接口有问题
+    // 根据id查询操作员详情
     getOperatorInfo(id) {
         this.utilityService.getData(appConfig.testUrl + appConfig.API.acOperatorsAdd + '/' + id)
             .subscribe(
                 (val) => {
+                    console.log(val)
                     this.operator = val.result;
                 }
             );
     }
+
+
 
 }

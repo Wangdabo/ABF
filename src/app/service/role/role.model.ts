@@ -4,15 +4,13 @@ export class RoleModule {
     // 每业个数
     public ps: 10;
     // 角色姓名
-    public name: string;
+    public roleName: string;
     // 角色编号
-    public numbering: string;
+    public roleCode: string;
 
-    // 角色类别
-    public type: null;
     // 隶属应用
-    public affiliation: null;
+    public guidApp: null;
     // 角色描述
-    public description: string;
+    public roleDesc: string;
 
 }
