@@ -72,9 +72,9 @@
             <a *ngIf="d.isclick"  [routerLink]="['/APPlication']"  [queryParams]="data[l]">{{data[l][d.key]}}</a>-->
         </td>
         <td nz-td>
-            <a *ngIf="!showAdd" style="color:#108ee9;" (click)="add(i)">修改</a>&nbsp;
+            <a   style="color:#108ee9;" (click)="add(i)">{{configTitle}}</a>&nbsp;
             <!--查看日志详情页面-->
-            <a *ngIf="showAdd" style="color:#108ee9;" (click)="add(i)">{{configTitle}}</a>&nbsp;
+            <!--<a *ngIf="showAdd" style="color:#108ee9;" (click)="add(i)">{{configTitle}}</a>&nbsp;-->
             <a *ngFor="let c of i.buttonData" style="color:#108ee9;" (click)="buttonClick(i, c)">{{c}}&nbsp;&nbsp;</a>&nbsp;
         </td>
     </tr>

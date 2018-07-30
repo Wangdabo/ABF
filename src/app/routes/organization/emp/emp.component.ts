@@ -87,7 +87,7 @@ export class EmpComponent implements OnInit {
     };
 
     orgGuid: string;
-
+    configTitle: string;
     ngOnInit() {
         this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         this.getData();
@@ -95,6 +95,7 @@ export class EmpComponent implements OnInit {
         this.gender = appConfig.Enumeration.gender;
         this.paperType = appConfig.Enumeration.paperType;
         this.empType = appConfig.Enumeration.empType;
+        this.configTitle = '修改';
 
     }
 

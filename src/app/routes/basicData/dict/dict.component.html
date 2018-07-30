@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </form>
-            <app-list #list  (addCreat)="addHandler($event)" [total]="total" (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)"  (selectedRow)="selectedRow($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData">
+            <app-list #list  (addCreat)="addHandler($event)"  [configTitle]="configTitle" [total]="total" (buttonData)="buttonDataHandler($event)"  (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)"  (selectedRow)="selectedRow($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData">
             </app-list>
         </p-card>
     </div>

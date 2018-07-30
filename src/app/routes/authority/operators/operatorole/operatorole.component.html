@@ -37,6 +37,7 @@
         </div>
     </div>
 </form>
+
 <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
 <app-list (addCreat)="addHandler($event)"
           (buttonData)="buttonDataHandler($event)"
@@ -47,7 +48,6 @@
           [initDate] = "data"
           [headerDate] = "headerData"
           [moreData] = "moreData"
-          [showAdd]="showAdd"
           [configTitle]="configTitle"
           [total]="total"></app-list>
 

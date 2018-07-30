@@ -62,7 +62,7 @@
     </form>
     <!--列表组件-->
     <app-list #child [initDate]="data" (addCreat)="addHandler($event)" (buttonData)="buttonDataHandler($event)" (pageNumber)="monitorHandler($event)"
-              (deleatData)="deleatData($event)" (isActive)="isActive($event)" (buttonEvent)="buttonEvent($event)" (selectedRow)="selectedRow($event)" [headerDate]="headerData"
+              (deleatData)="deleatData($event)" [configTitle]="configTitle" (isActive)="isActive($event)" (buttonEvent)="buttonEvent($event)" (selectedRow)="selectedRow($event)" [headerDate]="headerData"
               [moreData]="moreData" [total]="total"></app-list>
 </nz-card>
 

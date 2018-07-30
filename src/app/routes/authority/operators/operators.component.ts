@@ -30,7 +30,7 @@ export class OperatorsComponent implements OnInit {
     modalVisible = false;
     data: any[] = []; // 表格数据
     configTitle: string; // 模态框标题
-
+    listTitle: string;
     status = [
         { text: '正常', value: false, type: 'login' },
         { text: '挂起', value: false, type: 'pause' },
@@ -75,6 +75,7 @@ export class OperatorsComponent implements OnInit {
 
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.listTitle = '修改';
     }
 
     // 初始化数据

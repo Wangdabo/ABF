@@ -79,7 +79,7 @@ export class GroupPostComponent implements OnInit {
 
     groupCode: string;
     Parentsguid: any;
-
+    configTitle: string;
     ngOnInit() {
         this.groupCode = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         // 枚举值转换
@@ -87,6 +87,7 @@ export class GroupPostComponent implements OnInit {
         this.positionType = appConfig.Enumeration.postType;
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
         this.queryGroup(this.groupCode);
+        this.configTitle = '修改';
     }
 
     getData() { // 初始化请求后台数据

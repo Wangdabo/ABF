@@ -24,7 +24,7 @@ export class FunctionComponent implements OnInit {
     loading = false;
     isEdit = false; // 是否是修改，默认不是
     funTitle: string; // 功能弹窗标题
-
+    configTitle: string;
     // 列表数据
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
@@ -184,6 +184,8 @@ export class FunctionComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe(queryParams => {
             this.appGuid = queryParams.productId;
         });
+
+        this.configTitle = '修改'
         this.getData();
     }
 

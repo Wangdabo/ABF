@@ -78,13 +78,14 @@ export class PostComponent implements OnInit {
 
     orgGuid: string;
     Parentsguid: any;
-
+    configTitle: string;
     ngOnInit() {
         this.orgGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         // 枚举值转换
         this.postStatus = appConfig.Enumeration.postStatus;
         this.positionType = appConfig.Enumeration.postType;
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.configTitle = '修改'
     }
 
     getData() { // 初始化请求后台数据

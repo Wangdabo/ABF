@@ -66,8 +66,11 @@ export class ApplicationComponent implements OnInit {
     test: string;
     page: any;
     total: number;
+    configTitle: string;
     ngOnInit() {
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+        this.configTitle = '修改';
+
     }
 
 

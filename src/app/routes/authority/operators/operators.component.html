@@ -53,7 +53,7 @@
     </form>
 
     <!-- 监听列表组件，如果点击了则告诉弹出框组件，打开弹出框,监听addCreat方法-->
-    <app-list (addCreat)="addHandler($event)"    (buttonEvent)="buttonEvent($event)"  (buttonData)="buttonDataHandler($event)" (selectedRow)="selectedRow($event)" (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"  [total]="total"></app-list>
+    <app-list (addCreat)="addHandler($event)"   [configTitle]="listTitle"  (buttonEvent)="buttonEvent($event)"  (buttonData)="buttonDataHandler($event)" (selectedRow)="selectedRow($event)" (pageNumber)="monitorHandler($event)"  (deleatData)="deleatData($event)"  (isActive)="isActive($event)" [initDate] = "data" [headerDate] = "headerData"  [moreData] = "moreData"  [total]="total"></app-list>
 </nz-card>
 <!--引入列表组件-->
 

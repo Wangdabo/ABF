@@ -27,7 +27,6 @@ export class OperatoroleComponent implements OnInit {
     role: RoleModule = new RoleModule(); // 绑定数据
     operatorGuid: string; // 操作guid
     loading = false;
-    showAdd: boolean;
     configTitle: string;
     total: number; // 总页数
     type = [
@@ -68,7 +67,6 @@ export class OperatoroleComponent implements OnInit {
 
         this.operatorGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的操作员的guid来进行操作
         console.log(this.operatorGuid);
-        this.showAdd = true;
         this.configTitle = '删除';
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
     }
@@ -178,6 +176,7 @@ export class OperatoroleComponent implements OnInit {
             ]
         this.modalVisible = false;
     }
+
 
 
 }

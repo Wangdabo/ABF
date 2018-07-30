@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class RoleMemberComponent implements OnInit {
 
-   
+
     // @Input() // 输入属性,接受父组件传入的树数据
     // data: any[];
 
@@ -26,7 +26,7 @@ export class RoleMemberComponent implements OnInit {
     operators: OperaRoleModule = new OperaRoleModule(); // 绑定数据
     roleGuid: string;
     loading = false;
-    showAdd: boolean; // 配置操作按钮
+
     configTitle: string; // 操作按钮名称
     total: number; // 总页数
     type = [
@@ -65,13 +65,11 @@ export class RoleMemberComponent implements OnInit {
 
     test: string;
 
-
-memberdata=[]
+    memberdata=[]
 
 
     ngOnInit() {
 
-        this.showAdd = true;
         this.configTitle = '删除'
         this.roleGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
         console.log(this.roleGuid);

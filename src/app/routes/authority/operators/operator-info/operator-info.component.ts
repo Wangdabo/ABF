@@ -23,6 +23,7 @@ export class OperatorInfoComponent implements OnInit {
 
     operatorId: string; // 接受传过来的id
     operator: OperatrModule = new OperatrModule();
+
     id: string; // 传递的值
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe(queryParams => {
@@ -46,7 +47,5 @@ export class OperatorInfoComponent implements OnInit {
                 }
             );
     }
-
-
 
 }
