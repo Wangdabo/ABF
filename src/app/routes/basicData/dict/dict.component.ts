@@ -113,7 +113,7 @@ export class DictComponent implements OnInit {
         this.dictType = appConfig.Enumeration.systemType;
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
         this.nodrop = true;
-        this.configTitle = '修改'
+        this.configTitle = '修改';
     }
 
     getData() {

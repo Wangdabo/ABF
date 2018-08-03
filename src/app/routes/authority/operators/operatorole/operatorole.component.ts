@@ -8,6 +8,7 @@ import {RoleModule} from '../../../../service/role/role.model';
 
 
 
+
 @Component({
   selector: 'app-operatorole',
   templateUrl: './operatorole.component.html',
@@ -21,6 +22,7 @@ export class OperatoroleComponent implements OnInit {
         private modal: NzModalService,
         private nznot: NzNotificationService,
         private utilityService: UtilityService,
+
     ) { }
 
 
@@ -69,6 +71,8 @@ export class OperatoroleComponent implements OnInit {
         console.log(this.operatorGuid);
         this.configTitle = '删除';
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
+
+        this.getDatas()
     }
 
 
@@ -177,6 +181,33 @@ export class OperatoroleComponent implements OnInit {
         this.modalVisible = false;
     }
 
+
+    list: any[] = [];
+    getDatas() {
+        const ret = [];
+        for (let i = 0; i < 20; i++) {
+            ret.push({
+                key: i.toString(),
+                title: `content${i + 1}`,
+                description: `description of content${i + 1}`,
+                direction: Math.random() * 2 > 1 ? 'right' : ''
+            });
+        }
+        this.list = ret;
+    }
+
+    reload(direction: string) {
+        this.getData();
+
+    }
+
+    select(ret: any) {
+        console.log('nzSelectChange', ret);
+    }
+
+    change(ret: any) {
+        console.log('nzChange', ret);
+    }
 
 
 }
