@@ -380,6 +380,57 @@
               
             ]
         }
+    ],
+    "roleList":[
+        {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "right"
+        },
+       {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "right"
+        },
+         {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "right"
+        },
+       {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "right"
+        },
+         {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "right"
+        },
+       {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "left"
+        },
+         {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "left"
+        },
+       {
+            "name": "张三",
+            "roleGuid": "531651",
+            "mechanism": "上海银行总行营业部营业网点",
+            "exit": "left"
+        }
     ]
+    
   
 }

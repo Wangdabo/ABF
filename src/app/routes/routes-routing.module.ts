@@ -73,7 +73,7 @@ const routes: Routes = [
             { path: 'dashboard/v1', component: DashboardV1Component },
             // 角色
             { path: 'role', component: RoleComponent, children: [
-                    {path: 'rolemember', component: RoleMemberComponent, data: { i18n: 'rolemember' , title: '角色管理' } },
+                    {path: 'rolemember/:id', component: RoleMemberComponent, data: { i18n: 'rolemember' , title: '角色管理' } },
                     {path: 'funcper/:id', component: FuncperComponent, data: { i18n: 'funcper' , title: '角色管理' } },
                     {path: 'entity/:id', component: EntityauthComponent, data: { i18n: 'entity' , title: '角色管理' } },
                     {path: 'field/:id', component: FieldperComponent, data: { i18n: 'field' , title: '角色管理' } },

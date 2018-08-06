@@ -88,10 +88,11 @@ export class ListComponent implements OnInit {
 
     // 打开模态框方法,点击之后应该往外部发射事件，告诉父组件点击了这个按钮
     add(event) {
+        console.log(event)
         if (event !== undefined) {
             this.addCreat.emit(event); // 点击了修改，打开弹出框，把修改的数据传递过去
         } else {
-            this.addCreat.emit('这里是新增的方法'); // 点击新增了，把事件发给父组件
+            this.addCreat.emit('add'); // 点击新增了，把事件发给父组件
         }
     }
 
