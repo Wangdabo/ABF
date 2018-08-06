@@ -145,4 +145,6 @@ import { UtilityService } from '../service/utils.service';
     providers: [UtilityService], // 把服务加入到当前的模块,如果是跟模块,则可以应用于任何部分
 })
 
-export class RoutesModule {}
+export class RoutesModule {
+    
+}

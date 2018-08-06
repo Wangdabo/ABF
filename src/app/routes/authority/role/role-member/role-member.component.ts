@@ -4,7 +4,7 @@ import {OperaRoleModule } from '../../../../service/common.module';
 import {UtilityService} from '../../../../service/utils.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {ActivatedRoute, Router} from '@angular/router';
-
+import {appConfig} from '../../../../service/common';
 @Component({
   selector: 'app-role-member',
   templateUrl: './role-member.component.html',
@@ -46,12 +46,12 @@ export class RoleMemberComponent implements OnInit {
 
     data: any[] = []; // 表格数据
     headerData = [  // 配置表头内容
-        {value: '操作员名称', key: 'operatorName',  isclick: false},
-        {value: '登陆用户名' , key: 'userId', isclick: true},
-        {value: '操作员状态' , key: 'operatorStatus', isclick: true},
-        {value: '员工代码', key: 'empCode',  isclick:  false},
-        {value: '员工状态' , key: 'empStatus', isclick: false},
-        {value: '隶属机构' , key: 'guidOrg', isclick: false},
+        {value: '姓名', key: 'operatorName',  isclick: false},
+        {value: '操作员' , key: 'userId', isclick: true},
+        {value: '员工ID' , key: 'operatorStatus', isclick: true},
+        {value: '主机构', key: 'empCode',  isclick:  false},
+        {value: '电话号码' , key: 'empStatus', isclick: false},
+        {value: '分配日期' , key: 'guidOrg', isclick: false},
 
     ];
 
@@ -64,7 +64,7 @@ export class RoleMemberComponent implements OnInit {
     }
 
     test: string;
-
+    isNull:boolean;// 是否存在角色成员
     memberdata=[]
 
 
@@ -72,7 +72,12 @@ export class RoleMemberComponent implements OnInit {
 
         this.configTitle = '删除'
         this.roleGuid = this.activatedRoute.snapshot.params.id; // 拿到父组件传过来的组织机构的guid来进行操作
-        console.log(this.roleGuid);
+        if(this.data.length != 0){
+            this.isNull = false;
+        }else{
+            this.isNull = true;
+        }
+        console.log(this.memberdata);
         this.getData(); // 只会触发一次，但是ngchanges并不会触发咋办
 
     }
@@ -96,15 +101,86 @@ export class RoleMemberComponent implements OnInit {
     // 想一下，能否把这三个方法封装到一个ts里面，引入即可，不然每次都写着三个方法不太现实。
     // 列表组件传过来的内容
     addHandler(event) {
-        console.log(this.operators);
-
-        if (event === '这里是新增的方法') {
-            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+        console.log(event);
+            
+        if (event === 'add') {
+            this.roleAddModal = true;  // 此时点击了列表组件的新增，打开模态框
+            this.getroleList()
         } else{ // 代表修改，把修改的内容传递进去，重新渲染
             console.log(event)
-            this.modalVisible = true;  // 此时点击了列表组件的新增，打开模态框
+            this.roleAddModal = true;  // 此时点击了列表组件的新增，打开模态框
         }
     }
+
+    
+roleAddModal = false;// 新增弹框
+list: any[] = [];//角色列表
+// 工程穿梭框
+getroleList(){
+     this.utilityService.getData(appConfig.ABFUrl + '/' + appConfig.API.roleList)
+            .subscribe(
+                (val) => {
+                    console.log(val)
+                     const ret = [];
+                       for (let i = 0; i < val.length; i++) {
+                                ret.push({
+                                    key: i.toString(),
+                                    title:val[i]['name'],
+                                    guid:val[i]['roleGuid'],
+                                    status: val[i]['exit'],
+                                    mechanism: val[i]['mechanism'],
+                                    description: val[i]['name'],
+                                    direction: val[i]['exit'] ? 'left' : '',
+                                    // disabled:val[i]['exit'] =='right'
+                                });
+                            }
+                                this.list = ret;
+                  
+                });
+}
+//新增提交
+subAddrole(){
+    let roleGuids = []
+    // this.projectInfo = false;
+    for(let i = 0 ; i < this.list.length; i ++){
+            if(this.list[i].status == 'right'){
+            roleGuids.push(this.list[i].guid);
+        }
+    }
+      this.utilityService.postData(appConfig.testUrl  + appConfig.API.roleAdd ,{roleGuids:roleGuids})
+                             .map(res => res.json())
+                            .subscribe(
+                                (val) => {
+                                    this.roleAddModal = false;
+                                    this.nznot.create('success', val.msg , val.msg);
+                                    this.getData();
+                                } ,
+                            (error) => {
+                                if(error){
+                                       this.nznot.create('error',error.json().msg,'');
+                                }
+
+                            }
+                    );
+            }
+filterOption(inputValue, option) {
+    return option.description.indexOf(inputValue) > -1;
+  }
+
+  searchpro(ret: any) {
+    console.log('nzSearchChange', ret);
+  }
+
+  select(ret: any) {
+    console.log('nzSelectChange', ret);
+  }
+  subPro = []
+  change(ret: any) {
+     for(let i = 0 ; i < ret.list.length; i++){
+         ret.list[i]['status'] =  ret.to
+     }
+    console.log('nzChange', ret);
+  }
 
     // 列表传入的翻页数据
     monitorHandler(event) {

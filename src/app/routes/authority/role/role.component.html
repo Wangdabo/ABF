@@ -1,8 +1,8 @@
 <!--引入面包屑组件-->
-<pro-header style="position:relative">
+<pro-header style="position:relative " >
     <ng-template #tab  >
         <nz-tabset *ngIf="tabShow" style="position:relative;right:-54%;;"  [nzSize]="'default'" [nzSelectedIndex]="0">
-            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['rolemenber', id]">角色成员</a></ng-template></nz-tab>
+            <nz-tab><ng-template #nzTabHeading><a [routerLink]="['rolemember', id]">角色成员</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['funcper', id]">功能权限</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['entity', id]">实体权限</a></ng-template></nz-tab>
             <nz-tab><ng-template #nzTabHeading><a [routerLink]="['field', id]">数据权限</a></ng-template></nz-tab>
@@ -10,7 +10,6 @@
         </nz-tabset>
     </ng-template>
 </pro-header>
-
 
 <!--<div nz-row>-->
 

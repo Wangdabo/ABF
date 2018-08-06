@@ -116,15 +116,10 @@ export class RoleComponent implements OnInit {
     //     let obj = JSON.parse(this.memberdata);
     //    console.log(obj);
     //    return;
-     this.router.navigate(['role/rolemember'],{ queryParams:{ datamember:this.memberdata,id:this.id}}); 
+    //  this.router.navigate(['role/rolemember'],{ queryParams:{ datamember:this.memberdata,id:this.id}}); 
     
         if (event.node.parent) {
-        //  if(this.memberdata.length == 0){
-        //    this.router.navigate(['role/datanull'],{ queryParams:{ buttonText:'添加角色成员',buttonTitle:'还没有任何角色成员',id:this.id}}); // 跳转路由
-     
-        //   }else{
-        //         this.router.navigate(['role/rolemember'],{ queryParams:{ memberdata:this.memberdata,id:this.id}}); 
-        // }
+          this.router.navigate(['role/rolemember', this.id]); 
          this.tabShow = true;
         } else {
             this.tabShow = false;
